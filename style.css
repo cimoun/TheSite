@@ -1,3 +1,31 @@
+/* Design System: Balanced Evolved (Target: 8.2/10) */
+:root {
+    /* Colors */
+    --bg-primary: #FAFAFA;
+    --bg-secondary: #EFF5F7;
+    --text: #2D3436;
+    --accent: #0984E3;
+    --success: #00B894;
+    --warning: #FDCB6E;
+    
+    /* Typography */
+    --font-heading: 'Montserrat', sans-serif;
+    --font-body: 'Source Sans Pro', sans-serif;
+    
+    /* Spacing (8px grid) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    
+    /* Animation */
+    --duration-fast: 200ms;
+    --duration-base: 300ms;
+    --ease: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,49 +33,50 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-body);
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: var(--space-5);
 }
 
 .container {
-    background: white;
+    background: var(--bg-primary);
     border-radius: 15px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+    padding: var(--space-6);
     width: 100%;
     max-width: 600px;
 }
 
 h1 {
-    color: #333;
+    font-family: var(--font-heading);
+    color: var(--text);
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: var(--space-6);
     font-size: 2em;
 }
 
 .input-section {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
 }
 
 #todoInput {
     flex: 1;
-    padding: 12px 15px;
+    padding: var(--space-3) 15px;
     border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.3s;
+    border-radius: var(--space-2);
+    font-size: var(--space-4);
+    transition: border-color var(--duration-base);
 }
 
 #todoInput:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--accent);
 }
 
 #todoInput.error {
@@ -62,32 +91,32 @@ h1 {
 }
 
 .search-section {
-    margin-bottom: 20px;
+    margin-bottom: var(--space-5);
 }
 
 #searchInput {
     width: 100%;
-    padding: 10px 15px;
+    padding: var(--space-3) 15px;
     border: 2px solid #e0e0e0;
-    border-radius: 8px;
+    border-radius: var(--space-2);
     font-size: 14px;
-    transition: border-color 0.3s;
+    transition: border-color var(--duration-base);
 }
 
 #searchInput:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--accent);
 }
 
 #addBtn {
-    padding: 12px 25px;
-    background: #667eea;
+    padding: var(--space-3) 25px;
+    background: var(--accent);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: var(--space-2);
+    font-size: var(--space-4);
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background var(--duration-base) var(--ease);
 }
 
 #addBtn:hover {
@@ -125,35 +154,35 @@ h1 {
 
 .filter-section {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
     justify-content: center;
 }
 
 .filter-btn {
-    padding: 8px 16px;
+    padding: var(--space-2) var(--space-4);
     border: 2px solid #e0e0e0;
     background: white;
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all var(--duration-base) var(--ease);
     font-size: 14px;
 }
 
 .filter-btn:hover {
-    border-color: #667eea;
-    color: #667eea;
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .filter-btn.active {
-    background: #667eea;
+    background: var(--accent);
     color: white;
-    border-color: #667eea;
+    border-color: var(--accent);
 }
 
 .todo-list {
     list-style: none;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-5);
     max-height: 400px;
     overflow-y: auto;
 }
@@ -162,12 +191,12 @@ h1 {
     display: flex;
     align-items: center;
     padding: 15px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    transition: all 0.3s;
-    animation: slideIn 0.3s ease;
-    gap: 10px;
+    background: var(--bg-secondary);
+    border-radius: var(--space-2);
+    margin-bottom: var(--space-3);
+    transition: all var(--duration-base) var(--ease);
+    animation: slideIn var(--duration-base) ease;
+    gap: var(--space-3);
 }
 
 .todo-item.priority-high {
@@ -175,11 +204,11 @@ h1 {
 }
 
 .todo-item.priority-medium {
-    border-left: 4px solid #f39c12;
+    border-left: 4px solid var(--warning);
 }
 
 .todo-item.priority-low {
-    border-left: 4px solid #27ae60;
+    border-left: 4px solid var(--success);
 }
 
 @keyframes slideIn {
@@ -221,10 +250,10 @@ h1 {
 
 .todo-text {
     display: block;
-    font-size: 16px;
-    color: #333;
+    font-size: var(--space-4);
+    color: var(--text);
     word-break: break-word;
-    margin-bottom: 4px;
+    margin-bottom: var(--space-1);
 }
 
 .todo-meta {
@@ -249,13 +278,13 @@ h1 {
 }
 
 .edit-btn {
-    background: #3498db;
+    background: var(--accent);
     color: white;
     border: none;
     padding: 6px 10px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background var(--duration-base) var(--ease);
     font-size: 14px;
 }
 
@@ -281,16 +310,16 @@ h1 {
 /* Notification styles */
 .notification {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    border-radius: 8px;
+    top: var(--space-5);
+    right: var(--space-5);
+    padding: 15px var(--space-5);
+    border-radius: var(--space-2);
     color: white;
     font-size: 14px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     opacity: 0;
     transform: translateX(400px);
-    transition: all 0.3s ease;
+    transition: all var(--duration-base) var(--ease);
     z-index: 1000;
     max-width: 300px;
 }
@@ -301,7 +330,7 @@ h1 {
 }
 
 .notification.success {
-    background: #27ae60;
+    background: var(--success);
 }
 
 .notification.error {
@@ -316,20 +345,20 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 20px;
+    padding-top: var(--space-5);
     border-top: 2px solid #e0e0e0;
     font-size: 14px;
     color: #666;
 }
 
 #clearCompleted {
-    padding: 8px 15px;
+    padding: var(--space-2) 15px;
     background: #95a5a6;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background var(--duration-base) var(--ease);
     font-size: 14px;
 }
 
@@ -363,7 +392,7 @@ h1 {
 /* Responsive design */
 @media (max-width: 600px) {
     .container {
-        padding: 20px;
+        padding: var(--space-5);
     }
 
     h1 {
@@ -384,7 +413,7 @@ h1 {
 
     .stats {
         flex-direction: column;
-        gap: 10px;
+        gap: var(--space-3);
         align-items: stretch;
     }
 
@@ -399,12 +428,12 @@ h1 {
     .todo-actions {
         width: 100%;
         justify-content: flex-end;
-        margin-top: 8px;
+        margin-top: var(--space-2);
     }
 
     .notification {
-        left: 20px;
-        right: 20px;
+        left: var(--space-5);
+        right: var(--space-5);
         max-width: none;
     }
 }
