@@ -3,6 +3,8 @@ class TodoApp {
     constructor() {
         this.todos = this.loadTodos();
         this.currentFilter = 'all';
+        this.searchQuery = '';
+        this.isLoading = false;
         this.initElements();
         this.attachEventListeners();
         this.render();
@@ -15,6 +17,7 @@ class TodoApp {
         this.taskCount = document.getElementById('taskCount');
         this.clearCompleted = document.getElementById('clearCompleted');
         this.filterBtns = document.querySelectorAll('.filter-btn');
+        this.searchInput = document.getElementById('searchInput');
     }
 
     attachEventListeners() {
@@ -22,60 +25,225 @@ class TodoApp {
         this.todoInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.addTodo();
         });
+        this.todoInput.addEventListener('input', () => this.validateInput());
         this.clearCompleted.addEventListener('click', () => this.clearCompletedTodos());
         this.filterBtns.forEach(btn => {
             btn.addEventListener('click', (e) => this.setFilter(e.target.dataset.filter));
         });
+        if (this.searchInput) {
+            this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+        }
+    }
+
+    validateInput() {
+        const text = this.todoInput.value.trim();
+        const isValid = text.length > 0 && text.length <= 500;
+        
+        if (text.length > 500) {
+            this.showError('Задача слишком длинная (максимум 500 символов)');
+            this.todoInput.classList.add('error');
+        } else {
+            this.todoInput.classList.remove('error');
+        }
+        
+        return isValid;
     }
 
     addTodo() {
-        const text = this.todoInput.value.trim();
-        if (text === '') {
-            alert('Пожалуйста, введите задачу!');
-            return;
+        try {
+            // Show loading state
+            this.setLoading(true);
+            
+            const text = this.todoInput.value.trim();
+            
+            // Enhanced validation
+            if (text === '') {
+                this.showError('Пожалуйста, введите задачу!');
+                this.todoInput.focus();
+                this.setLoading(false);
+                return;
+            }
+            
+            if (text.length > 500) {
+                this.showError('Задача слишком длинная (максимум 500 символов)');
+                this.setLoading(false);
+                return;
+            }
+
+            const todo = {
+                id: Date.now(),
+                text: text,
+                completed: false,
+                priority: 'medium',
+                createdAt: new Date().toISOString(),
+                completedAt: null
+            };
+
+            this.todos.push(todo);
+            this.todoInput.value = '';
+            this.todoInput.classList.remove('error');
+            this.saveTodos();
+            this.render();
+            this.todoInput.focus();
+            this.showSuccess('Задача добавлена!');
+            
+            // Hide loading state
+            setTimeout(() => this.setLoading(false), 300);
+        } catch (error) {
+            console.error('Error adding todo:', error);
+            this.showError('Произошла ошибка при добавлении задачи');
+            this.setLoading(false);
+        }
+    }
+
+    setLoading(isLoading) {
+        this.isLoading = isLoading;
+        this.addBtn.disabled = isLoading;
+        if (isLoading) {
+            this.addBtn.classList.add('loading');
+            this.addBtn.textContent = 'Добавление...';
+        } else {
+            this.addBtn.classList.remove('loading');
+            this.addBtn.textContent = 'Добавить';
+        }
+    }
+
+    showError(message) {
+        this.showNotification(message, 'error');
+    }
+
+    showSuccess(message) {
+        this.showNotification(message, 'success');
+    }
+
+    showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existing = document.querySelector('.notification');
+        if (existing) {
+            existing.remove();
         }
 
-        const todo = {
-            id: Date.now(),
-            text: text,
-            completed: false,
-            createdAt: new Date().toISOString()
-        };
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
 
-        this.todos.push(todo);
-        this.todoInput.value = '';
-        this.saveTodos();
+        // Show notification with animation
+        setTimeout(() => notification.classList.add('show'), 10);
+
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    handleSearch(query) {
+        this.searchQuery = query.toLowerCase();
         this.render();
-        this.todoInput.focus();
     }
 
     toggleTodo(id) {
-        const todo = this.todos.find(t => t.id === id);
-        if (todo) {
-            todo.completed = !todo.completed;
-            this.saveTodos();
-            this.render();
+        try {
+            const todo = this.todos.find(t => t.id === id);
+            if (todo) {
+                todo.completed = !todo.completed;
+                todo.completedAt = todo.completed ? new Date().toISOString() : null;
+                this.saveTodos();
+                this.render();
+                this.showSuccess(todo.completed ? 'Задача выполнена!' : 'Задача возвращена в активные');
+            }
+        } catch (error) {
+            console.error('Error toggling todo:', error);
+            this.showError('Ошибка при изменении статуса задачи');
         }
     }
 
     deleteTodo(id) {
-        this.todos = this.todos.filter(t => t.id !== id);
-        this.saveTodos();
-        this.render();
+        try {
+            const todo = this.todos.find(t => t.id === id);
+            if (!todo) return;
+
+            if (confirm(`Вы уверены, что хотите удалить задачу "${todo.text}"?`)) {
+                this.todos = this.todos.filter(t => t.id !== id);
+                this.saveTodos();
+                this.render();
+                this.showSuccess('Задача удалена');
+            }
+        } catch (error) {
+            console.error('Error deleting todo:', error);
+            this.showError('Ошибка при удалении задачи');
+        }
+    }
+
+    editTodo(id) {
+        try {
+            const todo = this.todos.find(t => t.id === id);
+            if (!todo) return;
+
+            const newText = prompt('Редактировать задачу:', todo.text);
+            if (newText !== null) {
+                const trimmedText = newText.trim();
+                if (trimmedText === '') {
+                    this.showError('Задача не может быть пустой');
+                    return;
+                }
+                if (trimmedText.length > 500) {
+                    this.showError('Задача слишком длинная (максимум 500 символов)');
+                    return;
+                }
+                todo.text = trimmedText;
+                this.saveTodos();
+                this.render();
+                this.showSuccess('Задача обновлена!');
+            }
+        } catch (error) {
+            console.error('Error editing todo:', error);
+            this.showError('Ошибка при редактировании задачи');
+        }
+    }
+
+    changePriority(id, priority) {
+        try {
+            const todo = this.todos.find(t => t.id === id);
+            if (todo) {
+                todo.priority = priority;
+                this.saveTodos();
+                this.render();
+            }
+        } catch (error) {
+            console.error('Error changing priority:', error);
+            this.showError('Ошибка при изменении приоритета');
+        }
     }
 
     clearCompletedTodos() {
-        const completedCount = this.todos.filter(t => t.completed).length;
-        if (completedCount === 0) {
-            alert('Нет завершённых задач для удаления!');
-            return;
-        }
+        try {
+            const completedCount = this.todos.filter(t => t.completed).length;
+            if (completedCount === 0) {
+                this.showError('Нет завершённых задач для удаления!');
+                return;
+            }
 
-        if (confirm(`Удалить ${completedCount} завершённых задач?`)) {
-            this.todos = this.todos.filter(t => !t.completed);
-            this.saveTodos();
-            this.render();
+            if (confirm(`Удалить ${completedCount} завершённых ${this.getPluralForm(completedCount, 'задачу', 'задачи', 'задач')}?`)) {
+                this.todos = this.todos.filter(t => !t.completed);
+                this.saveTodos();
+                this.render();
+                this.showSuccess(`Удалено ${completedCount} ${this.getPluralForm(completedCount, 'задача', 'задачи', 'задач')}`);
+            }
+        } catch (error) {
+            console.error('Error clearing completed todos:', error);
+            this.showError('Ошибка при очистке завершённых задач');
         }
+    }
+
+    getPluralForm(count, form1, form2, form5) {
+        const n = Math.abs(count) % 100;
+        const n1 = n % 10;
+        if (n > 10 && n < 20) return form5;
+        if (n1 > 1 && n1 < 5) return form2;
+        if (n1 === 1) return form1;
+        return form5;
     }
 
     setFilter(filter) {
@@ -87,14 +255,40 @@ class TodoApp {
     }
 
     getFilteredTodos() {
+        let filtered = [];
+        
+        // Filter by status
         switch (this.currentFilter) {
             case 'active':
-                return this.todos.filter(t => !t.completed);
+                filtered = this.todos.filter(t => !t.completed);
+                break;
             case 'completed':
-                return this.todos.filter(t => t.completed);
+                filtered = this.todos.filter(t => t.completed);
+                break;
             default:
-                return this.todos;
+                filtered = [...this.todos];
         }
+
+        // Filter by search query
+        if (this.searchQuery) {
+            filtered = filtered.filter(t => 
+                t.text.toLowerCase().includes(this.searchQuery)
+            );
+        }
+
+        // Sort by priority and creation date
+        filtered.sort((a, b) => {
+            const priorityOrder = { high: 0, medium: 1, low: 2 };
+            const aPriority = priorityOrder[a.priority] || 1;
+            const bPriority = priorityOrder[b.priority] || 1;
+            
+            if (aPriority !== bPriority) {
+                return aPriority - bPriority;
+            }
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        return filtered;
     }
 
     render() {
@@ -125,7 +319,8 @@ class TodoApp {
 
     createTodoElement(todo) {
         const li = document.createElement('li');
-        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+        li.className = `todo-item ${todo.completed ? 'completed' : ''} priority-${todo.priority || 'medium'}`;
+        li.dataset.todoId = todo.id;
         
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -133,20 +328,81 @@ class TodoApp {
         checkbox.checked = todo.completed;
         checkbox.addEventListener('change', () => this.toggleTodo(todo.id));
         
+        const textContainer = document.createElement('div');
+        textContainer.className = 'todo-text-container';
+        
         const text = document.createElement('span');
         text.className = 'todo-text';
         text.textContent = todo.text;
         
+        const meta = document.createElement('div');
+        meta.className = 'todo-meta';
+        const createdDate = new Date(todo.createdAt);
+        meta.textContent = `Создано: ${this.formatDate(createdDate)}`;
+        if (todo.completedAt) {
+            const completedDate = new Date(todo.completedAt);
+            meta.textContent += ` | Выполнено: ${this.formatDate(completedDate)}`;
+        }
+        
+        textContainer.appendChild(text);
+        textContainer.appendChild(meta);
+        
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'todo-actions';
+        
+        // Priority selector
+        const prioritySelect = document.createElement('select');
+        prioritySelect.className = 'priority-select';
+        prioritySelect.innerHTML = `
+            <option value="high" ${todo.priority === 'high' ? 'selected' : ''}>🔴 Высокий</option>
+            <option value="medium" ${todo.priority === 'medium' ? 'selected' : ''}>🟡 Средний</option>
+            <option value="low" ${todo.priority === 'low' ? 'selected' : ''}>🟢 Низкий</option>
+        `;
+        prioritySelect.addEventListener('change', (e) => {
+            e.stopPropagation();
+            this.changePriority(todo.id, e.target.value);
+        });
+        
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.textContent = '✏️';
+        editBtn.title = 'Редактировать';
+        editBtn.addEventListener('click', () => this.editTodo(todo.id));
+        
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'Удалить';
+        deleteBtn.textContent = '🗑️';
+        deleteBtn.title = 'Удалить';
         deleteBtn.addEventListener('click', () => this.deleteTodo(todo.id));
         
+        actionsContainer.appendChild(prioritySelect);
+        actionsContainer.appendChild(editBtn);
+        actionsContainer.appendChild(deleteBtn);
+        
         li.appendChild(checkbox);
-        li.appendChild(text);
-        li.appendChild(deleteBtn);
+        li.appendChild(textContainer);
+        li.appendChild(actionsContainer);
         
         return li;
+    }
+
+    formatDate(date) {
+        const now = new Date();
+        const diff = now - date;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(diff / 3600000);
+        const days = Math.floor(diff / 86400000);
+
+        if (minutes < 1) return 'только что';
+        if (minutes < 60) return `${minutes} мин. назад`;
+        if (hours < 24) return `${hours} ч. назад`;
+        if (days < 7) return `${days} дн. назад`;
+        
+        return date.toLocaleDateString('ru-RU', { 
+            day: 'numeric', 
+            month: 'short',
+            year: date.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
+        });
     }
 
     updateStats() {
@@ -169,12 +425,23 @@ class TodoApp {
     }
 
     saveTodos() {
-        localStorage.setItem('todos', JSON.stringify(this.todos));
+        try {
+            localStorage.setItem('todos', JSON.stringify(this.todos));
+        } catch (error) {
+            console.error('Error saving todos:', error);
+            this.showError('Ошибка при сохранении данных');
+        }
     }
 
     loadTodos() {
-        const saved = localStorage.getItem('todos');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('todos');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error('Error loading todos:', error);
+            this.showError('Ошибка при загрузке данных');
+            return [];
+        }
     }
 }
 
