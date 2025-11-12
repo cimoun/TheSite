@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro-Interactions Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="micro-interactions.css">
+    <style>
+        .demo-section {
+            background: white;
+            padding: 30px;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .demo-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--ink);
+        }
+        .demo-section p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        .demo-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .demo-checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        .demo-task-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        .demo-task-item {
+            background: #F7F7F6;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+        <header style="text-align: center; padding: 40px 20px;">
+            <h1>Micro-Interactions Component Library Demo</h1>
+            <p style="color: #666;">Interactive demonstration of all 7 micro-interaction types</p>
+        </header>
+
+        <!-- 1. Button Hover Effects -->
+        <div class="demo-section">
+            <h2>1. Button Hover Effects</h2>
+            <p>Hover over buttons to see scale (1.02) and shadow increase effects</p>
+            <div class="demo-buttons">
+                <button class="btn-hover-scale" style="padding: 12px 24px; background: var(--leaf-1); color: white; border: none; border-radius: 10px; cursor: pointer;">
+                    Scale on Hover
+                </button>
+                <button class="btn-hover-lift" style="padding: 12px 24px; background: var(--leaf-2); color: white; border: none; border-radius: 10px; cursor: pointer;">
+                    Lift on Hover
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. Checkbox Completion Animation -->
+        <div class="demo-section">
+            <h2>2. Checkbox Completion Animation</h2>
+            <p>Check/uncheck to see 360° spin with scale pulse (1 → 0.95 → 1)</p>
+            <div class="demo-checkbox-group">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" class="checkbox-animate" style="width: 24px; height: 24px;">
+                    <span>Checkbox with spin animation</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" class="checkbox-pulse" style="width: 24px; height: 24px;">
+                    <span>Checkbox with pulse animation</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 3. Task Deletion Slide-Out -->
+        <div class="demo-section">
+            <h2>3. Task Deletion Slide-Out</h2>
+            <p>Click delete button to see slide-out animation (translate right + fade out)</p>
+            <ul class="demo-task-list" id="deleteDemo">
+                <li class="demo-task-item">
+                    <span>Task to delete</span>
+                    <button onclick="deleteTask(this)" style="margin-left: 10px; padding: 8px 12px; background: #D63031; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Delete
+                    </button>
+                </li>
+            </ul>
+            <button onclick="resetDeleteDemo()" style="padding: 8px 16px; background: #6FA08F; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                Reset
+            </button>
+        </div>
+
+        <!-- 4. Task Addition Slide-In -->
+        <div class="demo-section">
+            <h2>4. Task Addition Slide-In</h2>
+            <p>Click to add tasks with slide-in animation (from top with stagger)</p>
+            <button onclick="addTask()" style="padding: 12px 24px; background: var(--leaf-1); color: white; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 15px;">
+                Add Task
+            </button>
+            <ul class="demo-task-list" id="addDemo"></ul>
+        </div>
+
+        <!-- 5. Dark Mode Transition -->
+        <div class="demo-section">
+            <h2>5. Dark Mode Transition</h2>
+            <p>Click to toggle dark mode with smooth background color transition (0.5s)</p>
+            <button onclick="toggleDemoTheme()" style="padding: 12px 24px; background: var(--ink); color: white; border: none; border-radius: 10px; cursor: pointer;">
+                Toggle Dark Mode
+            </button>
+        </div>
+
+        <!-- 6. Hover to Reveal Actions -->
+        <div class="demo-section">
+            <h2>6. Hover to Reveal Actions</h2>
+            <p>Hover over the card to reveal action buttons (opacity 0 → 1)</p>
+            <div class="reveal-on-hover-container" style="position: relative; background: #F7F7F6; padding: 20px; border-radius: 8px; min-height: 80px;">
+                <div style="margin-bottom: 10px;">
+                    <strong>Hover over this card</strong>
+                </div>
+                <div class="reveal-slide-right" style="display: flex; gap: 8px;">
+                    <button style="padding: 8px 16px; background: var(--leaf-1); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Edit
+                    </button>
+                    <button style="padding: 8px 16px; background: #D63031; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Delete
+                    </button>
+                    <button style="padding: 8px 16px; background: var(--sand); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Share
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Focus Ring Animations -->
+        <div class="demo-section">
+            <h2>7. Focus Ring Animations (Accessibility)</h2>
+            <p>Tab through elements to see enhanced focus rings (3px glow)</p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <input type="text" class="focus-ring-solid" placeholder="Focus me (solid ring)" style="padding: 10px; border: 1px solid #e6e6e6; border-radius: 6px;">
+                <input type="text" class="focus-ring-border" placeholder="Focus me (border ring)" style="padding: 10px; border: 2px solid transparent; border-radius: 6px;">
+                <button class="focus-visible-ring" style="padding: 10px 20px; background: var(--leaf-2); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    Focus Visible Button
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="micro-interactions.js"></script>
+    <script>
+        let taskCounter = 0;
+
+        function deleteTask(button) {
+            const taskItem = button.closest('li');
+            taskItem.classList.add('task-delete-animation');
+            setTimeout(() => {
+                taskItem.remove();
+            }, 400);
+        }
+
+        function resetDeleteDemo() {
+            const list = document.getElementById('deleteDemo');
+            list.innerHTML = `
+                <li class="demo-task-item">
+                    <span>Task to delete</span>
+                    <button onclick="deleteTask(this)" style="margin-left: 10px; padding: 8px 12px; background: #D63031; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        Delete
+                    </button>
+                </li>
+            `;
+        }
+
+        function addTask() {
+            taskCounter++;
+            const list = document.getElementById('addDemo');
+            const li = document.createElement('li');
+            li.className = 'demo-task-item task-add-animation-top';
+            li.innerHTML = `
+                <span>New Task ${taskCounter}</span>
+                <button onclick="deleteTask(this)" style="margin-left: 10px; padding: 8px 12px; background: #D63031; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                    Delete
+                </button>
+            `;
+            list.insertBefore(li, list.firstChild);
+        }
+
+        function toggleDemoTheme() {
+            if (typeof MicroInteractions !== 'undefined') {
+                const isDark = document.documentElement.classList.contains('dark-mode');
+                MicroInteractions.toggleDarkMode(!isDark);
+            }
+        }
+    </script>
+</body>
+</html>
