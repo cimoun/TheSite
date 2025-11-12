@@ -1,0 +1,32 @@
+import { MainLayout, Header, Footer } from './components/layouts';
+import { TaskInput, TaskSearch, TaskFilters, TaskList, TaskStats } from './components/task';
+
+function App() {
+  return (
+    <MainLayout>
+      <Header 
+        title="Modern ToDo App"
+        subtitle="Track your tasks with style and efficiency"
+      />
+      
+      <div className="space-y-6">
+        <TaskInput />
+        
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <TaskSearch />
+          </div>
+          <TaskFilters />
+        </div>
+
+        <TaskList />
+        
+        <TaskStats />
+      </div>
+
+      <Footer />
+    </MainLayout>
+  );
+}
+
+export default App;
