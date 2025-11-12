@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import type { Task, Priority } from '../types/task.js';
-import { PRIORITY_COLORS } from '../types/task.js';
+import type { Task } from '../types/task.js';
 
 interface TaskItemProps {
   task: Task;

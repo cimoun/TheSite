@@ -28,6 +28,7 @@ export const Button = ({
       whileTap={{ scale: disabled || isLoading ? 1 : 0.98 }}
       transition={{ duration: 0.2 }}
       aria-busy={isLoading}
+      style={undefined}
       {...props}
     >
       {isLoading ? (
