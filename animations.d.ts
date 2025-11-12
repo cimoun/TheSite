@@ -10,7 +10,7 @@ export interface AnimationState {
   y?: string | number;
   scale?: number;
   backgroundPosition?: string;
-  [key: string]: any;
+  [key: string]: string | number | undefined;
 }
 
 export interface SpringTransition {
