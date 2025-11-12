@@ -21,18 +21,45 @@ class TodoApp {
     }
 
     attachEventListeners() {
-        this.addBtn.addEventListener('click', () => this.addTodo());
+        this.addBtn.addEventListener('click', (e) => {
+            this.createRipple(e, this.addBtn);
+            this.addTodo();
+        });
         this.todoInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.addTodo();
         });
         this.todoInput.addEventListener('input', () => this.validateInput());
-        this.clearCompleted.addEventListener('click', () => this.clearCompletedTodos());
+        this.clearCompleted.addEventListener('click', (e) => {
+            this.createRipple(e, this.clearCompleted);
+            this.clearCompletedTodos();
+        });
         this.filterBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.setFilter(e.target.dataset.filter));
+            btn.addEventListener('click', (e) => {
+                this.createRipple(e, btn);
+                this.setFilter(e.target.dataset.filter);
+            });
         });
         if (this.searchInput) {
             this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
         }
+    }
+
+    createRipple(event, element) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+        
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
     }
 
     validateInput() {
@@ -249,7 +276,9 @@ class TodoApp {
     setFilter(filter) {
         this.currentFilter = filter;
         this.filterBtns.forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.filter === filter);
+            const isActive = btn.dataset.filter === filter;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive.toString());
         });
         this.render();
     }
@@ -321,11 +350,13 @@ class TodoApp {
         const li = document.createElement('li');
         li.className = `todo-item ${todo.completed ? 'completed' : ''} priority-${todo.priority || 'medium'}`;
         li.dataset.todoId = todo.id;
+        li.setAttribute('role', 'listitem');
         
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.className = 'todo-checkbox';
         checkbox.checked = todo.completed;
+        checkbox.setAttribute('aria-label', `Отметить задачу как ${todo.completed ? 'активную' : 'выполненную'}`);
         checkbox.addEventListener('change', () => this.toggleTodo(todo.id));
         
         const textContainer = document.createElement('div');
@@ -353,6 +384,7 @@ class TodoApp {
         // Priority selector
         const prioritySelect = document.createElement('select');
         prioritySelect.className = 'priority-select';
+        prioritySelect.setAttribute('aria-label', 'Выбрать приоритет задачи');
         prioritySelect.innerHTML = `
             <option value="high" ${todo.priority === 'high' ? 'selected' : ''}>🔴 Высокий</option>
             <option value="medium" ${todo.priority === 'medium' ? 'selected' : ''}>🟡 Средний</option>
@@ -367,13 +399,21 @@ class TodoApp {
         editBtn.className = 'edit-btn';
         editBtn.textContent = '✏️';
         editBtn.title = 'Редактировать';
-        editBtn.addEventListener('click', () => this.editTodo(todo.id));
+        editBtn.setAttribute('aria-label', 'Редактировать задачу');
+        editBtn.addEventListener('click', (e) => {
+            this.createRipple(e, editBtn);
+            this.editTodo(todo.id);
+        });
         
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-btn';
         deleteBtn.textContent = '🗑️';
         deleteBtn.title = 'Удалить';
-        deleteBtn.addEventListener('click', () => this.deleteTodo(todo.id));
+        deleteBtn.setAttribute('aria-label', 'Удалить задачу');
+        deleteBtn.addEventListener('click', (e) => {
+            this.createRipple(e, deleteBtn);
+            this.deleteTodo(todo.id);
+        });
         
         actionsContainer.appendChild(prioritySelect);
         actionsContainer.appendChild(editBtn);
