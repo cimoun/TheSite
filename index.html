@@ -1,67 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo Лист</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Balanced Evolved Harmonious</h1>
-        </div>
-        <div class="hero-icons">
-            <button aria-label="Search">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
-            </button>
-            <button aria-label="Menu">
-                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-            </button>
-        </div>
-    </header>
-    
-    <main>
-        <section class="todo-container">
-            <div class="container">
-                <h1>📝 Мой ToDo Лист</h1>
-                <p class="subtitle">Отслеживай свои дела легко и удобно</p>
-                
-                <div class="input-section">
-                    <input type="text" id="todoInput" placeholder="Добавить новую задачу..." maxlength="500" aria-label="Поле ввода новой задачи" />
-                    <button id="addBtn" aria-label="Добавить задачу">Добавить</button>
-                </div>
-
-                <div class="search-section">
-                    <input type="text" id="searchInput" placeholder="🔍 Поиск задач..." aria-label="Поиск задач" />
-                </div>
-
-                <div class="filter-section" role="tablist" aria-label="Фильтрация задач">
-                    <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true" aria-controls="todoList">Все</button>
-                    <button class="filter-btn" data-filter="active" role="tab" aria-selected="false" aria-controls="todoList">Активные</button>
-                    <button class="filter-btn" data-filter="completed" role="tab" aria-selected="false" aria-controls="todoList">Завершённые</button>
-                </div>
-
-                <ul id="todoList" class="todo-list" role="list" aria-live="polite" aria-label="Список задач"></ul>
-
-                <div class="stats">
-                    <span id="taskCount" aria-live="polite">0 задач</span>
-                    <button id="clearCompleted" aria-label="Очистить завершённые задачи">Очистить завершённые</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="app.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Component Library</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
