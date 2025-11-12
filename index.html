@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="micro-interactions.css">
 </head>
 <body>
     <header class="hero">
@@ -15,6 +16,11 @@
             <h1>Balanced Evolved Harmonious</h1>
         </div>
         <div class="hero-icons">
+            <button id="darkModeToggle" aria-label="Toggle dark mode">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
             <button aria-label="Search">
                 <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"></circle>
@@ -62,6 +68,7 @@
         </section>
     </main>
 
+    <script src="micro-interactions.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

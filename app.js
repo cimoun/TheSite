@@ -7,6 +7,7 @@ class TodoApp {
         this.isLoading = false;
         this.initElements();
         this.attachEventListeners();
+        this.initDarkMode();
         this.render();
     }
 
@@ -18,6 +19,7 @@ class TodoApp {
         this.clearCompleted = document.getElementById('clearCompleted');
         this.filterBtns = document.querySelectorAll('.filter-btn');
         this.searchInput = document.getElementById('searchInput');
+        this.darkModeToggle = document.getElementById('darkModeToggle');
     }
 
     attachEventListeners() {
@@ -41,6 +43,12 @@ class TodoApp {
         });
         if (this.searchInput) {
             this.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
+        }
+        if (this.darkModeToggle) {
+            this.darkModeToggle.addEventListener('click', (e) => {
+                this.createRipple(e, this.darkModeToggle);
+                this.toggleDarkMode();
+            });
         }
     }
 
@@ -192,10 +200,28 @@ class TodoApp {
             if (!todo) return;
 
             if (confirm(`Вы уверены, что хотите удалить задачу "${todo.text}"?`)) {
-                this.todos = this.todos.filter(t => t.id !== id);
-                this.saveTodos();
-                this.render();
-                this.showSuccess('Задача удалена');
+                // Find the element to animate
+                const element = document.querySelector(`[data-todo-id="${id}"]`);
+                
+                if (element && typeof MicroInteractions !== 'undefined') {
+                    // Apply deletion animation
+                    MicroInteractions.animateExit(
+                        element,
+                        MicroInteractions.animations.taskDelete,
+                        () => {
+                            this.todos = this.todos.filter(t => t.id !== id);
+                            this.saveTodos();
+                            this.render();
+                            this.showSuccess('Задача удалена');
+                        }
+                    );
+                } else {
+                    // Fallback without animation
+                    this.todos = this.todos.filter(t => t.id !== id);
+                    this.saveTodos();
+                    this.render();
+                    this.showSuccess('Задача удалена');
+                }
             }
         } catch (error) {
             console.error('Error deleting todo:', error);
@@ -352,12 +378,26 @@ class TodoApp {
         li.dataset.todoId = todo.id;
         li.setAttribute('role', 'listitem');
         
+        // Apply entry animation if MicroInteractions is available
+        if (typeof MicroInteractions !== 'undefined') {
+            // Use requestAnimationFrame to ensure element is in DOM first
+            requestAnimationFrame(() => {
+                MicroInteractions.animateEntry(li, MicroInteractions.animations.taskAddFromTop);
+            });
+        }
+        
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.className = 'todo-checkbox';
+        checkbox.className = 'todo-checkbox checkbox-animate';
         checkbox.checked = todo.completed;
         checkbox.setAttribute('aria-label', `Отметить задачу как ${todo.completed ? 'активную' : 'выполненную'}`);
-        checkbox.addEventListener('change', () => this.toggleTodo(todo.id));
+        checkbox.addEventListener('change', (e) => {
+            // Apply checkbox animation
+            if (typeof MicroInteractions !== 'undefined' && e.target.checked) {
+                MicroInteractions.animateCheckbox(checkbox, true);
+            }
+            this.toggleTodo(todo.id);
+        });
         
         const textContainer = document.createElement('div');
         textContainer.className = 'todo-text-container';
@@ -481,6 +521,22 @@ class TodoApp {
             console.error('Error loading todos:', error);
             this.showError('Ошибка при загрузке данных');
             return [];
+        }
+    }
+
+    toggleDarkMode() {
+        if (typeof MicroInteractions !== 'undefined') {
+            const isDark = document.documentElement.classList.contains('dark-mode');
+            MicroInteractions.toggleDarkMode(!isDark);
+            localStorage.setItem('darkMode', !isDark);
+            this.showSuccess(isDark ? 'Светлая тема включена' : 'Темная тема включена');
+        }
+    }
+
+    initDarkMode() {
+        const darkMode = localStorage.getItem('darkMode') === 'true';
+        if (darkMode) {
+            document.documentElement.classList.add('dark-mode');
         }
     }
 }
