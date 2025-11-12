@@ -1,62 +1,90 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Task, TaskPriority, TaskStatus } from '../types';
+import type { Task, TaskFilter } from '../types/task';
 
-interface TaskStore {
+interface TaskState {
   tasks: Task[];
-  addTask: (title: string, priority: TaskPriority) => void;
-  updateTask: (id: string, updates: Partial<Task>) => void;
-  deleteTask: (id: string) => void;
+  addTask: (text: string) => void;
   toggleTask: (id: string) => void;
+  deleteTask: (id: string) => void;
+  updateTask: (id: string, text: string) => void;
   clearCompleted: () => void;
+  getFilteredTasks: (filter: TaskFilter, searchQuery?: string) => Task[];
 }
 
-export const useTaskStore = create<TaskStore>()(
+export const useTaskStore = create<TaskState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       tasks: [],
-      addTask: (title, priority) =>
+
+      addTask: (text: string) => {
+        const newTask: Task = {
+          id: crypto.randomUUID(),
+          text: text.trim(),
+          completed: false,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        };
         set((state) => ({
-          tasks: [
-            ...state.tasks,
-            {
-              id: crypto.randomUUID(),
-              title,
-              status: 'active' as TaskStatus,
-              priority,
-              createdAt: Date.now(),
-            },
-          ],
-        })),
-      updateTask: (id, updates) =>
-        set((state) => ({
-          tasks: state.tasks.map((task) =>
-            task.id === id ? { ...task, ...updates } : task
-          ),
-        })),
-      deleteTask: (id) =>
-        set((state) => ({
-          tasks: state.tasks.filter((task) => task.id !== id),
-        })),
-      toggleTask: (id) =>
+          tasks: [newTask, ...state.tasks],
+        }));
+      },
+
+      toggleTask: (id: string) => {
         set((state) => ({
           tasks: state.tasks.map((task) =>
             task.id === id
-              ? {
-                  ...task,
-                  status: task.status === 'active' ? ('completed' as TaskStatus) : ('active' as TaskStatus),
-                  completedAt: task.status === 'active' ? Date.now() : undefined,
-                }
+              ? { ...task, completed: !task.completed, updatedAt: new Date() }
               : task
           ),
-        })),
-      clearCompleted: () =>
+        }));
+      },
+
+      deleteTask: (id: string) => {
         set((state) => ({
-          tasks: state.tasks.filter((task) => task.status !== 'completed'),
-        })),
+          tasks: state.tasks.filter((task) => task.id !== id),
+        }));
+      },
+
+      updateTask: (id: string, text: string) => {
+        set((state) => ({
+          tasks: state.tasks.map((task) =>
+            task.id === id
+              ? { ...task, text: text.trim(), updatedAt: new Date() }
+              : task
+          ),
+        }));
+      },
+
+      clearCompleted: () => {
+        set((state) => ({
+          tasks: state.tasks.filter((task) => !task.completed),
+        }));
+      },
+
+      getFilteredTasks: (filter: TaskFilter, searchQuery = '') => {
+        const { tasks } = get();
+        let filtered = tasks;
+
+        // Apply filter
+        if (filter === 'active') {
+          filtered = filtered.filter((task) => !task.completed);
+        } else if (filter === 'completed') {
+          filtered = filtered.filter((task) => task.completed);
+        }
+
+        // Apply search
+        if (searchQuery.trim()) {
+          filtered = filtered.filter((task) =>
+            task.text.toLowerCase().includes(searchQuery.toLowerCase().trim())
+          );
+        }
+
+        return filtered;
+      },
     }),
     {
-      name: 'task-storage',
+      name: 'todo-storage',
     }
   )
 );

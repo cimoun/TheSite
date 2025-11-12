@@ -1,97 +1,89 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trash2, Check } from 'lucide-react';
-import { Task } from '../types';
-import { useTaskStore } from '../stores/taskStore';
+import type { Task } from '../types/task.js';
+import { TaskItem } from './TaskItem.js';
 
 interface TaskListProps {
   tasks: Task[];
+  onToggleComplete: (id: string) => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
-  const { toggleTask, deleteTask } = useTaskStore();
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return 'var(--priority-high)';
-      case 'medium':
-        return 'var(--priority-medium)';
-      case 'low':
-        return 'var(--priority-low)';
-      default:
-        return 'var(--priority-low)';
-    }
-  };
+export const TaskList: React.FC<TaskListProps> = ({
+  tasks,
+  onToggleComplete,
+  onEdit,
+  onDelete,
+}) => {
+  // Empty state
+  if (tasks.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.3 }}
+        style={{
+          textAlign: 'center',
+          padding: '60px 20px',
+          color: '#9ca3af',
+        }}
+      >
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: 'loop',
+          }}
+          style={{
+            fontSize: '48px',
+            marginBottom: '16px',
+          }}
+        >
+          📝
+        </motion.div>
+        <h3 style={{ margin: '0 0 8px 0', fontSize: '20px', color: '#6b7280' }}>
+          No tasks yet
+        </h3>
+        <p style={{ margin: 0, fontSize: '14px' }}>
+          Create your first task to get started!
+        </p>
+      </motion.div>
+    );
+  }
 
   return (
-    <div className="task-list-container">
-      <AnimatePresence>
-        {tasks.map((task) => (
+    <div
+      style={{
+        display: 'grid',
+        gap: '12px',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 400px), 1fr))',
+      }}
+    >
+      <AnimatePresence mode="popLayout">
+        {tasks.map((task, index) => (
           <motion.div
             key={task.id}
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.3 }}
-            className={`task-item ${task.status === 'completed' ? 'completed' : ''}`}
-            layout
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{
+              duration: 0.3,
+              delay: index * 0.05, // Stagger animation
+            }}
           >
-            <div
-              className="priority-indicator"
-              style={{ backgroundColor: getPriorityColor(task.priority) }}
+            <TaskItem
+              task={task}
+              onToggleComplete={onToggleComplete}
+              onEdit={onEdit}
+              onDelete={onDelete}
             />
-            <div className="task-content">
-              <button
-                className="task-checkbox"
-                onClick={() => toggleTask(task.id)}
-                aria-label={task.status === 'completed' ? 'Mark as active' : 'Mark as completed'}
-              >
-                {task.status === 'completed' && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: 'spring', stiffness: 500, damping: 25 }}
-                  >
-                    <Check size={16} />
-                  </motion.div>
-                )}
-              </button>
-              <div className="task-details">
-                <p className="task-title">{task.title}</p>
-                <div className="task-meta">
-                  <span className={`priority-badge priority-${task.priority}`}>
-                    {task.priority}
-                  </span>
-                  <span className="task-date">
-                    {new Date(task.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="delete-btn"
-              onClick={() => deleteTask(task.id)}
-              aria-label="Delete task"
-            >
-              <Trash2 size={18} />
-            </motion.button>
           </motion.div>
         ))}
       </AnimatePresence>
-      {tasks.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="empty-state"
-        >
-          <p>No tasks found. Add a new task to get started!</p>
-        </motion.div>
-      )}
     </div>
   );
 };
-
-export default TaskList;

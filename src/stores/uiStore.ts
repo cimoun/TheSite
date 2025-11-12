@@ -1,35 +1,34 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { Theme, StatusFilter, PriorityFilter } from '../types';
+import type { UIState } from '../types/ui';
 
-interface UIStore {
-  theme: Theme;
-  searchQuery: string;
-  statusFilter: StatusFilter;
-  priorityFilter: PriorityFilter;
-  toggleTheme: () => void;
+interface UIStore extends UIState {
   setSearchQuery: (query: string) => void;
-  setStatusFilter: (filter: StatusFilter) => void;
-  setPriorityFilter: (filter: PriorityFilter) => void;
+  setCurrentFilter: (filter: 'all' | 'active' | 'completed') => void;
+  setIsLoading: (loading: boolean) => void;
+  toggleTheme: () => void;
 }
 
-export const useUIStore = create<UIStore>()(
-  persist(
-    (set) => ({
-      theme: 'light',
-      searchQuery: '',
-      statusFilter: 'all',
-      priorityFilter: 'all',
-      toggleTheme: () =>
-        set((state) => ({
-          theme: state.theme === 'light' ? 'dark' : 'light',
-        })),
-      setSearchQuery: (query) => set({ searchQuery: query }),
-      setStatusFilter: (filter) => set({ statusFilter: filter }),
-      setPriorityFilter: (filter) => set({ priorityFilter: filter }),
-    }),
-    {
-      name: 'ui-storage',
-    }
-  )
-);
+export const useUIStore = create<UIStore>((set) => ({
+  searchQuery: '',
+  currentFilter: 'all',
+  isLoading: false,
+  theme: 'light',
+
+  setSearchQuery: (query: string) => {
+    set({ searchQuery: query });
+  },
+
+  setCurrentFilter: (filter: 'all' | 'active' | 'completed') => {
+    set({ currentFilter: filter });
+  },
+
+  setIsLoading: (loading: boolean) => {
+    set({ isLoading: loading });
+  },
+
+  toggleTheme: () => {
+    set((state) => ({
+      theme: state.theme === 'light' ? 'dark' : 'light',
+    }));
+  },
+}));
