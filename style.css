@@ -1,5 +1,14 @@
 /* Design System: Balanced Evolved (Target: 8.2/10) */
 :root {
+    /* New Design System Colors */
+    --bg: #F8F5F0;
+    --ink: #2F3E2E;
+    --leaf-1: #88A583;
+    --leaf-2: #6FA08F;
+    --sand: #E9C485;
+    --terra: #C97E4C;
+    --shadow: rgba(0,0,0,.12);
+    
     /* Colors */
     --bg-primary: #FAFAFA;
     --bg-secondary: #EFF5F7;
@@ -34,21 +43,96 @@
 
 body {
     font-family: var(--font-body);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bg);
     min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    min-height: 260px;
+    background: linear-gradient(135deg, var(--leaf-1) 0%, var(--leaf-2) 100%), url('assets/swirl.png') center/cover no-repeat;
+    border-radius: 20px;
+    margin: 12px;
+    overflow: hidden;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(248,245,240,.85) 0%, rgba(248,245,240,.55) 60%, rgba(248,245,240,0) 100%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.hero-content h1 {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 48px;
+    margin: 0;
+}
+
+.hero-icons {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+}
+
+.hero-icons button {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.7);
+    backdrop-filter: blur(6px);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--duration-fast) var(--ease);
+}
+
+.hero-icons button:hover {
+    background: rgba(255,255,255,.9);
+}
+
+.hero-icons button svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--ink);
+    fill: none;
+}
+
+/* Main Content */
+main {
+    max-width: 600px;
+    margin: 0 auto;
     padding: var(--space-5);
 }
 
 .container {
     background: var(--bg-primary);
     border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 60px var(--shadow);
     padding: var(--space-6);
     width: 100%;
-    max-width: 600px;
 }
 
 .subtitle {
@@ -506,6 +590,25 @@ h1 {
 
 /* Responsive design */
 @media (max-width: 600px) {
+    .hero {
+        margin: 8px;
+        min-height: 200px;
+    }
+    
+    .hero-content h1 {
+        font-size: 28px;
+        padding: 0 var(--space-4);
+    }
+    
+    .hero-icons {
+        top: 12px;
+        right: 12px;
+    }
+    
+    main {
+        padding: var(--space-3);
+    }
+    
     .container {
         padding: var(--space-5);
     }
