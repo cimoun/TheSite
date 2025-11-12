@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTaskStore } from '../../stores/taskStore';
 import { formatDate } from '../../utils/helpers';
 import { staggerItem } from '../../utils/animations';

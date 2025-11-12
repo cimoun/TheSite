@@ -5,7 +5,6 @@ import { useUIStore } from '../stores/uiStore';
  * Hook to get filtered tasks based on current UI state
  */
 export const useFilteredTasks = () => {
-  const tasks = useTaskStore((state) => state.tasks);
   const getFilteredTasks = useTaskStore((state) => state.getFilteredTasks);
   const currentFilter = useUIStore((state) => state.currentFilter);
   const searchQuery = useUIStore((state) => state.searchQuery);

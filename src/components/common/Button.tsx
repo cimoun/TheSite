@@ -1,9 +1,14 @@
-import { motion } from 'framer-motion';
+import { motion, HTMLMotionProps } from 'framer-motion';
 import { hoverScale } from '../../utils/animations';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
   children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  'aria-label'?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({ 
@@ -18,12 +23,14 @@ export const Button: React.FC<ButtonProps> = ({
     ? 'btn-secondary' 
     : 'btn-icon';
 
+  const motionProps: HTMLMotionProps<'button'> = {
+    className: `${baseClass} ${className}`,
+    ...hoverScale,
+    ...props,
+  };
+
   return (
-    <motion.button
-      className={`${baseClass} ${className}`}
-      {...hoverScale}
-      {...props}
-    >
+    <motion.button {...motionProps}>
       {children}
     </motion.button>
   );
