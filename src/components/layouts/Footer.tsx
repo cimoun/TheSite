@@ -23,27 +23,27 @@ export const Footer: React.FC = () => {
       className="text-center mt-10 space-y-4"
     >
       <div className="text-xs rounded-2xl p-4 inline-block bg-white/40 backdrop-blur-sm border border-white/30">
-        <p className="font-medium mb-2" style={{ color: '#5A7367' }}>Keyboard Shortcuts</p>
+        <p className="font-medium mb-2" style={{ color: '#5A7367' }}>Горячие клавиши</p>
         <div className="flex gap-4 flex-wrap justify-center" style={{ color: '#8B956D' }}>
           <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Enter</kbd> Submit form
+            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Enter</kbd> Отправить
           </span>
           <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Esc</kbd> Cancel/Close
+            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Esc</kbd> Отмена
           </span>
           <span>
             <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Ctrl</kbd> + 
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded ml-1" style={{ color: '#5A7367' }}>Enter</kbd> Quick submit
+            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded ml-1" style={{ color: '#5A7367' }}>Enter</kbd> Быстрая отправка
           </span>
         </div>
       </div>
       
       <div className="text-sm" style={{ color: '#8B956D' }}>
         <p>
-          Built with React 18, TypeScript, Zustand, Framer Motion & Tailwind CSS
+          Создано с помощью React 18, TypeScript, Zustand, Framer Motion и Tailwind CSS
         </p>
         <p className="mt-1">
-          © {currentYear} ToDo App. All rights reserved.
+          © {currentYear} Список Задач. Все права защищены.
         </p>
       </div>
     </motion.footer>

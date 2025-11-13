@@ -14,8 +14,8 @@ function App() {
   return (
     <MainLayout>
       <Header 
-        title="Breathe & Focus"
-        subtitle="Balanced Day"
+        title="Дыши и Сосредоточься"
+        subtitle="Сбалансированный День"
       />
       
       <div className="space-y-6">

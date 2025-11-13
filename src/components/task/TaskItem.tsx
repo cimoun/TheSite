@@ -40,7 +40,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             backgroundColor: task.completed ? '#5A7367' : 'transparent',
           }}
           whileTap={{ scale: 0.9 }}
-          aria-label={task.completed ? 'Mark as incomplete' : 'Mark as complete'}
+          aria-label={task.completed ? 'Отметить как незавершённую' : 'Отметить как завершённую'}
         >
           {task.completed && (
             <motion.svg
@@ -66,7 +66,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             <span
               className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0"
               style={{ backgroundColor: PRIORITY_COLORS[task.priority] }}
-              title={`Priority: ${task.priority}`}
+              title={`Приоритет: ${task.priority === 'low' ? 'низкий' : task.priority === 'medium' ? 'средний' : 'высокий'}`}
             />
             <p
               className={`text-base font-normal transition-all duration-200 ${
@@ -88,7 +88,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
               <>
                 <span>•</span>
                 <span style={{ color: '#8B956D' }}>
-                  Due: {new Date(task.dueDate).toLocaleDateString()}
+                  Срок: {new Date(task.dueDate).toLocaleDateString('ru-RU')}
                 </span>
               </>
             )}
@@ -105,7 +105,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           backgroundColor: 'rgba(212, 114, 111, 0.1)',
         }}
         whileTap={{ scale: 0.95 }}
-        aria-label="Delete task"
+        aria-label="Удалить задачу"
       >
         <svg
           className="w-5 h-5"

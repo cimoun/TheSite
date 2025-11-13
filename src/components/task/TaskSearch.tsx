@@ -7,7 +7,7 @@ export const TaskSearch: React.FC = () => {
   return (
     <div className="relative">
       <label htmlFor="task-search" className="sr-only">
-        Search tasks
+        Поиск задач
       </label>
       <div className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#8B956D' }}>
         <svg
@@ -30,12 +30,12 @@ export const TaskSearch: React.FC = () => {
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Search tasks..."
+        placeholder="Поиск задач..."
         className="w-full pl-11 pr-5 py-3 rounded-full border-2 border-transparent bg-white/60 backdrop-blur-sm focus:bg-white/80 focus:border-calm-deepGreen/30 focus:ring-4 focus:ring-calm-deepGreen/10 transition-all duration-300 outline-none text-gray-700 placeholder-gray-400"
         style={{
           boxShadow: '0 2px 8px rgba(90, 115, 103, 0.08)',
         }}
-        aria-label="Search tasks"
+        aria-label="Поиск задач"
       />
     </div>
   );

@@ -20,12 +20,12 @@ export const TaskList: React.FC = () => {
         <div className="text-5xl mb-4">✨</div>
         <p className="text-lg font-normal" style={{ color: '#8B956D', lineHeight: '1.8' }}>
           {searchQuery
-            ? 'No tasks found matching your search'
+            ? 'Нет задач, соответствующих поиску'
             : currentFilter === 'completed'
-            ? 'No completed tasks yet'
+            ? 'Нет завершённых задач'
             : currentFilter === 'active'
-            ? 'No active tasks'
-            : 'Your mind is clear. Add a task when ready.'}
+            ? 'Нет активных задач'
+            : 'Ваш разум свободен. Добавьте задачу, когда будете готовы.'}
         </p>
       </motion.div>
     );
