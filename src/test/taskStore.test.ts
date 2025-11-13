@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { useTaskStore } from '../stores/taskStore';
 
 describe('taskStore', () => {
@@ -75,9 +75,18 @@ describe('taskStore', () => {
   });
 
   describe('toggleTask', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2024-01-01T00:00:00.000Z'));
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
     it('should toggle task completion status', () => {
       const { addTask, toggleTask } = useTaskStore.getState();
-      
+
       addTask('Test task');
       const taskId = useTaskStore.getState().tasks[0]!.id;
       
@@ -90,17 +99,17 @@ describe('taskStore', () => {
 
     it('should update updatedAt when toggling', () => {
       const { addTask, toggleTask } = useTaskStore.getState();
-      
+
       addTask('Test task');
       const task = useTaskStore.getState().tasks[0]!;
       const originalUpdatedAt = task.updatedAt;
-      
-      // Wait a tiny bit to ensure timestamp changes
-      setTimeout(() => {
-        toggleTask(task.id);
-        const updatedTask = useTaskStore.getState().tasks[0]!;
-        expect(updatedTask.updatedAt).not.toBe(originalUpdatedAt);
-      }, 10);
+
+      vi.advanceTimersByTime(1000);
+
+      toggleTask(task.id);
+
+      const updatedTask = useTaskStore.getState().tasks[0]!;
+      expect(updatedTask.updatedAt).not.toBe(originalUpdatedAt);
     });
 
     it('should not affect other tasks', () => {
