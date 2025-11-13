@@ -51,29 +51,36 @@ export const TaskInput: React.FC = () => {
           maxLength={500}
           error={error}
           className="flex-1"
+          aria-label="New task text"
         />
-        <Button type="submit" disabled={!text.trim()}>
+        <Button type="submit" disabled={!text.trim()} aria-label="Add new task">
           Add Task
         </Button>
       </div>
       
       <div className="flex gap-2 items-center">
-        <span className="text-sm text-slate-600">Priority:</span>
-        {priorities.map((p) => (
-          <button
-            key={p}
-            type="button"
-            onClick={() => setPriority(p)}
-            className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
-              priority === p
-                ? 'text-white shadow-sm'
-                : 'text-slate-600 bg-slate-100 hover:bg-slate-200'
-            }`}
-            style={priority === p ? { backgroundColor: PRIORITY_COLORS[p] } : {}}
-          >
-            {p.charAt(0).toUpperCase() + p.slice(1)}
-          </button>
-        ))}
+        <label className="text-sm text-slate-600" id="priority-label">
+          Priority:
+        </label>
+        <div role="group" aria-labelledby="priority-label" className="flex gap-2">
+          {priorities.map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setPriority(p)}
+              className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
+                priority === p
+                  ? 'text-white shadow-sm'
+                  : 'text-slate-600 bg-slate-100 hover:bg-slate-200'
+              }`}
+              style={priority === p ? { backgroundColor: PRIORITY_COLORS[p] } : {}}
+              aria-pressed={priority === p}
+              aria-label={`Set priority to ${p}`}
+            >
+              {p.charAt(0).toUpperCase() + p.slice(1)}
+            </button>
+          ))}
+        </div>
       </div>
     </motion.form>
   );

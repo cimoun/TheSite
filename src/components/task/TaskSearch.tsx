@@ -7,12 +7,16 @@ export const TaskSearch: React.FC = () => {
 
   return (
     <div className="relative">
+      <label htmlFor="task-search" className="sr-only">
+        Search tasks
+      </label>
       <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
         <svg
           className="w-5 h-5"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -23,11 +27,13 @@ export const TaskSearch: React.FC = () => {
         </svg>
       </div>
       <Input
+        id="task-search"
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search tasks..."
         className="pl-10"
+        aria-label="Search tasks"
       />
     </div>
   );
