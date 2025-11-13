@@ -171,6 +171,10 @@ export function useUIState(options: UseUIStateOptions = {}): UseUIStateReturn {
   }, [modals]);
 
   // Toast functions
+  const hideToast = useCallback((id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  }, []);
+
   const showToast = useCallback((
     message: string,
     type: ToastType = 'info',
@@ -195,11 +199,7 @@ export function useUIState(options: UseUIStateOptions = {}): UseUIStateReturn {
     }
 
     return id;
-  }, [toastDefaultDuration]);
-
-  const hideToast = useCallback((id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
-  }, []);
+  }, [toastDefaultDuration, hideToast]);
 
   const clearToasts = useCallback(() => {
     setToasts([]);
