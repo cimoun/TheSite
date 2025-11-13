@@ -1,9 +1,10 @@
 /**
  * Format a date to a readable string
  */
-export const formatDate = (date: Date): string => {
+export const formatDate = (date: string | Date): string => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
   const now = new Date();
-  const diffInMs = now.getTime() - date.getTime();
+  const diffInMs = now.getTime() - dateObj.getTime();
   const diffInMinutes = Math.floor(diffInMs / 60000);
   const diffInHours = Math.floor(diffInMs / 3600000);
   const diffInDays = Math.floor(diffInMs / 86400000);
@@ -13,7 +14,7 @@ export const formatDate = (date: Date): string => {
   if (diffInHours < 24) return `${diffInHours}h ago`;
   if (diffInDays < 7) return `${diffInDays}d ago`;
 
-  return date.toLocaleDateString();
+  return dateObj.toLocaleDateString();
 };
 
 /**

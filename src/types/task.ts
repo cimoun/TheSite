@@ -2,8 +2,8 @@ export interface Task {
   id: string;
   text: string;
   completed: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string; // ISO 8601 datetime string
+  updatedAt: string; // ISO 8601 datetime string
 }
 
 export type TaskFilter = 'all' | 'active' | 'completed';

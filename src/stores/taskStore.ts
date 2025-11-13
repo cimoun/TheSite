@@ -22,8 +22,8 @@ export const useTaskStore = create<TaskState>()(
           id: crypto.randomUUID(),
           text: text.trim(),
           completed: false,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
         };
         set((state) => ({
           tasks: [newTask, ...state.tasks],
@@ -34,7 +34,7 @@ export const useTaskStore = create<TaskState>()(
         set((state) => ({
           tasks: state.tasks.map((task) =>
             task.id === id
-              ? { ...task, completed: !task.completed, updatedAt: new Date() }
+              ? { ...task, completed: !task.completed, updatedAt: new Date().toISOString() }
               : task
           ),
         }));
@@ -50,7 +50,7 @@ export const useTaskStore = create<TaskState>()(
         set((state) => ({
           tasks: state.tasks.map((task) =>
             task.id === id
-              ? { ...task, text: text.trim(), updatedAt: new Date() }
+              ? { ...task, text: text.trim(), updatedAt: new Date().toISOString() }
               : task
           ),
         }));
