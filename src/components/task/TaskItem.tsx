@@ -66,7 +66,13 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             <span
               className="inline-block w-2.5 h-2.5 rounded-full flex-shrink-0"
               style={{ backgroundColor: PRIORITY_COLORS[task.priority] }}
-              title={`Приоритет: ${task.priority === 'low' ? 'низкий' : task.priority === 'medium' ? 'средний' : 'высокий'}`}
+              title={`Приоритет выполнения: ${
+                task.priority === 'low'
+                  ? 'низкий'
+                  : task.priority === 'medium'
+                  ? 'средний'
+                  : 'высокий'
+              }`}
             />
             <p
               className={`text-base font-normal transition-all duration-200 ${
@@ -83,7 +89,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             </p>
           </div>
           <div className="flex items-center gap-2 text-sm" style={{ color: '#9CA3AF' }}>
-            <span>{formatDate(task.createdAt)}</span>
+            <span>Создано: {formatDate(task.createdAt)}</span>
             {task.dueDate && (() => {
               const { label, isOverdue } = getDueDateLabel(task.dueDate);
 
@@ -94,7 +100,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
                     className={isOverdue ? 'font-medium' : undefined}
                     style={{ color: isOverdue ? '#D4726F' : '#8B956D' }}
                   >
-                    Срок: {label}
+                    Срок сдачи: {label}
                     {isOverdue && <span className="sr-only"> (Задача просрочена)</span>}
                   </span>
                 </>

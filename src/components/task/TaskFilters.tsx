@@ -3,13 +3,13 @@ import { useUIStore } from '../../stores/uiStore';
 import type { TaskFilter } from '../../types/task';
 
 const filters: { label: string; value: TaskFilter }[] = [
-  { label: 'Все', value: 'all' },
-  { label: 'Активные', value: 'active' },
+  { label: 'Все задачи', value: 'all' },
+  { label: 'В работе', value: 'active' },
   { label: 'Завершённые', value: 'completed' },
 ];
 
 const sortOptions: { label: string; value: 'default' | 'dueDate' | 'priority' }[] = [
-  { label: 'Новые первыми', value: 'default' },
+  { label: 'По добавлению', value: 'default' },
   { label: 'По сроку', value: 'dueDate' },
   { label: 'По приоритету', value: 'priority' },
 ];
@@ -22,7 +22,7 @@ export const TaskFilters: React.FC = () => {
 
   return (
     <div className="space-y-3">
-      <div className="flex gap-2 flex-wrap" role="group" aria-label="Filter tasks">
+      <div className="flex gap-2 flex-wrap" role="group" aria-label="Фильтры задач">
         {filters.map((filter) => (
           <motion.button
             key={filter.value}
@@ -40,13 +40,13 @@ export const TaskFilters: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             aria-pressed={currentFilter === filter.value}
-            aria-label={`Show ${filter.label.toLowerCase()} tasks`}
+            aria-label={`Показать: ${filter.label.toLowerCase()}`}
           >
             {filter.label}
           </motion.button>
         ))}
       </div>
-      
+
       <div className="flex gap-2 items-center flex-wrap">
         <label className="text-sm font-medium" style={{ color: '#5A7367' }}>Сортировка:</label>
         <div className="flex gap-2 flex-wrap">
@@ -67,7 +67,7 @@ export const TaskFilters: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-pressed={sortMode === option.value}
-              aria-label={`Sort by ${option.label.toLowerCase()}`}
+              aria-label={`Сортировать: ${option.label.toLowerCase()}`}
             >
               {option.label}
             </motion.button>

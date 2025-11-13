@@ -8,7 +8,7 @@ const ThemeToggleComponent: FC = () => {
 
   const isDark = theme === 'dark';
   const buttonClasses =
-    'flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-[#5A7367] shadow-sm transition-colors hover:bg-white dark:bg-[#2b2b2b] dark:text-[#f1f5f9]';
+    'flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-[#5A7367] shadow-sm transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5A7367] dark:bg-[#2b2b2b] dark:text-[#f1f5f9]';
 
   return (
     <button
@@ -16,7 +16,7 @@ const ThemeToggleComponent: FC = () => {
       onClick={toggleTheme}
       aria-pressed={isDark}
       className={buttonClasses}
-      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-label={isDark ? 'Переключить на светлое оформление' : 'Переключить на тёмное оформление'}
     >
       {isDark ? (
         <MoonIcon />

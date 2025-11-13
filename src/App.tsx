@@ -13,9 +13,9 @@ function App() {
 
   return (
     <MainLayout>
-      <Header 
-        title="Дыши и Сосредоточься"
-        subtitle="Сбалансированный День"
+      <Header
+        title="Архитектура Спокойного Дня"
+        subtitle="Экспертный план задач с мягким ритмом"
       />
       
       <div className="space-y-6">

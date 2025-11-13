@@ -11,28 +11,32 @@ export const BreathingBackground: React.FC = () => {
     scaleMin: number,
     scaleMax: number,
     rotateRange: number
-  ) => ({
-    initial: { 
-      scale: scaleMin, 
-      rotate: 0,
-      opacity: 0.08,
-    },
-    animate: {
-      scale: [scaleMin, scaleMax, scaleMin],
-      rotate: [0, rotateRange, -rotateRange, 0],
-      opacity: [0.08, 0.18, 0.08],
-      transition: {
-        duration,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        repeatType: 'mirror' as const,
-        delay,
-      },
-    },
-  });
+  ) => {
+    const midScale = (scaleMin + scaleMax) / 2;
 
-  const amplitudeFactor = reduceAnimations ? 0.35 : 1;
-  const durationFactor = reduceAnimations ? 1.6 : 1;
+    return {
+      initial: {
+        scale: midScale,
+        rotate: 0,
+        opacity: 0.12,
+      },
+      animate: {
+        scale: [scaleMin, midScale, scaleMax, midScale, scaleMin],
+        rotate: [0, rotateRange, 0, -rotateRange, 0],
+        opacity: [0.12, 0.22, 0.26, 0.22, 0.12],
+        transition: {
+          duration,
+          ease: 'easeInOut',
+          repeat: Infinity,
+          times: [0, 0.25, 0.5, 0.75, 1],
+          delay,
+        },
+      },
+    };
+  };
+
+  const amplitudeFactor = reduceAnimations ? 0.3 : 0.85;
+  const durationFactor = reduceAnimations ? 1.6 : 1.25;
   const delayFactor = reduceAnimations ? 0.6 : 1;
 
   const adjustScale = (value: number) => 1 + (value - 1) * amplitudeFactor;
@@ -125,7 +129,10 @@ export const BreathingBackground: React.FC = () => {
   );
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+    <div
+      className="fixed inset-0 overflow-hidden pointer-events-none"
+      style={{ zIndex: 0 }}
+    >
       {shapes.map((shape, index) => (
         <motion.div
           key={index}
@@ -136,6 +143,9 @@ export const BreathingBackground: React.FC = () => {
           style={{
             backgroundColor: shape.color,
             filter: shape.blur,
+            mixBlendMode: 'screen',
+            willChange: 'transform, opacity',
+            transformOrigin: 'center center',
           }}
         />
       ))}
