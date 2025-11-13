@@ -20,7 +20,13 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 relative" style={{ backgroundColor: '#F5F1E8' }}>
+    <div
+      className="min-h-screen py-12 px-4 relative transition-colors duration-500"
+      style={{
+        backgroundColor: 'var(--color-bg-secondary)',
+        color: 'var(--color-text-primary)',
+      }}
+    >
       <BreathingBackground />
       <motion.div
         variants={panelVariants}
@@ -29,7 +35,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         className="max-w-3xl mx-auto relative"
         style={{ zIndex: 1 }}
       >
-        <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-12 shadow-2xl border border-white/40">
+        <div
+          className="rounded-3xl p-12 backdrop-blur-sm border transition-colors duration-500"
+          style={{
+            background: 'var(--color-surface-strong)',
+            borderColor: 'var(--color-border)',
+            boxShadow: 'var(--shadow-elevation)',
+          }}
+        >
           {children}
         </div>
       </motion.div>
