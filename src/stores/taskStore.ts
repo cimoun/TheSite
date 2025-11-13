@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Task, TaskFilter } from '../types/task';
+import type { Task, TaskFilter, Priority } from '../types/task';
 
 interface TaskState {
   tasks: Task[];
-  addTask: (text: string) => void;
+  addTask: (text: string, priority?: Priority) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
-  updateTask: (id: string, text: string) => void;
+  updateTask: (id: string, text: string, priority?: Priority) => void;
   clearCompleted: () => void;
   getFilteredTasks: (filter: TaskFilter, searchQuery?: string) => Task[];
 }
@@ -17,11 +17,12 @@ export const useTaskStore = create<TaskState>()(
     (set, get) => ({
       tasks: [],
 
-      addTask: (text: string) => {
+      addTask: (text: string, priority: Priority = 'medium') => {
         const newTask: Task = {
           id: crypto.randomUUID(),
           text: text.trim(),
           completed: false,
+          priority,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         };
@@ -46,11 +47,16 @@ export const useTaskStore = create<TaskState>()(
         }));
       },
 
-      updateTask: (id: string, text: string) => {
+      updateTask: (id: string, text: string, priority?: Priority) => {
         set((state) => ({
           tasks: state.tasks.map((task) =>
             task.id === id
-              ? { ...task, text: text.trim(), updatedAt: new Date().toISOString() }
+              ? { 
+                  ...task, 
+                  text: text.trim(), 
+                  ...(priority && { priority }),
+                  updatedAt: new Date().toISOString() 
+                }
               : task
           ),
         }));

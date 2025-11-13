@@ -2,6 +2,7 @@ export interface Task {
   id: string;
   text: string;
   completed: boolean;
+  priority: Priority;
   createdAt: string; // ISO 8601 datetime string
   updatedAt: string; // ISO 8601 datetime string
 }

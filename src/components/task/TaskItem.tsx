@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useTaskStore } from '../../stores/taskStore';
 import { formatDate } from '../../utils/helpers';
 import { staggerItem } from '../../utils/animations';
+import { PRIORITY_COLORS } from '../../types/task';
 import type { Task } from '../../types/task';
 
 interface TaskItemProps {
@@ -53,16 +54,23 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         </button>
         
         <div className="flex-1 min-w-0">
-          <p
-            className={`text-lg transition-all duration-200 ${
-              task.completed
-                ? 'line-through text-slate-400'
-                : 'text-slate-700'
-            }`}
-          >
-            {task.text}
-          </p>
-          <p className="text-sm text-slate-400 mt-1">
+          <div className="flex items-center gap-2 mb-1">
+            <span
+              className="inline-block w-2 h-2 rounded-full"
+              style={{ backgroundColor: PRIORITY_COLORS[task.priority] }}
+              title={`Priority: ${task.priority}`}
+            />
+            <p
+              className={`text-lg transition-all duration-200 ${
+                task.completed
+                  ? 'line-through text-slate-400'
+                  : 'text-slate-700'
+              }`}
+            >
+              {task.text}
+            </p>
+          </div>
+          <p className="text-sm text-slate-400">
             {formatDate(task.createdAt)}
           </p>
         </div>
