@@ -14,17 +14,18 @@ export const TaskList: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
         className="text-center py-16"
       >
-        <div className="text-6xl mb-4">📝</div>
-        <p className="text-xl text-slate-500">
+        <div className="text-5xl mb-4">✨</div>
+        <p className="text-lg font-normal" style={{ color: '#8B956D', lineHeight: '1.8' }}>
           {searchQuery
             ? 'No tasks found matching your search'
             : currentFilter === 'completed'
             ? 'No completed tasks yet'
             : currentFilter === 'active'
             ? 'No active tasks'
-            : 'No tasks yet. Add one to get started!'}
+            : 'Your mind is clear. Add a task when ready.'}
         </p>
       </motion.div>
     );

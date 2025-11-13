@@ -1,4 +1,3 @@
-import { Input } from '../common';
 import { useUIStore } from '../../stores/uiStore';
 
 export const TaskSearch: React.FC = () => {
@@ -10,7 +9,7 @@ export const TaskSearch: React.FC = () => {
       <label htmlFor="task-search" className="sr-only">
         Search tasks
       </label>
-      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+      <div className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#8B956D' }}>
         <svg
           className="w-5 h-5"
           fill="none"
@@ -26,13 +25,16 @@ export const TaskSearch: React.FC = () => {
           />
         </svg>
       </div>
-      <Input
+      <input
         id="task-search"
         type="text"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Search tasks..."
-        className="pl-10"
+        className="w-full pl-11 pr-5 py-3 rounded-full border-2 border-transparent bg-white/60 backdrop-blur-sm focus:bg-white/80 focus:border-calm-deepGreen/30 focus:ring-4 focus:ring-calm-deepGreen/10 transition-all duration-300 outline-none text-gray-700 placeholder-gray-400"
+        style={{
+          boxShadow: '0 2px 8px rgba(90, 115, 103, 0.08)',
+        }}
         aria-label="Search tasks"
       />
     </div>

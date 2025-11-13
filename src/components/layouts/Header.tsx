@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { fadeIn } from '../../utils/animations';
 
 interface HeaderProps {
   title?: string;
@@ -7,20 +6,32 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
-  title = 'ToDo App',
-  subtitle = 'Organize your tasks efficiently'
+  title = 'Breathe & Focus',
+  subtitle = 'Balanced Day'
 }) => {
+  const headerVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
     <motion.header
-      variants={fadeIn}
+      variants={headerVariants}
       initial="hidden"
       animate="visible"
-      className="text-center mb-8"
+      className="text-center mb-12"
     >
-      <h1 className="text-5xl font-bold text-slate-800 mb-2">
-        📝 {title}
+      <h1 className="text-4xl font-medium tracking-wide mb-2" style={{ color: '#5A7367', letterSpacing: '0.02em' }}>
+        {title}
       </h1>
-      <p className="text-lg text-slate-500">
+      <p className="text-base font-normal" style={{ color: '#8B956D', letterSpacing: '0.05em' }}>
         {subtitle}
       </p>
     </motion.header>
