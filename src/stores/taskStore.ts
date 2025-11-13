@@ -4,10 +4,10 @@ import type { Task, TaskFilter, Priority } from '../types/task';
 
 interface TaskState {
   tasks: Task[];
-  addTask: (text: string, priority?: Priority) => void;
+  addTask: (text: string, priority?: Priority, dueDate?: string) => void;
   toggleTask: (id: string) => void;
   deleteTask: (id: string) => void;
-  updateTask: (id: string, text: string, priority?: Priority) => void;
+  updateTask: (id: string, text: string, priority?: Priority, dueDate?: string) => void;
   clearCompleted: () => void;
   getFilteredTasks: (filter: TaskFilter, searchQuery?: string) => Task[];
 }
@@ -17,7 +17,7 @@ export const useTaskStore = create<TaskState>()(
     (set, get) => ({
       tasks: [],
 
-      addTask: (text: string, priority: Priority = 'medium') => {
+      addTask: (text: string, priority: Priority = 'medium', dueDate?: string) => {
         const newTask: Task = {
           id: crypto.randomUUID(),
           text: text.trim(),
@@ -25,6 +25,7 @@ export const useTaskStore = create<TaskState>()(
           priority,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
+          ...(dueDate && { dueDate }),
         };
         set((state) => ({
           tasks: [newTask, ...state.tasks],
@@ -47,18 +48,31 @@ export const useTaskStore = create<TaskState>()(
         }));
       },
 
-      updateTask: (id: string, text: string, priority?: Priority) => {
+      updateTask: (id: string, text: string, priority?: Priority, dueDate?: string) => {
         set((state) => ({
-          tasks: state.tasks.map((task) =>
-            task.id === id
-              ? { 
-                  ...task, 
-                  text: text.trim(), 
-                  ...(priority && { priority }),
-                  updatedAt: new Date().toISOString() 
-                }
-              : task
-          ),
+          tasks: state.tasks.map((task) => {
+            if (task.id !== id) return task;
+            
+            const updated = { 
+              ...task, 
+              text: text.trim(), 
+              updatedAt: new Date().toISOString() 
+            };
+            
+            if (priority) {
+              updated.priority = priority;
+            }
+            
+            if (dueDate !== undefined) {
+              if (dueDate) {
+                updated.dueDate = dueDate;
+              } else {
+                delete updated.dueDate;
+              }
+            }
+            
+            return updated;
+          }),
         }));
       },
 

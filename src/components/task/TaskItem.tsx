@@ -70,9 +70,17 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
               {task.text}
             </p>
           </div>
-          <p className="text-sm text-slate-400">
-            {formatDate(task.createdAt)}
-          </p>
+          <div className="flex items-center gap-2 text-sm text-slate-400">
+            <span>{formatDate(task.createdAt)}</span>
+            {task.dueDate && (
+              <>
+                <span>•</span>
+                <span className="text-slate-500">
+                  Due: {new Date(task.dueDate).toLocaleDateString()}
+                </span>
+              </>
+            )}
+          </div>
         </div>
       </div>
 

@@ -5,6 +5,7 @@ export interface Task {
   priority: Priority;
   createdAt: string; // ISO 8601 datetime string
   updatedAt: string; // ISO 8601 datetime string
+  dueDate?: string; // Optional ISO 8601 datetime string
 }
 
 export type TaskFilter = 'all' | 'active' | 'completed';

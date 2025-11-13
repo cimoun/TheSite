@@ -53,6 +53,25 @@ describe('taskStore', () => {
       expect(state.tasks[0]!.text).toBe('Second task');
       expect(state.tasks[1]!.text).toBe('First task');
     });
+
+    it('should add a task with due date', () => {
+      const { addTask } = useTaskStore.getState();
+      const dueDate = '2024-12-31';
+      
+      addTask('Task with due date', 'medium', dueDate);
+      
+      const state = useTaskStore.getState();
+      expect(state.tasks[0]!.dueDate).toBe(dueDate);
+    });
+
+    it('should add a task without due date', () => {
+      const { addTask } = useTaskStore.getState();
+      
+      addTask('Task without due date');
+      
+      const state = useTaskStore.getState();
+      expect(state.tasks[0]!.dueDate).toBeUndefined();
+    });
   });
 
   describe('toggleTask', () => {
@@ -161,6 +180,29 @@ describe('taskStore', () => {
       updateTask(taskId, '  Updated with spaces  ');
       
       expect(useTaskStore.getState().tasks[0]!.text).toBe('Updated with spaces');
+    });
+
+    it('should update task due date', () => {
+      const { addTask, updateTask } = useTaskStore.getState();
+      const dueDate = '2024-12-31';
+      
+      addTask('Task without due date');
+      const taskId = useTaskStore.getState().tasks[0]!.id;
+      
+      updateTask(taskId, 'Task with due date', undefined, dueDate);
+      
+      expect(useTaskStore.getState().tasks[0]!.dueDate).toBe(dueDate);
+    });
+
+    it('should remove task due date when updated with empty string', () => {
+      const { addTask, updateTask } = useTaskStore.getState();
+      
+      addTask('Task with due date', 'medium', '2024-12-31');
+      const taskId = useTaskStore.getState().tasks[0]!.id;
+      
+      updateTask(taskId, 'Task without due date', undefined, '');
+      
+      expect(useTaskStore.getState().tasks[0]!.dueDate).toBeUndefined();
     });
   });
 

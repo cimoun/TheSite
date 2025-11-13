@@ -5,6 +5,7 @@ import type { UIState } from '../types/ui';
 interface UIStore extends UIState {
   setSearchQuery: (query: string) => void;
   setCurrentFilter: (filter: 'all' | 'active' | 'completed') => void;
+  setSortMode: (mode: 'default' | 'dueDate' | 'priority') => void;
   setIsLoading: (loading: boolean) => void;
   toggleTheme: () => void;
   initializeTheme: () => void;
@@ -17,6 +18,7 @@ export const useUIStore = create<UIStore>()(
       currentFilter: 'all',
       isLoading: false,
       theme: 'light',
+      sortMode: 'default',
 
       setSearchQuery: (query: string) => {
         set({ searchQuery: query });
@@ -24,6 +26,10 @@ export const useUIStore = create<UIStore>()(
 
       setCurrentFilter: (filter: 'all' | 'active' | 'completed') => {
         set({ currentFilter: filter });
+      },
+
+      setSortMode: (mode: 'default' | 'dueDate' | 'priority') => {
+        set({ sortMode: mode });
       },
 
       setIsLoading: (loading: boolean) => {
