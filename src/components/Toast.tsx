@@ -1,21 +1,7 @@
-import React, { useState, useCallback, ReactNode, createContext, useContext } from 'react';
+import React, { useState, useCallback, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toast, ToastType, ToastProps, ToastContainerProps } from '../types';
-
-// Toast context
-interface ToastContextType {
-  showToast: (message: string, type?: ToastType, duration?: number) => void;
-}
-
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
-
-export const useToast = () => {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error('useToast must be used within ToastProvider');
-  }
-  return context;
-};
+import { ToastContext } from '../hooks/useToast';
 
 // Individual Toast Component
 const ToastItem: React.FC<ToastProps> = ({ toast, onClose }) => {
