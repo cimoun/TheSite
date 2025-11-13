@@ -9,6 +9,7 @@ import { slideUp } from '../../utils/animations';
 export const TaskInput: React.FC = () => {
   const [text, setText] = useState('');
   const [priority, setPriority] = useState<Priority>('medium');
+  const [dueDate, setDueDate] = useState('');
   const [error, setError] = useState('');
   const addTask = useTaskStore((state) => state.addTask);
 
@@ -21,15 +22,20 @@ export const TaskInput: React.FC = () => {
       return;
     }
 
-    addTask(text, priority);
+    addTask(text, priority, dueDate || undefined);
     setText('');
     setPriority('medium');
+    setDueDate('');
     setError('');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
     if (error) setError('');
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDueDate(e.target.value);
   };
 
   const priorities: Priority[] = ['low', 'medium', 'high'];
@@ -81,6 +87,20 @@ export const TaskInput: React.FC = () => {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className="flex gap-2 items-center">
+        <label htmlFor="due-date" className="text-sm text-slate-600">
+          Due Date (optional):
+        </label>
+        <input
+          id="due-date"
+          type="date"
+          value={dueDate}
+          onChange={handleDateChange}
+          className="px-3 py-1 rounded-md text-sm border border-slate-300 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          aria-label="Set due date"
+        />
       </div>
     </motion.form>
   );
