@@ -151,11 +151,13 @@ export const ToastProvider: React.FC<{ children: ReactNode; position?: ToastCont
   }, [clearToastTimer]);
 
   useEffect(() => {
+    const timersMap = timersRef.current;
+
     return () => {
-      timersRef.current.forEach((timeoutId) => {
+      timersMap.forEach((timeoutId) => {
         clearTimeout(timeoutId);
       });
-      timersRef.current.clear();
+      timersMap.clear();
     };
   }, []);
 

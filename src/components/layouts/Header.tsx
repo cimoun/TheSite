@@ -6,9 +6,9 @@ interface HeaderProps {
   subtitle?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ 
-  title = 'Дыши и Сосредоточься',
-  subtitle = 'Сбалансированный День'
+export const Header: React.FC<HeaderProps> = ({
+  title = 'Архитектура Спокойного Дня',
+  subtitle = 'Экспертный план задач с мягким ритмом'
 }) => {
   const headerVariants = {
     hidden: { opacity: 0, y: -10 },
@@ -30,17 +30,24 @@ export const Header: React.FC<HeaderProps> = ({
       className="mb-12 text-center"
     >
       <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-        <h1
-          className="text-4xl font-medium tracking-wide"
-          style={{ color: '#5A7367', letterSpacing: '0.02em' }}
-        >
-          {title}
-        </h1>
+        <div className="space-y-2">
+          <h1
+            className="text-4xl font-semibold tracking-tight"
+            style={{ color: '#4c5f58', letterSpacing: '0.015em' }}
+          >
+            {title}
+          </h1>
+          <p
+            className="text-sm uppercase tracking-[0.35em] text-[#8B956D]"
+          >
+            методика группы экспертов
+          </p>
+        </div>
         <ThemeToggle />
       </div>
       <p
-        className="mt-3 text-base font-normal"
-        style={{ color: '#8B956D', letterSpacing: '0.05em' }}
+        className="mt-4 text-lg font-normal leading-relaxed"
+        style={{ color: '#6d7c75', letterSpacing: '0.015em' }}
       >
         {subtitle}
       </p>

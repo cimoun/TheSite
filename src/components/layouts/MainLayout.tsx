@@ -22,7 +22,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div
-      className="min-h-screen py-12 px-4 relative transition-colors duration-500"
+      className="relative min-h-screen px-4 py-12 transition-colors duration-500 sm:px-6"
       style={{
         backgroundColor: 'var(--color-bg-secondary)',
         color: 'var(--color-text-primary)',
@@ -34,15 +34,16 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         variants={panelVariants}
         initial="hidden"
         animate="visible"
-        className="max-w-3xl mx-auto relative"
+        className="relative mx-auto w-full max-w-3xl px-2 sm:px-0"
         style={{ zIndex: 1 }}
       >
         <div
-          className="rounded-3xl p-12 backdrop-blur-sm border transition-colors duration-500"
+          className="rounded-[2.25rem] border backdrop-blur-2xl transition-colors duration-500 shadow-2xl"
           style={{
-            background: 'var(--color-surface-strong)',
-            borderColor: 'var(--color-border)',
-            boxShadow: 'var(--shadow-elevation)',
+            background: 'var(--color-panel)',
+            borderColor: 'var(--color-panel-border)',
+            boxShadow: 'var(--shadow-panel)',
+            backdropFilter: 'blur(28px)',
           }}
         >
           {children}

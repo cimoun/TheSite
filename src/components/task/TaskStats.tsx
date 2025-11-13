@@ -59,17 +59,22 @@ export const TaskStats: React.FC = () => {
 
       <div className="relative z-10 flex flex-col gap-2 text-sm text-calm-graphite dark:text-dark-text">
         <div className="font-medium">
+          Отображается{' '}
           <span className="font-semibold text-calm-deepGreen dark:text-calm-teal">
             {pluralizeTasks(filteredTasks.length)}
-          </span>{' '}
-          показано
+          </span>
+          {stats.total > filteredTasks.length && (
+            <span className="text-calm-olive dark:text-dark-textMuted">
+              {' '}из {pluralizeTasks(stats.total)}
+            </span>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-calm-olive dark:text-dark-textMuted">
-          <span>Всего: {stats.total}</span>
-          <span>Активных: {stats.active}</span>
-          <span>Завершённых: {stats.completed}</span>
+          <span>Всего задач: {stats.total}</span>
+          <span>В работе: {stats.active}</span>
+          <span>Закрыто: {stats.completed}</span>
           {stats.total > 0 && (
-            <span>Прогресс: {stats.completionRate}%</span>
+            <span>Прогресс выполнения: {stats.completionRate}%</span>
           )}
         </div>
       </div>
@@ -81,7 +86,7 @@ export const TaskStats: React.FC = () => {
           whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(212, 114, 111, 0.35)' }}
           whileTap={{ scale: 0.95 }}
         >
-          Очистить завершённые
+          Очистить выполненные
         </motion.button>
       )}
     </motion.div>
