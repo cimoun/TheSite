@@ -6,8 +6,12 @@ import { motion } from 'framer-motion';
 import { fadeIn } from '../../utils/animations';
 
 export const TaskStats: React.FC = () => {
-  const tasks = useTaskStore((state) => state.tasks);
-  const clearCompleted = useTaskStore((state) => state.clearCompleted);
+  // Use a single selector to get both tasks and clearCompleted
+  const { tasks, clearCompleted } = useTaskStore((state) => ({
+    tasks: state.tasks,
+    clearCompleted: state.clearCompleted,
+  }));
+  
   const filteredTasks = useFilteredTasks();
   const stats = getTaskStats(tasks);
 

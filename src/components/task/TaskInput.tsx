@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Button, Input } from '../common';
 import { useTaskStore } from '../../stores/taskStore';
 import { validateTaskText } from '../../utils/helpers';
+import { Priority, PRIORITY_COLORS } from '../../types/task';
 import { motion } from 'framer-motion';
 import { slideUp } from '../../utils/animations';
 
 export const TaskInput: React.FC = () => {
   const [text, setText] = useState('');
+  const [priority, setPriority] = useState<Priority>('medium');
   const [error, setError] = useState('');
   const addTask = useTaskStore((state) => state.addTask);
 
@@ -19,8 +21,9 @@ export const TaskInput: React.FC = () => {
       return;
     }
 
-    addTask(text);
+    addTask(text, priority);
     setText('');
+    setPriority('medium');
     setError('');
   };
 
@@ -29,26 +32,56 @@ export const TaskInput: React.FC = () => {
     if (error) setError('');
   };
 
+  const priorities: Priority[] = ['low', 'medium', 'high'];
+
   return (
     <motion.form
       onSubmit={handleSubmit}
-      className="flex gap-3 w-full"
+      className="space-y-3 w-full"
       variants={slideUp}
       initial="hidden"
       animate="visible"
     >
-      <Input
-        type="text"
-        value={text}
-        onChange={handleChange}
-        placeholder="Add a new task..."
-        maxLength={500}
-        error={error}
-        className="flex-1"
-      />
-      <Button type="submit" disabled={!text.trim()}>
-        Add Task
-      </Button>
+      <div className="flex gap-3">
+        <Input
+          type="text"
+          value={text}
+          onChange={handleChange}
+          placeholder="Add a new task..."
+          maxLength={500}
+          error={error}
+          className="flex-1"
+          aria-label="New task text"
+        />
+        <Button type="submit" disabled={!text.trim()} aria-label="Add new task">
+          Add Task
+        </Button>
+      </div>
+      
+      <div className="flex gap-2 items-center">
+        <label className="text-sm text-slate-600" id="priority-label">
+          Priority:
+        </label>
+        <div role="group" aria-labelledby="priority-label" className="flex gap-2">
+          {priorities.map((p) => (
+            <button
+              key={p}
+              type="button"
+              onClick={() => setPriority(p)}
+              className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
+                priority === p
+                  ? 'text-white shadow-sm'
+                  : 'text-slate-600 bg-slate-100 hover:bg-slate-200'
+              }`}
+              style={priority === p ? { backgroundColor: PRIORITY_COLORS[p] } : {}}
+              aria-pressed={priority === p}
+              aria-label={`Set priority to ${p}`}
+            >
+              {p.charAt(0).toUpperCase() + p.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
     </motion.form>
   );
 };

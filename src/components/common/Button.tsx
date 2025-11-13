@@ -5,7 +5,7 @@ interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'icon';
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   'aria-label'?: string;
@@ -15,6 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary', 
   children, 
   className = '',
+  type = 'button',
   ...props 
 }) => {
   const baseClass = variant === 'primary' 
@@ -25,6 +26,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   const motionProps: HTMLMotionProps<'button'> = {
     className: `${baseClass} ${className}`,
+    type,
     ...hoverScale,
     ...props,
   };
