@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   title?: string;
@@ -26,12 +27,21 @@ export const Header: React.FC<HeaderProps> = ({
       variants={headerVariants}
       initial="hidden"
       animate="visible"
-      className="text-center mb-12"
+      className="mb-12 text-center"
     >
-      <h1 className="text-4xl font-medium tracking-wide mb-2" style={{ color: '#5A7367', letterSpacing: '0.02em' }}>
-        {title}
-      </h1>
-      <p className="text-base font-normal" style={{ color: '#8B956D', letterSpacing: '0.05em' }}>
+      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+        <h1
+          className="text-4xl font-medium tracking-wide"
+          style={{ color: '#5A7367', letterSpacing: '0.02em' }}
+        >
+          {title}
+        </h1>
+        <ThemeToggle />
+      </div>
+      <p
+        className="mt-3 text-base font-normal"
+        style={{ color: '#8B956D', letterSpacing: '0.05em' }}
+      >
         {subtitle}
       </p>
     </motion.header>
