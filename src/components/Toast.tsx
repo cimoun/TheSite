@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ReactNode } from 'react';
+import React, { useState, useCallback, ReactNode, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Toast, ToastType, ToastProps, ToastContainerProps } from '../types';
 import { ToastContext } from '../hooks/useToast';
@@ -112,21 +112,51 @@ export const ToastProvider: React.FC<{ children: ReactNode; position?: ToastCont
   position = 'top-right',
 }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+
+  const clearToastTimer = useCallback((id: string) => {
+    const existingTimer = timersRef.current.get(id);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+      timersRef.current.delete(id);
+    }
+  }, []);
 
   const showToast = useCallback((message: string, type: ToastType = 'info', duration: number = 3000) => {
-    const id = Math.random().toString(36).substring(2, 9);
+    const id =
+      typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+        ? crypto.randomUUID()
+        : Math.random().toString(36).substring(2, 9);
     const newToast: Toast = { id, message, type, duration };
 
     setToasts((prev) => [...prev, newToast]);
 
     // Auto-remove toast after duration
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, duration);
+    if (!timersRef.current.has(id)) {
+      const timeoutId = setTimeout(() => {
+        if (!timersRef.current.has(id)) {
+          return;
+        }
+        setToasts((prev) => prev.filter((t) => t.id !== id));
+        timersRef.current.delete(id);
+      }, duration);
+
+      timersRef.current.set(id, timeoutId);
+    }
   }, []);
 
   const closeToast = useCallback((id: string) => {
+    clearToastTimer(id);
     setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, [clearToastTimer]);
+
+  useEffect(() => {
+    return () => {
+      timersRef.current.forEach((timeoutId) => {
+        clearTimeout(timeoutId);
+      });
+      timersRef.current.clear();
+    };
   }, []);
 
   return (
