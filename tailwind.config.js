@@ -19,6 +19,16 @@ export default {
           800: '#075985',
           900: '#0c4a6e',
         },
+        // Meditation/mindfulness color palette
+        calm: {
+          beige: '#F5F1E8',
+          terracotta: '#D4726F',
+          deepGreen: '#5A7367',
+          olive: '#8B956D',
+          teal: '#6B9A9E',
+          sand: '#E8DCC8',
+          softWhite: '#FAF8F5',
+        },
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',

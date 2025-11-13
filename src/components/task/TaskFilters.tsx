@@ -1,4 +1,4 @@
-import { Button } from '../common';
+import { motion } from 'framer-motion';
 import { useUIStore } from '../../stores/uiStore';
 import type { TaskFilter } from '../../types/task';
 
@@ -24,36 +24,53 @@ export const TaskFilters: React.FC = () => {
     <div className="space-y-3">
       <div className="flex gap-2 flex-wrap" role="group" aria-label="Filter tasks">
         {filters.map((filter) => (
-          <Button
+          <motion.button
             key={filter.value}
-            variant={currentFilter === filter.value ? 'primary' : 'secondary'}
             onClick={() => setCurrentFilter(filter.value)}
-            className="min-w-[100px]"
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 min-w-[100px] ${
+              currentFilter === filter.value
+                ? 'text-white shadow-md'
+                : 'bg-white/50 hover:bg-white/70'
+            }`}
+            style={
+              currentFilter === filter.value
+                ? { backgroundColor: '#5A7367' }
+                : { color: '#5A7367' }
+            }
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             aria-pressed={currentFilter === filter.value}
             aria-label={`Show ${filter.label.toLowerCase()} tasks`}
           >
             {filter.label}
-          </Button>
+          </motion.button>
         ))}
       </div>
       
       <div className="flex gap-2 items-center flex-wrap">
-        <label className="text-sm text-slate-600">Sort by:</label>
+        <label className="text-sm font-medium" style={{ color: '#5A7367' }}>Sort by:</label>
         <div className="flex gap-2 flex-wrap">
           {sortOptions.map((option) => (
-            <button
+            <motion.button
               key={option.value}
               onClick={() => setSortMode(option.value)}
-              className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
                 sortMode === option.value
-                  ? 'bg-slate-700 text-white'
-                  : 'text-slate-600 bg-slate-100 hover:bg-slate-200'
+                  ? 'text-white shadow-sm'
+                  : 'bg-white/50 hover:bg-white/70'
               }`}
+              style={
+                sortMode === option.value
+                  ? { backgroundColor: '#8B956D' }
+                  : { color: '#8B956D' }
+              }
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               aria-pressed={sortMode === option.value}
               aria-label={`Sort by ${option.label.toLowerCase()}`}
             >
               {option.label}
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>

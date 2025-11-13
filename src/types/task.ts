@@ -17,7 +17,7 @@ export interface TaskFormData {
 export type Priority = 'low' | 'medium' | 'high';
 
 export const PRIORITY_COLORS: Record<Priority, string> = {
-  low: '#22c55e',
-  medium: '#eab308', 
-  high: '#ef4444'
+  low: '#8B956D',      // Olive - calm
+  medium: '#D4726F',   // Terracotta - warm
+  high: '#6B9A9E'      // Teal - focused
 };

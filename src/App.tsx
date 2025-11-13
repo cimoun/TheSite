@@ -14,8 +14,8 @@ function App() {
   return (
     <MainLayout>
       <Header 
-        title="Modern ToDo App"
-        subtitle="Track your tasks with style and efficiency"
+        title="Breathe & Focus"
+        subtitle="Balanced Day"
       />
       
       <div className="space-y-6">
