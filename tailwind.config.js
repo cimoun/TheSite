@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -28,6 +29,19 @@ export default {
           graphiteLight: '#6B7280',
           graphiteDark: '#374151',
         },
+        dark: {
+          // Deep navy inspired surfaces for dark mode
+          background: '#0F172A',
+          backgroundSoft: '#111827',
+          surface: '#1E293B',
+          surfaceSoft: '#1F2937',
+          text: '#E5E7EB',
+          textMuted: '#94A3B8',
+          border: 'rgba(148, 163, 184, 0.35)',
+        },
+      },
+      boxShadow: {
+        'dark-card': '0 35px 120px -75px rgba(15, 23, 42, 0.85)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],

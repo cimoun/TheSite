@@ -4,21 +4,41 @@
 
 @layer base {
   :root {
-    --color-bg-primary: #FAF8F5;
-    --color-bg-secondary: #F5F1E8;
-    --color-text-primary: #4B5563;
-    --color-text-secondary: #6B7280;
-    --color-border: #E8DCC8;
+    --color-bg-primary: #faf8f5;
+    --color-bg-secondary: #f5f1e8;
+    --color-surface: rgba(255, 255, 255, 0.92);
+    --color-surface-strong: rgba(255, 255, 255, 0.98);
+    --color-text-primary: #4b5563;
+    --color-text-secondary: #6b7280;
+    --color-border: rgba(232, 220, 200, 0.65);
+    --shadow-elevation: 0 35px 120px -60px rgba(90, 115, 103, 0.55);
+    --shadow-soft: 0 25px 90px -70px rgba(108, 117, 125, 0.45);
+    --shadow-card: 0 30px 80px -60px rgba(90, 115, 103, 0.4);
+  }
+
+  .dark {
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #111827;
+    --color-surface: rgba(30, 41, 59, 0.78);
+    --color-surface-strong: rgba(30, 41, 59, 0.92);
+    --color-text-primary: #e5e7eb;
+    --color-text-secondary: #94a3b8;
+    --color-border: rgba(148, 163, 184, 0.35);
+    --shadow-elevation: 0 45px 140px -70px rgba(15, 23, 42, 0.95);
+    --shadow-soft: 0 30px 110px -80px rgba(15, 23, 42, 0.85);
+    --shadow-card: 0 35px 120px -75px rgba(15, 23, 42, 0.8);
   }
 
   body {
-    @apply bg-calm-beige text-calm-graphite;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   code {
@@ -29,13 +49,27 @@
 
 @layer components {
   .glass-effect {
-    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-xl;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-soft);
+    backdrop-filter: blur(6px);
   }
 
   .input-primary {
-    @apply w-full px-4 py-3 rounded-lg border-2 border-calm-sand/50 
-           focus:border-calm-deepGreen/30 focus:ring-4 focus:ring-calm-deepGreen/10
-           transition-all duration-300 outline-none bg-white/60;
+    @apply w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none;
+    background-color: var(--color-surface-strong);
+    border: 2px solid var(--color-border);
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .input-primary::placeholder {
+    color: var(--color-text-secondary);
+  }
+
+  .input-primary:focus {
+    border-color: rgba(107, 154, 158, 0.6);
+    box-shadow: 0 0 0 4px rgba(107, 154, 158, 0.22);
   }
 
   .btn-primary {
@@ -46,22 +80,39 @@
   }
 
   .btn-secondary {
-    @apply px-6 py-3 bg-calm-sand text-calm-graphite rounded-lg
-           hover:bg-calm-sand/80 active:scale-95
-           transition-all duration-200 font-medium;
+    @apply px-6 py-3 rounded-lg active:scale-95 transition-all duration-200 font-medium;
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-surface-strong);
   }
 
   .btn-icon {
-    @apply p-2 rounded-lg hover:bg-white/50 active:scale-95
-           transition-all duration-200;
+    @apply p-2 rounded-lg active:scale-95 transition-all duration-200;
+    color: var(--color-text-secondary);
+  }
+
+  .btn-icon:hover {
+    background-color: var(--color-surface);
   }
 
   .card {
-    @apply bg-white/70 rounded-xl shadow-md p-6 border border-white/30
-           backdrop-blur-sm transition-all duration-200;
+    @apply rounded-xl p-6 transition-all duration-200;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(10px);
   }
 
   .card-hover {
     @apply hover:shadow-lg hover:-translate-y-1;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-elevation);
   }
 }

@@ -2,6 +2,46 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { UIState } from '../types/ui';
 
+type ThemeMode = UIState['theme'];
+
+const STORAGE_KEY = 'ui-storage';
+
+const applyThemeClass = (theme: ThemeMode) => {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+};
+
+const getInitialTheme = (): ThemeMode => {
+  if (typeof window === 'undefined') {
+    return 'light';
+  }
+
+  try {
+    const storedValue = window.localStorage.getItem(STORAGE_KEY);
+
+    if (!storedValue) {
+      return 'light';
+    }
+
+    const parsed = JSON.parse(storedValue);
+    const savedTheme = parsed?.state?.theme;
+
+    return savedTheme === 'dark' ? 'dark' : 'light';
+  } catch (error) {
+    console.warn('[uiStore] Failed to read stored theme', error);
+    return 'light';
+  }
+};
+
+const initialTheme = getInitialTheme();
+
+if (typeof document !== 'undefined') {
+  applyThemeClass(initialTheme);
+}
+
 interface UIStore extends UIState {
   setSearchQuery: (query: string) => void;
   setCurrentFilter: (filter: 'all' | 'active' | 'completed') => void;
@@ -17,7 +57,7 @@ export const useUIStore = create<UIStore>()(
       searchQuery: '',
       currentFilter: 'all',
       isLoading: false,
-      theme: 'light',
+      theme: initialTheme,
       sortMode: 'default',
 
       setSearchQuery: (query: string) => {
@@ -39,29 +79,24 @@ export const useUIStore = create<UIStore>()(
       toggleTheme: () => {
         const newTheme = get().theme === 'light' ? 'dark' : 'light';
         set({ theme: newTheme });
-        
-        // Sync with DOM
-        if (newTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        applyThemeClass(newTheme);
       },
 
       initializeTheme: () => {
         const currentTheme = get().theme;
-        
-        // Apply theme to DOM on initialization
-        if (currentTheme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        applyThemeClass(currentTheme);
       },
     }),
     {
       name: 'ui-storage',
       partialize: (state) => ({ theme: state.theme }),
+      onRehydrateStorage: () => (state, error) => {
+        if (error || !state) {
+          return;
+        }
+
+        state.initializeTheme();
+      },
     }
   )
 );
