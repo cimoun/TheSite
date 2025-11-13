@@ -61,14 +61,78 @@ export const pluralizeTasks = (count: number): string => {
  */
 export const validateTaskText = (text: string): { valid: boolean; error?: string } => {
   const trimmed = text.trim();
-  
+
   if (!trimmed) {
     return { valid: false, error: 'Задача не может быть пустой' };
   }
-  
+
   if (trimmed.length > 500) {
     return { valid: false, error: 'Задача слишком длинная (макс. 500 символов)' };
   }
-  
+
   return { valid: true };
+};
+
+const pluralizeDays = (count: number): string => {
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+    return 'дней';
+  }
+
+  if (lastDigit === 1) {
+    return 'день';
+  }
+
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return 'дня';
+  }
+
+  return 'дней';
+};
+
+/**
+ * Get a human friendly due date label
+ */
+export const getDueDateLabel = (
+  dueDate: string | Date,
+): { label: string; isOverdue: boolean } => {
+  const dueDateObj = typeof dueDate === 'string' ? new Date(dueDate) : dueDate;
+  const today = new Date();
+
+  const normalizeDate = (date: Date) => {
+    const normalized = new Date(date);
+    normalized.setHours(0, 0, 0, 0);
+    return normalized;
+  };
+
+  const normalizedDueDate = normalizeDate(dueDateObj);
+  const normalizedToday = normalizeDate(today);
+
+  const diffInDays = Math.round(
+    (normalizedDueDate.getTime() - normalizedToday.getTime()) / 86400000,
+  );
+
+  if (diffInDays === 0) {
+    return { label: 'Сегодня', isOverdue: false };
+  }
+
+  if (diffInDays === 1) {
+    return { label: 'Завтра', isOverdue: false };
+  }
+
+  if (diffInDays > 1) {
+    return {
+      label: `Через ${diffInDays} ${pluralizeDays(diffInDays)}`,
+      isOverdue: false,
+    };
+  }
+
+  const overdueDays = Math.abs(diffInDays);
+
+  return {
+    label: `Просрочено ${overdueDays} ${pluralizeDays(overdueDays)}`,
+    isOverdue: true,
+  };
 };

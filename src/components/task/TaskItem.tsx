@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTaskStore } from '../../stores/taskStore';
-import { formatDate } from '../../utils/helpers';
+import { formatDate, getDueDateLabel } from '../../utils/helpers';
 import { staggerItem } from '../../utils/animations';
 import { PRIORITY_COLORS } from '../../types/task';
 import type { Task } from '../../types/task';
@@ -84,14 +84,22 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
           </div>
           <div className="flex items-center gap-2 text-sm" style={{ color: '#9CA3AF' }}>
             <span>{formatDate(task.createdAt)}</span>
-            {task.dueDate && (
-              <>
-                <span>•</span>
-                <span style={{ color: '#8B956D' }}>
-                  Срок: {new Date(task.dueDate).toLocaleDateString('ru-RU')}
-                </span>
-              </>
-            )}
+            {task.dueDate && (() => {
+              const { label, isOverdue } = getDueDateLabel(task.dueDate);
+
+              return (
+                <>
+                  <span aria-hidden="true">•</span>
+                  <span
+                    className={isOverdue ? 'font-medium' : undefined}
+                    style={{ color: isOverdue ? '#D4726F' : '#8B956D' }}
+                  >
+                    Срок: {label}
+                    {isOverdue && <span className="sr-only"> (Задача просрочена)</span>}
+                  </span>
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>
