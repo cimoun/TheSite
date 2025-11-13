@@ -49,6 +49,7 @@ interface UIStore extends UIState {
   setIsLoading: (loading: boolean) => void;
   toggleTheme: () => void;
   initializeTheme: () => void;
+  setReduceAnimations: (value: boolean) => void;
 }
 
 export const useUIStore = create<UIStore>()(
@@ -59,6 +60,7 @@ export const useUIStore = create<UIStore>()(
       isLoading: false,
       theme: initialTheme,
       sortMode: 'default',
+      reduceAnimations: false,
 
       setSearchQuery: (query: string) => {
         set({ searchQuery: query });
@@ -82,6 +84,10 @@ export const useUIStore = create<UIStore>()(
         applyThemeClass(newTheme);
       },
 
+      setReduceAnimations: (value: boolean) => {
+        set({ reduceAnimations: value });
+      },
+
       initializeTheme: () => {
         const currentTheme = get().theme;
         applyThemeClass(currentTheme);
@@ -89,7 +95,10 @@ export const useUIStore = create<UIStore>()(
     }),
     {
       name: 'ui-storage',
-      partialize: (state) => ({ theme: state.theme }),
+      partialize: (state) => ({
+        theme: state.theme,
+        reduceAnimations: state.reduceAnimations,
+      }),
       onRehydrateStorage: () => (state, error) => {
         if (error || !state) {
           return;

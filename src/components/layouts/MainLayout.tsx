@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { BreathingBackground } from './BreathingBackground';
+import { ThemeControls } from './ThemeControls';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -28,6 +29,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       }}
     >
       <BreathingBackground />
+      <ThemeControls />
       <motion.div
         variants={panelVariants}
         initial="hidden"

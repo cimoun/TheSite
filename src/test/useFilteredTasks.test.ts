@@ -8,12 +8,13 @@ describe('useFilteredTasks with sorting', () => {
   beforeEach(() => {
     // Reset stores before each test
     useTaskStore.setState({ tasks: [] });
-    useUIStore.setState({ 
-      searchQuery: '', 
+    useUIStore.setState({
+      searchQuery: '',
       currentFilter: 'all',
       sortMode: 'default',
       isLoading: false,
-      theme: 'light'
+      theme: 'light',
+      reduceAnimations: false
     });
   });
 

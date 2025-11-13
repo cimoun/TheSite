@@ -4,6 +4,7 @@ export interface UIState {
   isLoading: boolean;
   theme: 'light' | 'dark';
   sortMode: 'default' | 'dueDate' | 'priority';
+  reduceAnimations: boolean;
 }
 
 export interface ModalState {
