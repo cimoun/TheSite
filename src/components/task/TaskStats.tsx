@@ -40,13 +40,13 @@ export const TaskStats: React.FC = () => {
           <span className="font-semibold">
             {pluralizeTasks(filteredTasks.length)}
           </span>{' '}
-          shown
+          показано
         </div>
         <div className="flex gap-4 text-xs" style={{ color: '#8B956D' }}>
-          <span>Active: {stats.active}</span>
-          <span>Completed: {stats.completed}</span>
+          <span>Активных: {stats.active}</span>
+          <span>Завершённых: {stats.completed}</span>
           {stats.total > 0 && (
-            <span>Progress: {stats.completionRate}%</span>
+            <span>Прогресс: {stats.completionRate}%</span>
           )}
         </div>
       </div>
@@ -65,7 +65,7 @@ export const TaskStats: React.FC = () => {
           }}
           whileTap={{ scale: 0.95 }}
         >
-          Clear Completed
+          Очистить завершённые
         </motion.button>
       )}
     </motion.div>

@@ -3,15 +3,15 @@ import { useUIStore } from '../../stores/uiStore';
 import type { TaskFilter } from '../../types/task';
 
 const filters: { label: string; value: TaskFilter }[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Active', value: 'active' },
-  { label: 'Completed', value: 'completed' },
+  { label: 'Все', value: 'all' },
+  { label: 'Активные', value: 'active' },
+  { label: 'Завершённые', value: 'completed' },
 ];
 
 const sortOptions: { label: string; value: 'default' | 'dueDate' | 'priority' }[] = [
-  { label: 'Newest First', value: 'default' },
-  { label: 'By Due Date', value: 'dueDate' },
-  { label: 'By Priority', value: 'priority' },
+  { label: 'Новые первыми', value: 'default' },
+  { label: 'По сроку', value: 'dueDate' },
+  { label: 'По приоритету', value: 'priority' },
 ];
 
 export const TaskFilters: React.FC = () => {
@@ -48,7 +48,7 @@ export const TaskFilters: React.FC = () => {
       </div>
       
       <div className="flex gap-2 items-center flex-wrap">
-        <label className="text-sm font-medium" style={{ color: '#5A7367' }}>Sort by:</label>
+        <label className="text-sm font-medium" style={{ color: '#5A7367' }}>Сортировка:</label>
         <div className="flex gap-2 flex-wrap">
           {sortOptions.map((option) => (
             <motion.button

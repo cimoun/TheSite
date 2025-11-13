@@ -1,7 +1,9 @@
-import { useContext, createContext } from 'react';
+import { createContext, useContext } from 'react';
+import type { ToastType } from '../types';
 
+// Toast context
 export interface ToastContextType {
-  showToast: (message: string, type?: 'success' | 'error' | 'warning' | 'info', duration?: number) => void;
+  showToast: (message: string, type?: ToastType, duration?: number) => void;
 }
 
 export const ToastContext = createContext<ToastContextType | undefined>(undefined);

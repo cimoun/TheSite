@@ -63,13 +63,13 @@ export const TaskInput: React.FC = () => {
           type="text"
           value={text}
           onChange={handleChange}
-          placeholder="What's on your mind today?"
+          placeholder="Что у вас на уме сегодня?"
           maxLength={500}
           className="flex-1 px-5 py-3 rounded-full border-2 border-transparent bg-white/60 backdrop-blur-sm focus:bg-white/80 focus:border-calm-deepGreen/30 focus:ring-4 focus:ring-calm-deepGreen/10 transition-all duration-300 outline-none text-gray-700 placeholder-gray-400"
           style={{
             boxShadow: '0 2px 8px rgba(90, 115, 103, 0.08)',
           }}
-          aria-label="New task text"
+          aria-label="Текст новой задачи"
         />
         <motion.button
           type="submit"
@@ -81,9 +81,9 @@ export const TaskInput: React.FC = () => {
           }}
           whileHover={text.trim() ? { scale: 1.05, boxShadow: '0 6px 16px rgba(90, 115, 103, 0.35)' } : {}}
           whileTap={text.trim() ? { scale: 0.98 } : {}}
-          aria-label="Add new task"
+          aria-label="Добавить новую задачу"
         >
-          Add
+          Добавить
         </motion.button>
       </div>
       
@@ -100,7 +100,7 @@ export const TaskInput: React.FC = () => {
       
       <div className="flex gap-4 items-center px-2">
         <label className="text-sm font-medium" id="priority-label" style={{ color: '#5A7367' }}>
-          Priority:
+          Приоритет:
         </label>
         <div role="group" aria-labelledby="priority-label" className="flex gap-2">
           {priorities.map((p) => (
@@ -121,9 +121,9 @@ export const TaskInput: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-pressed={priority === p}
-              aria-label={`Set priority to ${p}`}
+              aria-label={`Установить приоритет ${p === 'low' ? 'низкий' : p === 'medium' ? 'средний' : 'высокий'}`}
             >
-              {p.charAt(0).toUpperCase() + p.slice(1)}
+              {p === 'low' ? 'Низкий' : p === 'medium' ? 'Средний' : 'Высокий'}
             </motion.button>
           ))}
         </div>
@@ -131,7 +131,7 @@ export const TaskInput: React.FC = () => {
 
       <div className="flex gap-2 items-center px-2">
         <label htmlFor="due-date" className="text-sm font-medium" style={{ color: '#5A7367' }}>
-          Due Date:
+          Срок:
         </label>
         <input
           id="due-date"
@@ -140,7 +140,7 @@ export const TaskInput: React.FC = () => {
           onChange={handleDateChange}
           className="px-4 py-1.5 rounded-full text-sm bg-white/50 border border-white/30 focus:outline-none focus:ring-2 focus:ring-calm-deepGreen/20 focus:bg-white/70 transition-all duration-200"
           style={{ color: '#5A7367' }}
-          aria-label="Set due date"
+          aria-label="Установить срок выполнения"
         />
       </div>
     </motion.form>

@@ -12,35 +12,35 @@ describe('formatDate', () => {
     vi.useRealTimers();
   });
 
-  it('should return "Just now" for dates less than 1 minute ago', () => {
+  it('should return "Только что" for dates less than 1 minute ago', () => {
     const date = new Date('2024-01-01T11:59:30Z').toISOString();
-    expect(formatDate(date)).toBe('Just now');
+    expect(formatDate(date)).toBe('Только что');
   });
 
   it('should return minutes ago for dates less than 60 minutes ago', () => {
     const date = new Date('2024-01-01T11:30:00Z').toISOString();
-    expect(formatDate(date)).toBe('30m ago');
+    expect(formatDate(date)).toBe('30 мин назад');
   });
 
   it('should return hours ago for dates less than 24 hours ago', () => {
     const date = new Date('2024-01-01T08:00:00Z').toISOString();
-    expect(formatDate(date)).toBe('4h ago');
+    expect(formatDate(date)).toBe('4 ч назад');
   });
 
   it('should return days ago for dates less than 7 days ago', () => {
     const date = new Date('2023-12-29T12:00:00Z').toISOString();
-    expect(formatDate(date)).toBe('3d ago');
+    expect(formatDate(date)).toBe('3 дн назад');
   });
 
   it('should return localized date for dates 7+ days ago', () => {
     const date = new Date('2023-12-20T12:00:00Z').toISOString();
     const dateObj = new Date(date);
-    expect(formatDate(date)).toBe(dateObj.toLocaleDateString());
+    expect(formatDate(date)).toBe(dateObj.toLocaleDateString('ru-RU'));
   });
 
   it('should handle Date objects as well as strings', () => {
     const date = new Date('2024-01-01T11:30:00Z');
-    expect(formatDate(date)).toBe('30m ago');
+    expect(formatDate(date)).toBe('30 мин назад');
   });
 });
 
@@ -113,19 +113,19 @@ describe('getTaskStats', () => {
 
 describe('pluralizeTasks', () => {
   it('should return singular form for 1 task', () => {
-    expect(pluralizeTasks(1)).toBe('1 task');
+    expect(pluralizeTasks(1)).toBe('1 задача');
   });
 
   it('should return plural form for 0 tasks', () => {
-    expect(pluralizeTasks(0)).toBe('0 tasks');
+    expect(pluralizeTasks(0)).toBe('0 задач');
   });
 
   it('should return plural form for 2 tasks', () => {
-    expect(pluralizeTasks(2)).toBe('2 tasks');
+    expect(pluralizeTasks(2)).toBe('2 задачи');
   });
 
   it('should return plural form for many tasks', () => {
-    expect(pluralizeTasks(100)).toBe('100 tasks');
+    expect(pluralizeTasks(100)).toBe('100 задач');
   });
 });
 
@@ -139,7 +139,7 @@ describe('validateTaskText', () => {
     const result = validateTaskText('');
     expect(result).toEqual({ 
       valid: false, 
-      error: 'Task cannot be empty' 
+      error: 'Задача не может быть пустой' 
     });
   });
 
@@ -147,7 +147,7 @@ describe('validateTaskText', () => {
     const result = validateTaskText('   ');
     expect(result).toEqual({ 
       valid: false, 
-      error: 'Task cannot be empty' 
+      error: 'Задача не может быть пустой' 
     });
   });
 
@@ -156,7 +156,7 @@ describe('validateTaskText', () => {
     const result = validateTaskText(longText);
     expect(result).toEqual({ 
       valid: false, 
-      error: 'Task is too long (max 500 characters)' 
+      error: 'Задача слишком длинная (макс. 500 символов)' 
     });
   });
 

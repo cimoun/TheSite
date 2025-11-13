@@ -9,12 +9,12 @@ export const formatDate = (date: string | Date): string => {
   const diffInHours = Math.floor(diffInMs / 3600000);
   const diffInDays = Math.floor(diffInMs / 86400000);
 
-  if (diffInMinutes < 1) return 'Just now';
-  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-  if (diffInHours < 24) return `${diffInHours}h ago`;
-  if (diffInDays < 7) return `${diffInDays}d ago`;
+  if (diffInMinutes < 1) return 'Только что';
+  if (diffInMinutes < 60) return `${diffInMinutes} мин назад`;
+  if (diffInHours < 24) return `${diffInHours} ч назад`;
+  if (diffInDays < 7) return `${diffInDays} дн назад`;
 
-  return dateObj.toLocaleDateString();
+  return dateObj.toLocaleDateString('ru-RU');
 };
 
 /**
@@ -38,8 +38,22 @@ export const getTaskStats = (tasks: Array<{ completed: boolean }>) => {
  * Pluralize task count
  */
 export const pluralizeTasks = (count: number): string => {
-  if (count === 1) return '1 task';
-  return `${count} tasks`;
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+  
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+    return `${count} задач`;
+  }
+  
+  if (lastDigit === 1) {
+    return `${count} задача`;
+  }
+  
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return `${count} задачи`;
+  }
+  
+  return `${count} задач`;
 };
 
 /**
@@ -49,11 +63,11 @@ export const validateTaskText = (text: string): { valid: boolean; error?: string
   const trimmed = text.trim();
   
   if (!trimmed) {
-    return { valid: false, error: 'Task cannot be empty' };
+    return { valid: false, error: 'Задача не может быть пустой' };
   }
   
   if (trimmed.length > 500) {
-    return { valid: false, error: 'Task is too long (max 500 characters)' };
+    return { valid: false, error: 'Задача слишком длинная (макс. 500 символов)' };
   }
   
   return { valid: true };
