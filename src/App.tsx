@@ -1,7 +1,16 @@
+import { useEffect } from 'react';
 import { MainLayout, Header, Footer } from './components/layouts';
 import { TaskInput, TaskSearch, TaskFilters, TaskList, TaskStats } from './components/task';
+import { useUIStore } from './stores/uiStore';
 
 function App() {
+  const initializeTheme = useUIStore((state) => state.initializeTheme);
+
+  // Initialize theme on mount
+  useEffect(() => {
+    initializeTheme();
+  }, [initializeTheme]);
+
   return (
     <MainLayout>
       <Header 
