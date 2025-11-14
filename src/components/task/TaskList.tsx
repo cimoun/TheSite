@@ -20,10 +20,10 @@ export const TaskList: React.FC = () => {
         aria-live="polite"
       >
         <div className="text-5xl mb-6" aria-hidden="true">✨</div>
-        <p 
-          className="text-lg font-normal max-w-2xl mx-auto px-4" 
-          style={{ 
-            color: '#6B7280', 
+        <p
+          className="text-lg font-normal max-w-2xl mx-auto px-4"
+          style={{
+            color: 'var(--color-text-muted)',
             lineHeight: '1.7',
             fontSize: '18px',
           }}
@@ -43,7 +43,7 @@ export const TaskList: React.FC = () => {
   return (
     <div>
       <div className="mb-4 px-2">
-        <p className="text-sm font-medium" style={{ color: '#6B7280' }}>
+        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)' }}>
           {filteredTasks.length} {filteredTasks.length === 1 ? 'задача' : filteredTasks.length < 5 ? 'задачи' : 'задач'}
         </p>
       </div>

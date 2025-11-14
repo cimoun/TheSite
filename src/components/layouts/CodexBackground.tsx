@@ -8,17 +8,27 @@ const clamp = (value: number, min: number, max: number) => {
 };
 
 const sampleIntensity = (x: number, y: number, t: number, amplitude: number) => {
-  const nx = x * 0.18;
-  const ny = y * 0.18;
-  const wave1 = Math.sin(nx + t * 0.8);
-  const wave2 = Math.sin(ny * 1.3 - t * 0.7);
-  const wave3 = Math.sin((nx + ny) * 0.6 + t * 1.4);
-  const radial = Math.sin(Math.sqrt(nx * nx + ny * ny) * 0.9 - t * 0.5);
+  const nx = x * 0.12;
+  const ny = y * 0.12;
+  const wave1 = Math.sin(nx * 0.6 + t * 0.24);
+  const wave2 = Math.sin(ny * 0.8 - t * 0.18);
+  const wave3 = Math.sin((nx + ny) * 0.45 + t * 0.32);
+  const radial = Math.sin(Math.sqrt(nx * nx + ny * ny) * 0.5 - t * 0.22);
 
   const combined = (wave1 + wave2 + wave3 + radial) / 4;
   const intensity = (combined * amplitude + 1) / 2;
 
   return clamp(intensity, 0, 1);
+};
+
+const getVignetteStrength = (col: number, row: number, cols: number, rows: number) => {
+  const centerX = cols / 2;
+  const centerY = rows / 2;
+  const dx = (col - centerX) / centerX;
+  const dy = (row - centerY) / centerY;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  return clamp(1 - Math.pow(distance, 1.35), 0, 1);
 };
 
 const getCharForIntensity = (intensity: number) => {
@@ -31,11 +41,11 @@ const createGradientFill = (ctx: CanvasRenderingContext2D, width: number, height
   const gradient = ctx.createLinearGradient(0, 0, width, height);
 
   if (theme === 'dark') {
-    gradient.addColorStop(0, 'rgba(15, 23, 42, 0.95)');
-    gradient.addColorStop(1, 'rgba(30, 41, 59, 0.9)');
+    gradient.addColorStop(0, 'rgba(5, 11, 22, 0.96)');
+    gradient.addColorStop(1, 'rgba(9, 17, 32, 0.92)');
   } else {
-    gradient.addColorStop(0, 'rgba(248, 250, 252, 0.94)');
-    gradient.addColorStop(1, 'rgba(226, 232, 240, 0.9)');
+    gradient.addColorStop(0, 'rgba(233, 238, 245, 0.94)');
+    gradient.addColorStop(1, 'rgba(210, 219, 232, 0.9)');
   }
 
   ctx.fillStyle = gradient;
@@ -69,9 +79,10 @@ export const CodexBackground: React.FC = () => {
     let animationFrameId: number | null = null;
     const ratio = window.devicePixelRatio || 1;
 
-    const cellSize = reduceAnimations ? 20 : 16;
-    const animationSpeed = reduceAnimations ? 0.28 : 0.45;
-    const amplitude = reduceAnimations ? 0.6 : 1;
+    const cellSize = reduceAnimations ? 28 : 22;
+    const animationSpeed = reduceAnimations ? 0.16 : 0.24;
+    const amplitude = reduceAnimations ? 0.45 : 0.6;
+    const skipStep = reduceAnimations ? 3 : 2;
 
     const updateCanvasSize = () => {
       const { innerWidth, innerHeight } = window;
@@ -105,7 +116,8 @@ export const CodexBackground: React.FC = () => {
       if (backgroundStyle === 'gradient') {
         createGradientFill(context, width, height, theme);
       } else {
-        const fillColor = theme === 'dark' ? 'rgba(15, 23, 42, 0.96)' : 'rgba(248, 250, 252, 0.96)';
+        const fillColor =
+          theme === 'dark' ? 'rgba(5, 11, 22, 0.96)' : 'rgba(233, 238, 245, 0.94)';
         context.fillStyle = fillColor;
         context.fillRect(0, 0, width, height);
       }
@@ -125,16 +137,28 @@ export const CodexBackground: React.FC = () => {
       const cols = Math.ceil(width / cellSize);
       const rows = Math.ceil(height / cellSize);
       const seconds = (time / 1000) * animationSpeed;
+      const minAlpha = 0.08;
+      const maxAlpha = 0.35;
 
       for (let row = 0; row <= rows; row++) {
         for (let col = 0; col <= cols; col++) {
+          if ((row + col) % skipStep !== 0) {
+            continue;
+          }
+
           const x = col * cellSize + cellSize / 2;
           const y = row * cellSize + cellSize / 2;
           const intensity = sampleIntensity(col, row, seconds, amplitude);
-          const character = getCharForIntensity(intensity);
+          const vignette = getVignetteStrength(col, row, cols, rows);
+          const softened = intensity * (0.45 + vignette * 0.55);
+          const opacity = minAlpha + softened * (maxAlpha - minAlpha);
 
-          const baseColor = theme === 'dark' ? '240, 249, 255' : '30, 41, 59';
-          const opacity = 0.25 + intensity * 0.65;
+          if (opacity <= minAlpha + 0.01) {
+            continue;
+          }
+
+          const character = getCharForIntensity(softened);
+          const baseColor = theme === 'dark' ? '148, 163, 184' : '71, 85, 105';
 
           context.fillStyle = `rgba(${baseColor}, ${opacity.toFixed(3)})`;
           context.fillText(character, x, y);
@@ -178,11 +202,16 @@ export const CodexBackground: React.FC = () => {
   }
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      className="fixed inset-0 pointer-events-none"
-      style={{ zIndex: 0 }}
-    />
+    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+      <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(65% 55% at 50% 45%, rgba(5, 10, 20, 0.72) 0%, rgba(5, 10, 20, 0.6) 45%, rgba(5, 10, 20, 0.28) 70%, rgba(5, 10, 20, 0) 100%)',
+        }}
+      />
+    </div>
   );
 };

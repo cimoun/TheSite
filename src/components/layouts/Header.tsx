@@ -33,17 +33,17 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex-1 space-y-3">
           <h1
             className="text-3xl font-semibold tracking-tight"
-            style={{ 
-              color: '#2D3A35',
-              fontSize: '32px',
-              lineHeight: '1.2',
+            style={{
+              color: 'var(--color-text-primary)',
+              fontSize: '24px',
+              lineHeight: '1.3',
             }}
           >
             {title}
           </h1>
           <p
             className="text-xs uppercase tracking-widest font-medium"
-            style={{ color: '#8B956D' }}
+            style={{ color: 'var(--color-text-muted)' }}
           >
             эффективно
           </p>
@@ -53,8 +53,8 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
       <p
         className="mt-6 text-lg font-normal leading-relaxed"
-        style={{ 
-          color: '#4B5563',
+        style={{
+          color: 'var(--color-text-secondary)',
           fontSize: '18px',
           lineHeight: '1.7',
         }}

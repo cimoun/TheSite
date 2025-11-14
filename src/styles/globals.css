@@ -4,39 +4,62 @@
 
 @layer base {
   :root {
-    /* Design System Colors - 60/30/10 rule */
-    /* Primary colors (60% - backgrounds and neutrals) */
-    --color-bg-primary: #FAF8F5;      /* Soft white */
-    --color-bg-secondary: #F5F1E8;    /* Warm beige */
-    --color-surface: rgba(255, 255, 255, 0.92);
-    --color-surface-strong: rgba(255, 255, 255, 0.98);
-    --color-panel: rgba(255, 255, 255, 0.78);
-    --color-panel-border: rgba(232, 220, 200, 0.55);
-    --color-text-primary: #2D3A35;    /* Soft black (not #000 for reduced eye strain) */
-    --color-text-secondary: #4B5563;  /* Graphite */
-    --color-border: rgba(232, 220, 200, 0.65);
-    
-    /* Shadows - optimized for better performance */
-    --shadow-elevation: 0 16px 48px rgba(90, 115, 103, 0.16);
-    --shadow-soft: 0 8px 24px rgba(90, 115, 103, 0.12);
-    --shadow-card: 0 2px 8px rgba(90, 115, 103, 0.08);
-    --shadow-panel: 0 4px 12px rgba(90, 115, 103, 0.10);
+    /* Base palette */
+    --color-bg-primary: #050b16;
+    --color-bg-secondary: #091125;
+    --color-surface: rgba(9, 16, 31, 0.72);
+    --color-surface-strong: rgba(13, 21, 36, 0.82);
+    --color-panel: rgba(18, 24, 38, 0.9);
+    --color-panel-border: rgba(148, 163, 184, 0.18);
+    --color-text-primary: rgba(226, 232, 240, 0.94);
+    --color-text-secondary: rgba(148, 163, 184, 0.72);
+    --color-text-muted: rgba(148, 163, 184, 0.6);
+    --color-border-soft: rgba(71, 85, 105, 0.24);
+    --color-border: rgba(100, 116, 139, 0.24);
+    --color-border-strong: rgba(148, 163, 184, 0.32);
+
+    /* Accent palette */
+    --color-accent: #3bcf8e;
+    --color-accent-strong: #2ba36c;
+    --color-accent-muted: rgba(59, 207, 142, 0.24);
+    --color-accent-rgb: 59, 207, 142;
+
+    /* Danger palette */
+    --color-danger: #e86d74;
+    --color-danger-strong: #d8565f;
+    --color-danger-muted: rgba(232, 109, 116, 0.22);
+    --color-danger-rgb: 232, 109, 116;
+
+    /* Priority accents */
+    --color-priority-low: rgba(59, 207, 142, 0.32);
+    --color-priority-medium: rgba(59, 207, 142, 0.55);
+    --color-priority-high: rgba(59, 207, 142, 0.88);
+
+    /* Shadows */
+    --shadow-panel: 0 45px 120px -70px rgba(3, 8, 20, 0.85);
+    --shadow-card: 0 30px 90px -60px rgba(3, 8, 20, 0.65);
+    --shadow-soft: 0 18px 60px -48px rgba(3, 8, 20, 0.5);
+    --shadow-elevation: 0 26px 80px -60px rgba(3, 8, 20, 0.55);
   }
 
   .dark {
-    --color-bg-primary: #0F172A;      /* Deep navy */
-    --color-bg-secondary: #111827;
-    --color-surface: rgba(30, 41, 59, 0.78);
-    --color-surface-strong: rgba(30, 41, 59, 0.92);
-    --color-panel: rgba(30, 41, 59, 0.86);
-    --color-panel-border: rgba(148, 163, 184, 0.28);
-    --color-text-primary: #E5E7EB;
-    --color-text-secondary: #94A3B8;
-    --color-border: rgba(148, 163, 184, 0.35);
-    --shadow-elevation: 0 16px 48px rgba(15, 23, 42, 0.50);
-    --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.40);
-    --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.30);
-    --shadow-panel: 0 4px 12px rgba(15, 23, 42, 0.35);
+    /* Keep the same palette for consistency between themes */
+    --color-bg-primary: #050b16;
+    --color-bg-secondary: #091125;
+    --color-surface: rgba(9, 16, 31, 0.72);
+    --color-surface-strong: rgba(13, 21, 36, 0.82);
+    --color-panel: rgba(18, 24, 38, 0.9);
+    --color-panel-border: rgba(148, 163, 184, 0.18);
+    --color-text-primary: rgba(226, 232, 240, 0.94);
+    --color-text-secondary: rgba(148, 163, 184, 0.72);
+    --color-text-muted: rgba(148, 163, 184, 0.6);
+    --color-border-soft: rgba(71, 85, 105, 0.24);
+    --color-border: rgba(100, 116, 139, 0.24);
+    --color-border-strong: rgba(148, 163, 184, 0.32);
+    --shadow-panel: 0 45px 120px -70px rgba(3, 8, 20, 0.85);
+    --shadow-card: 0 30px 90px -60px rgba(3, 8, 20, 0.65);
+    --shadow-soft: 0 18px 60px -48px rgba(3, 8, 20, 0.5);
+    --shadow-elevation: 0 26px 80px -60px rgba(3, 8, 20, 0.55);
   }
 
   body {
@@ -47,7 +70,7 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 16px; /* Design system base size */
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.7;
     transition: background-color 0.4s ease, color 0.4s ease;
@@ -66,8 +89,9 @@
   
   /* Improved focus states for keyboard navigation */
   *:focus-visible {
-    outline: 2px solid #5A7367;
-    outline-offset: 2px;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb), 0.18);
   }
 }
 
@@ -76,32 +100,33 @@
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-soft);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
   .input-primary {
     @apply w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none;
     background-color: var(--color-surface-strong);
-    border: 2px solid var(--color-border);
+    border: 1px solid var(--color-border);
     color: var(--color-text-primary);
     box-shadow: var(--shadow-soft);
   }
 
   .input-primary::placeholder {
-    color: var(--color-text-secondary);
+    color: var(--color-text-muted);
   }
 
   .input-primary:focus {
-    border-color: rgba(107, 154, 158, 0.6);
-    box-shadow: 0 0 0 4px rgba(107, 154, 158, 0.22);
+    border-color: rgba(var(--color-accent-rgb), 0.55);
+    box-shadow: 0 0 0 4px rgba(var(--color-accent-rgb), 0.18);
   }
 
   .btn-primary {
-    @apply px-6 py-3 bg-calm-deepGreen text-white rounded-lg
-           hover:bg-calm-deepGreen/90 active:scale-95
-           transition-all duration-200 font-medium
-           shadow-lg shadow-calm-deepGreen/30;
+    @apply px-6 py-3 text-white rounded-lg
+           active:scale-95
+           transition-all duration-200 font-medium;
+    background-color: var(--color-accent);
+    box-shadow: 0 12px 32px -18px rgba(var(--color-accent-rgb), 0.45);
   }
 
   .btn-secondary {
@@ -129,7 +154,7 @@
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-card);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
   }
 
   .card-hover {

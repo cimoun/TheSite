@@ -75,6 +75,9 @@ export const TaskInput: React.FC = () => {
     high: 'Высокий',
   };
 
+  const hasError = touched && !!error;
+  const canSubmit = text.trim() && !error;
+
   return (
     <motion.form
       onSubmit={handleSubmit}
@@ -92,16 +95,16 @@ export const TaskInput: React.FC = () => {
             onChange={handleChange}
             placeholder="Что нужно сделать?"
             maxLength={500}
-            className={`w-full px-5 py-4 rounded-xl border-2 transition-all duration-300 outline-none text-base font-normal ${
-              touched && error
-                ? 'border-accent-terracotta bg-white/70 focus:ring-4 focus:ring-accent-terracotta/20'
-                : 'border-transparent bg-white/60 backdrop-blur-sm focus:bg-white/80 focus:border-secondary-deepGreen/30 focus:ring-4 focus:ring-secondary-deepGreen/10'
+            className={`w-full px-5 py-4 rounded-xl border transition-all duration-300 outline-none text-base font-normal bg-[color:var(--color-surface-strong)] focus:ring-4 focus:ring-[rgba(var(--color-accent-rgb),0.18)] focus:border-[rgba(var(--color-accent-rgb),0.55)] ${
+              hasError
+                ? 'border-[rgba(var(--color-danger-rgb),0.65)] focus:ring-[rgba(var(--color-danger-rgb),0.18)] focus:border-[rgba(var(--color-danger-rgb),0.65)]'
+                : ''
             }`}
             style={{
-              boxShadow: touched && error 
-                ? '0 2px 8px rgba(212, 114, 111, 0.12)'
-                : '0 2px 8px rgba(90, 115, 103, 0.08)',
-              color: '#2D3A35',
+              boxShadow: hasError
+                ? '0 0 0 3px rgba(var(--color-danger-rgb), 0.18)'
+                : 'var(--shadow-soft)',
+              color: 'var(--color-text-primary)',
               fontSize: '16px',
               lineHeight: '1.5',
               minHeight: '56px',
@@ -117,7 +120,7 @@ export const TaskInput: React.FC = () => {
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-2 px-2 text-sm font-medium"
-              style={{ color: '#D4726F' }}
+              style={{ color: 'var(--color-danger)' }}
               role="alert"
             >
               {error}
@@ -129,17 +132,17 @@ export const TaskInput: React.FC = () => {
           disabled={!text.trim() || !!error}
           className="px-8 py-4 rounded-xl font-semibold text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
           style={{
-            backgroundColor: '#5A7367',
-            boxShadow: '0 4px 12px rgba(90, 115, 103, 0.25)',
+            background: 'var(--color-accent)',
+            boxShadow: '0 18px 40px -24px rgba(var(--color-accent-rgb), 0.6)',
             fontSize: '16px',
             minHeight: '56px',
             minWidth: '140px',
           }}
-          whileHover={text.trim() && !error ? { 
-            scale: 1.03, 
-            boxShadow: '0 6px 16px rgba(90, 115, 103, 0.35)' 
+          whileHover={canSubmit ? {
+            scale: 1.03,
+            boxShadow: '0 22px 48px -26px rgba(var(--color-accent-rgb), 0.75)'
           } : {}}
-          whileTap={text.trim() && !error ? { scale: 0.98 } : {}}
+          whileTap={canSubmit ? { scale: 0.98 } : {}}
           aria-label="Добавить задачу"
         >
           Добавить
@@ -149,22 +152,22 @@ export const TaskInput: React.FC = () => {
       <p
         id="task-input-helper"
         className="px-2 text-sm leading-relaxed"
-        style={{ color: '#6B7280' }}
+        style={{ color: 'var(--color-text-muted)' }}
       >
         Введите краткое описание задачи (до 500 символов)
       </p>
-      
+
       {/* Priority selection with better spacing and labels */}
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center px-2">
-        <label 
-          className="text-base font-medium whitespace-nowrap" 
+        <label
+          className="text-base font-medium whitespace-nowrap"
           id="priority-label"
-          style={{ color: '#2D3A35' }}
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           Приоритет:
         </label>
-        <div 
-          role="group" 
+        <div
+          role="group"
           aria-labelledby="priority-label" 
           className="flex flex-wrap gap-3"
         >
@@ -173,24 +176,18 @@ export const TaskInput: React.FC = () => {
               key={p}
               type="button"
               onClick={() => setPriority(p)}
-              className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 ${
-                priority === p
-                  ? 'text-white shadow-md'
-                  : 'bg-white/50 hover:bg-white/70'
-              }`}
-              style={
-                priority === p
-                  ? { 
-                      backgroundColor: PRIORITY_COLORS[p],
-                      minHeight: '48px',
-                      minWidth: '110px',
-                    }
-                  : { 
-                      color: PRIORITY_COLORS[p],
-                      minHeight: '48px',
-                      minWidth: '110px',
-                    }
-              }
+              className="px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 border"
+              style={{
+                background: priority === p ? PRIORITY_COLORS[p] : 'rgba(12, 20, 36, 0.55)',
+                color: priority === p ? 'var(--color-text-primary)' : 'var(--color-text-muted)',
+                borderColor: priority === p ? 'transparent' : 'var(--color-border)',
+                minHeight: '48px',
+                minWidth: '110px',
+                boxShadow:
+                  priority === p
+                    ? '0 18px 40px -26px rgba(var(--color-accent-rgb), 0.45)'
+                    : 'none',
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-pressed={priority === p}
@@ -204,10 +201,10 @@ export const TaskInput: React.FC = () => {
 
       {/* Due date with improved styling */}
       <div className="flex flex-col sm:flex-row gap-4 sm:items-center px-2">
-        <label 
-          htmlFor="due-date" 
+        <label
+          htmlFor="due-date"
           className="text-base font-medium whitespace-nowrap"
-          style={{ color: '#2D3A35' }}
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           Срок выполнения:
         </label>
@@ -216,9 +213,11 @@ export const TaskInput: React.FC = () => {
           type="date"
           value={dueDate}
           onChange={handleDateChange}
-          className="px-5 py-3 rounded-xl text-base bg-white/50 border-2 border-white/30 focus:outline-none focus:ring-4 focus:ring-secondary-deepGreen/20 focus:bg-white/70 focus:border-secondary-deepGreen/30 transition-all duration-200"
-          style={{ 
-            color: '#2D3A35',
+          className="px-5 py-3 rounded-xl text-base border transition-all duration-200 outline-none bg-[color:var(--color-surface)] focus:ring-4 focus:ring-[rgba(var(--color-accent-rgb),0.18)] focus:border-[rgba(var(--color-accent-rgb),0.55)]"
+          style={{
+            color: 'var(--color-text-primary)',
+            borderColor: 'var(--color-border)',
+            boxShadow: 'var(--shadow-soft)',
             minHeight: '48px',
           }}
           aria-label="Установить срок выполнения"

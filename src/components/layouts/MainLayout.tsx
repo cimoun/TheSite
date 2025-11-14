@@ -53,12 +53,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         style={{ zIndex: 1 }}
       >
         <div
-          className="rounded-3xl border backdrop-blur-2xl transition-colors duration-500 shadow-2xl p-8 sm:p-12"
+          className="rounded-3xl border backdrop-blur-2xl transition-colors duration-500 p-8 sm:p-12"
           style={{
             background: 'var(--color-panel)',
             borderColor: 'var(--color-panel-border)',
             boxShadow: 'var(--shadow-panel)',
-            backdropFilter: 'blur(28px)',
+            backdropFilter: 'blur(20px)',
           }}
         >
           {children}

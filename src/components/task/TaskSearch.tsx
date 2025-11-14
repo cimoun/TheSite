@@ -9,7 +9,10 @@ export const TaskSearch: React.FC = () => {
       <label htmlFor="task-search" className="sr-only">
         Поиск задач
       </label>
-      <div className="absolute left-5 top-1/2 -translate-y-1/2" style={{ color: '#8B956D' }}>
+      <div
+        className="absolute left-5 top-1/2 -translate-y-1/2"
+        style={{ color: 'var(--color-text-muted)' }}
+      >
         <svg
           className="w-5 h-5"
           fill="none"
@@ -31,10 +34,10 @@ export const TaskSearch: React.FC = () => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         placeholder="Поиск задач по названию..."
-        className="w-full pl-12 pr-5 py-4 rounded-xl border-2 border-transparent bg-white/60 backdrop-blur-sm focus:bg-white/80 focus:border-secondary-deepGreen/30 focus:ring-4 focus:ring-secondary-deepGreen/10 transition-all duration-300 outline-none"
+        className="w-full pl-12 pr-5 py-4 rounded-xl border transition-all duration-300 outline-none bg-[color:var(--color-surface-strong)] focus:ring-4 focus:ring-[rgba(var(--color-accent-rgb),0.18)] focus:border-[rgba(var(--color-accent-rgb),0.55)]"
         style={{
-          boxShadow: '0 2px 8px rgba(90, 115, 103, 0.08)',
-          color: '#2D3A35',
+          boxShadow: 'var(--shadow-soft)',
+          color: 'var(--color-text-primary)',
           fontSize: '16px',
           lineHeight: '1.5',
           minHeight: '56px',

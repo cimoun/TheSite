@@ -42,14 +42,16 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className={`flex items-start gap-4 bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-white/30 transition-all duration-300 dark:bg-slate-800/70 dark:border-slate-700/30 ${
+      className={`flex items-start gap-4 rounded-2xl p-6 border backdrop-blur-2xl transition-all duration-300 ${
         task.completed ? 'opacity-60' : ''
       }`}
       style={{
-        boxShadow: '0 2px 8px rgba(90, 115, 103, 0.08)',
+        background: 'var(--color-surface)',
+        borderColor: 'var(--color-border)',
+        boxShadow: 'var(--shadow-card)',
       }}
       whileHover={{
-        boxShadow: '0 8px 24px rgba(90, 115, 103, 0.12)',
+        boxShadow: '0 28px 60px -40px rgba(3, 8, 20, 0.6)',
         y: -2,
       }}
       role="listitem"
@@ -57,17 +59,19 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
       <div className="flex items-center gap-4 flex-1">
         <motion.button
           onClick={handleToggle}
-          className={`rounded-full border-2 transition-all duration-200 flex items-center justify-center flex-shrink-0 ${
-            task.completed
-              ? 'border-secondary-deepGreen'
-              : 'border-gray-300 hover:border-secondary-deepGreen dark:border-gray-600 dark:hover:border-secondary-deepGreen'
-          }`}
+          className="rounded-full border transition-all duration-200 flex items-center justify-center flex-shrink-0"
           style={{
-            backgroundColor: task.completed ? '#5A7367' : 'transparent',
+            background: task.completed ? 'var(--color-accent)' : 'rgba(12, 20, 36, 0.6)',
+            borderColor: task.completed
+              ? 'transparent'
+              : 'rgba(148, 163, 184, 0.32)',
             width: '44px',
             height: '44px',
             minWidth: '44px',
             minHeight: '44px',
+            boxShadow: task.completed
+              ? '0 18px 38px -24px rgba(var(--color-accent-rgb), 0.5)'
+              : 'none',
           }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
@@ -109,7 +113,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
                   : ''
               }`}
               style={{
-                color: task.completed ? '#9CA3AF' : '#2D3A35',
+                color: task.completed ? 'var(--color-text-muted)' : 'var(--color-text-primary)',
                 lineHeight: '1.6',
                 fontSize: '16px',
               }}
@@ -117,7 +121,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
               {task.text}
             </p>
           </div>
-          <div className="flex items-center gap-2 text-sm dark:text-gray-400" style={{ color: '#6B7280' }}>
+          <div
+            className="flex items-center gap-2 text-sm"
+            style={{ color: 'var(--color-text-muted)' }}
+          >
             <time dateTime={new Date(task.createdAt).toISOString()}>
               Создано: {formatDate(task.createdAt)}
             </time>
@@ -130,7 +137,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
                   <time
                     dateTime={task.dueDate}
                     className={isOverdue ? 'font-semibold' : 'font-medium'}
-                    style={{ color: isOverdue ? '#D4726F' : '#8B956D' }}
+                    style={{ color: isOverdue ? 'var(--color-danger)' : 'var(--color-text-secondary)' }}
                   >
                     Срок: {label}
                     {isOverdue && <span className="sr-only"> (Задача просрочена)</span>}
@@ -145,14 +152,14 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
       <motion.button
         onClick={handleDelete}
         className="p-3 rounded-xl transition-all duration-200 flex-shrink-0"
-        style={{ 
-          color: '#D4726F',
+        style={{
+          color: 'var(--color-danger)',
           minWidth: '44px',
           minHeight: '44px',
         }}
         whileHover={{
           scale: 1.1,
-          backgroundColor: 'rgba(212, 114, 111, 0.15)',
+          backgroundColor: 'var(--color-danger-muted)',
         }}
         whileTap={{ scale: 0.95 }}
         aria-label={`Удалить задачу "${task.text}"`}
