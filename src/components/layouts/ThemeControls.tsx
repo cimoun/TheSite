@@ -28,6 +28,10 @@ export const ThemeControls: React.FC = () => {
   const toggleTheme = useUIStore((state) => state.toggleTheme);
   const reduceAnimations = useUIStore((state) => state.reduceAnimations);
   const setReduceAnimations = useUIStore((state) => state.setReduceAnimations);
+  const disableBackground = useUIStore((state) => state.disableBackground);
+  const setDisableBackground = useUIStore((state) => state.setDisableBackground);
+  const backgroundStyle = useUIStore((state) => state.backgroundStyle);
+  const setBackgroundStyle = useUIStore((state) => state.setBackgroundStyle);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasDismissed, setHasDismissed] = useState(false);
@@ -48,7 +52,6 @@ export const ThemeControls: React.FC = () => {
 
   const handleThemeToggle = () => {
     toggleTheme();
-    closePanel();
   };
 
   return (
@@ -62,62 +65,112 @@ export const ThemeControls: React.FC = () => {
             animate="visible"
             exit="exit"
           >
-            <div className="flex max-w-xs flex-col gap-3 rounded-2xl border border-white/30 bg-white/75 px-4 py-4 text-sm shadow-xl backdrop-blur-xl transition dark:border-slate-700/60 dark:bg-slate-900/70 dark:text-slate-100">
+            <div className="flex max-w-sm flex-col gap-4 rounded-2xl border border-white/30 bg-white/80 px-5 py-5 text-sm shadow-xl backdrop-blur-xl transition dark:border-slate-700/60 dark:bg-slate-900/80 dark:text-slate-100">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#8B956D] dark:text-slate-300">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-secondary-olive dark:text-slate-300">
                     Настройка атмосферы
                   </p>
-                  <p className="mt-1 text-sm font-medium text-[#5A7367] dark:text-slate-100">
-                    Выберите тему, которая поддержит ритм работы.
+                  <p className="mt-2 text-base font-medium text-primary-text dark:text-slate-100">
+                    Персонализируйте интерфейс под себя
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={closePanel}
-                  className="mt-1 rounded-full p-1.5 text-[#8B956D] transition hover:bg-white/60 hover:text-[#5A7367] dark:hover:bg-slate-800/70"
+                  className="mt-1 rounded-full p-2 text-secondary-olive transition hover:bg-white/60 hover:text-secondary-deepGreen dark:hover:bg-slate-800/70 min-w-[44px] min-h-[44px]"
                   aria-label="Свернуть панель настроек"
                 >
-                  <span aria-hidden className="block text-base leading-none">×</span>
+                  <span aria-hidden className="block text-lg leading-none">×</span>
                 </button>
               </div>
 
               <button
                 type="button"
                 onClick={handleThemeToggle}
-                className="flex items-center justify-between gap-3 rounded-xl bg-white/70 px-3 py-2 font-medium text-[#5A7367] transition hover:bg-white/90 dark:bg-slate-800/60 dark:text-slate-100 dark:hover:bg-slate-800/80"
+                className="flex items-center justify-between gap-3 rounded-xl bg-white/70 px-4 py-3 font-medium text-secondary-deepGreen transition hover:bg-white/90 dark:bg-slate-800/60 dark:text-slate-100 dark:hover:bg-slate-800/80 min-h-[44px]"
               >
                 <span className="flex items-center gap-2">
-                  <span aria-hidden className="text-base">
+                  <span aria-hidden className="text-lg">
                     {theme === 'light' ? '☀️' : '🌙'}
                   </span>
-                  <span>
-                    {theme === 'light' ? 'Светлое оформление' : 'Тёмное оформление'}
+                  <span className="text-base">
+                    {theme === 'light' ? 'Светлая тема' : 'Тёмная тема'}
                   </span>
                 </span>
-                <span className="rounded-full bg-[#5A7367]/15 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-widest text-[#5A7367] dark:bg-slate-700/70 dark:text-slate-200">
-                  Применить
+                <span className="rounded-full bg-secondary-deepGreen/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-secondary-deepGreen dark:bg-slate-700/70 dark:text-slate-200">
+                  Сменить
                 </span>
               </button>
 
-              <div className="space-y-1.5 rounded-2xl bg-white/50 px-3 py-3 text-[#5A7367] shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
-                <label className="flex items-center justify-between gap-3">
-                  <span className="flex items-center gap-2 text-sm font-medium">
-                    <span aria-hidden className="text-base">🧘</span>
+              <div className="space-y-3 rounded-2xl bg-white/50 px-4 py-4 text-secondary-deepGreen shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
+                <label className="flex items-center justify-between gap-3 min-h-[44px]">
+                  <span className="flex items-center gap-2 text-base font-medium">
+                    <span aria-hidden className="text-lg">🧘</span>
                     Режим концентрации
                   </span>
                   <input
                     type="checkbox"
                     checked={reduceAnimations}
                     onChange={(event) => setReduceAnimations(event.target.checked)}
-                    className="h-5 w-5 cursor-pointer accent-[#5A7367] dark:accent-slate-300"
+                    className="h-6 w-6 cursor-pointer accent-secondary-deepGreen dark:accent-slate-300"
                     aria-label="Снизить динамику фона"
                   />
                 </label>
-                <p className="text-xs leading-relaxed text-[#8B956D] dark:text-slate-300">
-                  Уменьшает амплитуду и количество фигур, чтобы кадр был спокойнее.
+                <p className="text-sm leading-relaxed text-secondary-graphiteLight dark:text-slate-300">
+                  Уменьшает амплитуду и количество фигур для спокойного фона.
                 </p>
               </div>
+
+              <div className="space-y-3 rounded-2xl bg-white/50 px-4 py-4 text-secondary-deepGreen shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
+                <label className="flex items-center justify-between gap-3 min-h-[44px]">
+                  <span className="flex items-center gap-2 text-base font-medium">
+                    <span aria-hidden className="text-lg">🎨</span>
+                    Отключить фон
+                  </span>
+                  <input
+                    type="checkbox"
+                    checked={disableBackground}
+                    onChange={(event) => setDisableBackground(event.target.checked)}
+                    className="h-6 w-6 cursor-pointer accent-secondary-deepGreen dark:accent-slate-300"
+                    aria-label="Полностью отключить анимированный фон"
+                  />
+                </label>
+                <p className="text-sm leading-relaxed text-secondary-graphiteLight dark:text-slate-300">
+                  Полностью убирает анимированный фон для максимальной производительности.
+                </p>
+              </div>
+
+              {!disableBackground && (
+                <div className="space-y-3 rounded-2xl bg-white/50 px-4 py-4 text-secondary-deepGreen shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
+                  <p className="flex items-center gap-2 text-base font-medium">
+                    <span aria-hidden className="text-lg">🖼️</span>
+                    Стиль фона
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    {[
+                      { value: 'dynamic' as const, label: 'Динамический', icon: '✨' },
+                      { value: 'gradient' as const, label: 'Градиент', icon: '🌈' },
+                      { value: 'minimal' as const, label: 'Минимальный', icon: '⬜' },
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setBackgroundStyle(option.value)}
+                        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition min-h-[44px] ${
+                          backgroundStyle === option.value
+                            ? 'bg-secondary-deepGreen text-white'
+                            : 'bg-white/60 hover:bg-white/80 dark:bg-slate-700/60 dark:hover:bg-slate-700/80'
+                        }`}
+                        aria-pressed={backgroundStyle === option.value}
+                      >
+                        <span aria-hidden>{option.icon}</span>
+                        <span>{option.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         ) : (
@@ -125,15 +178,13 @@ export const ThemeControls: React.FC = () => {
             key="collapsed"
             type="button"
             onClick={() => setIsExpanded(true)}
-            className="flex h-12 w-12 items-center justify-center rounded-full bg-white/75 text-[#5A7367] shadow-lg backdrop-blur-xl transition hover:bg-white/90 dark:bg-slate-900/70 dark:text-slate-100"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-white/80 text-secondary-deepGreen shadow-lg backdrop-blur-xl transition hover:bg-white/95 dark:bg-slate-900/80 dark:text-slate-100"
             variants={collapsedButtonVariants}
             initial="hidden"
             animate="visible"
             aria-label="Открыть панель настроек темы"
           >
-            <span aria-hidden className="text-xl leading-none">
-              {theme === 'light' ? '☀️' : '🌙'}
-            </span>
+            <span aria-hidden className="text-2xl leading-none">⚙️</span>
           </motion.button>
         )}
       </AnimatePresence>

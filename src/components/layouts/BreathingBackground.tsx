@@ -3,6 +3,12 @@ import { useUIStore } from '../../stores/uiStore';
 
 export const BreathingBackground: React.FC = () => {
   const reduceAnimations = useUIStore((state) => state.reduceAnimations);
+  const disableBackground = useUIStore((state) => state.disableBackground);
+
+  // Completely disable background if user preference is set
+  if (disableBackground) {
+    return null;
+  }
 
   // Create smooth breathing animations with different phases and durations
   const createBreathingVariant = (
@@ -23,7 +29,7 @@ export const BreathingBackground: React.FC = () => {
       animate: {
         scale: [scaleMin, midScale, scaleMax, midScale, scaleMin],
         rotate: [0, rotateRange, 0, -rotateRange, 0],
-        opacity: [0.12, 0.22, 0.26, 0.22, 0.12],
+        opacity: [0.12, 0.18, 0.22, 0.18, 0.12],
         transition: {
           duration,
           ease: 'easeInOut',
@@ -35,38 +41,30 @@ export const BreathingBackground: React.FC = () => {
     };
   };
 
-  const amplitudeFactor = reduceAnimations ? 0.3 : 0.85;
-  const durationFactor = reduceAnimations ? 1.6 : 1.25;
-  const delayFactor = reduceAnimations ? 0.6 : 1;
+  const amplitudeFactor = reduceAnimations ? 0.3 : 0.7;
+  const durationFactor = reduceAnimations ? 1.8 : 1.4;
 
   const adjustScale = (value: number) => 1 + (value - 1) * amplitudeFactor;
   const adjustRotate = (value: number) => value * amplitudeFactor;
 
+  // Optimized: Only 3-4 shapes following 60/30/10 color rule
   const baseShapes = [
     {
-      color: '#D4726F', // terracotta
+      // Primary color shape (60% influence)
+      color: '#E8DCC8', // sand (primary)
       className: 'absolute -top-32 -right-32 w-[600px] h-[600px]',
-      duration: 10,
+      duration: 11,
       delay: 0,
-      scaleMin: 0.85,
-      scaleMax: 1.15,
-      rotateRange: 8,
-      blur: 'blur(60px)',
-    },
-    {
-      color: '#E09C9A', // terracotta light
-      className: 'absolute top-20 -right-20 w-[500px] h-[500px]',
-      duration: 12,
-      delay: 1,
-      scaleMin: 0.9,
-      scaleMax: 1.1,
-      rotateRange: -6,
+      scaleMin: 0.90,
+      scaleMax: 1.10,
+      rotateRange: 6,
       blur: 'blur(70px)',
     },
     {
-      color: '#5A7367', // deep green
-      className: 'absolute top-1/4 -left-40 w-[550px] h-[550px]',
-      duration: 11,
+      // Secondary color shape (30% influence)
+      color: '#5A7367', // deep green (secondary)
+      className: 'absolute top-1/3 -left-40 w-[550px] h-[550px]',
+      duration: 12,
       delay: 2,
       scaleMin: 0.88,
       scaleMax: 1.12,
@@ -74,53 +72,25 @@ export const BreathingBackground: React.FC = () => {
       blur: 'blur(65px)',
     },
     {
-      color: '#8B956D', // olive
-      className: 'absolute bottom-32 left-1/4 w-[480px] h-[480px]',
-      duration: 9,
-      delay: 3,
+      // Accent color shape (10% influence)
+      color: '#D4726F', // terracotta (accent)
+      className: 'absolute bottom-1/4 right-1/4 w-[450px] h-[450px]',
+      duration: 10,
+      delay: 1,
       scaleMin: 0.92,
       scaleMax: 1.08,
-      rotateRange: -5,
-      blur: 'blur(55px)',
-    },
-    {
-      color: '#6B9A9E', // teal
-      className: 'absolute top-1/2 right-32 w-[520px] h-[520px]',
-      duration: 10.5,
-      delay: 1.5,
-      scaleMin: 0.87,
-      scaleMax: 1.13,
-      rotateRange: 6,
-      blur: 'blur(68px)',
-    },
-    {
-      color: '#E8DCC8', // sand
-      className: 'absolute -bottom-20 -left-20 w-[450px] h-[450px]',
-      duration: 11.5,
-      delay: 2.5,
-      scaleMin: 0.9,
-      scaleMax: 1.1,
-      rotateRange: -7,
-      blur: 'blur(75px)',
-    },
-    {
-      color: '#D4726F', // terracotta (accent)
-      className: 'absolute bottom-1/3 right-1/4 w-[380px] h-[380px]',
-      duration: 8.5,
-      delay: 0.5,
-      scaleMin: 0.93,
-      scaleMax: 1.07,
-      rotateRange: 4,
-      blur: 'blur(50px)',
+      rotateRange: 5,
+      blur: 'blur(60px)',
     },
   ];
 
-  const shapes = (reduceAnimations ? baseShapes.slice(0, 3) : baseShapes).map(
+  // In reduced animation mode, show only 2 shapes
+  const shapes = (reduceAnimations ? baseShapes.slice(0, 2) : baseShapes).map(
     ({ duration, delay, scaleMin, scaleMax, rotateRange, ...rest }) => ({
       ...rest,
       variant: createBreathingVariant(
         duration * durationFactor,
-        delay * delayFactor,
+        delay,
         adjustScale(scaleMin),
         adjustScale(scaleMax),
         adjustRotate(rotateRange)
@@ -132,6 +102,7 @@ export const BreathingBackground: React.FC = () => {
     <div
       className="fixed inset-0 overflow-hidden pointer-events-none"
       style={{ zIndex: 0 }}
+      aria-hidden="true"
     >
       {shapes.map((shape, index) => (
         <motion.div
@@ -147,6 +118,7 @@ export const BreathingBackground: React.FC = () => {
             willChange: 'transform, opacity',
             transformOrigin: 'center center',
           }}
+          aria-hidden="true"
         />
       ))}
     </div>

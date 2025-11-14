@@ -4,35 +4,39 @@
 
 @layer base {
   :root {
-    --color-bg-primary: #faf8f5;
-    --color-bg-secondary: #f5f1e8;
+    /* Design System Colors - 60/30/10 rule */
+    /* Primary colors (60% - backgrounds and neutrals) */
+    --color-bg-primary: #FAF8F5;      /* Soft white */
+    --color-bg-secondary: #F5F1E8;    /* Warm beige */
     --color-surface: rgba(255, 255, 255, 0.92);
     --color-surface-strong: rgba(255, 255, 255, 0.98);
     --color-panel: rgba(255, 255, 255, 0.78);
     --color-panel-border: rgba(232, 220, 200, 0.55);
-    --color-text-primary: #4b5563;
-    --color-text-secondary: #6b7280;
+    --color-text-primary: #2D3A35;    /* Soft black (not #000 for reduced eye strain) */
+    --color-text-secondary: #4B5563;  /* Graphite */
     --color-border: rgba(232, 220, 200, 0.65);
-    --shadow-elevation: 0 35px 120px -60px rgba(90, 115, 103, 0.55);
-    --shadow-soft: 0 25px 90px -70px rgba(108, 117, 125, 0.45);
-    --shadow-card: 0 30px 80px -60px rgba(90, 115, 103, 0.4);
-    --shadow-panel: 0 38px 110px -72px rgba(90, 115, 103, 0.45);
+    
+    /* Shadows - optimized for better performance */
+    --shadow-elevation: 0 16px 48px rgba(90, 115, 103, 0.16);
+    --shadow-soft: 0 8px 24px rgba(90, 115, 103, 0.12);
+    --shadow-card: 0 2px 8px rgba(90, 115, 103, 0.08);
+    --shadow-panel: 0 4px 12px rgba(90, 115, 103, 0.10);
   }
 
   .dark {
-    --color-bg-primary: #0f172a;
+    --color-bg-primary: #0F172A;      /* Deep navy */
     --color-bg-secondary: #111827;
     --color-surface: rgba(30, 41, 59, 0.78);
     --color-surface-strong: rgba(30, 41, 59, 0.92);
     --color-panel: rgba(30, 41, 59, 0.86);
     --color-panel-border: rgba(148, 163, 184, 0.28);
-    --color-text-primary: #e5e7eb;
-    --color-text-secondary: #94a3b8;
+    --color-text-primary: #E5E7EB;
+    --color-text-secondary: #94A3B8;
     --color-border: rgba(148, 163, 184, 0.35);
-    --shadow-elevation: 0 45px 140px -70px rgba(15, 23, 42, 0.95);
-    --shadow-soft: 0 30px 110px -80px rgba(15, 23, 42, 0.85);
-    --shadow-card: 0 35px 120px -75px rgba(15, 23, 42, 0.8);
-    --shadow-panel: 0 50px 140px -85px rgba(15, 23, 42, 0.78);
+    --shadow-elevation: 0 16px 48px rgba(15, 23, 42, 0.50);
+    --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.40);
+    --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.30);
+    --shadow-panel: 0 4px 12px rgba(15, 23, 42, 0.35);
   }
 
   body {
@@ -43,13 +47,27 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 16px; /* Design system base size */
     font-weight: 400;
+    line-height: 1.7;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
 
   code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
+  }
+  
+  /* Ensure minimum touch target size for accessibility */
+  button, a, input[type="checkbox"], input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improved focus states for keyboard navigation */
+  *:focus-visible {
+    outline: 2px solid #5A7367;
+    outline-offset: 2px;
   }
 }
 

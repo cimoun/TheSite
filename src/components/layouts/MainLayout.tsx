@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
-import { BreathingBackground } from './BreathingBackground';
-import { ThemeControls } from './ThemeControls';
+import { lazy, Suspense } from 'react';
+
+// Lazy load background and theme controls for better performance
+const BreathingBackground = lazy(() => 
+  import('./BreathingBackground').then(module => ({ default: module.BreathingBackground }))
+);
+const ThemeControls = lazy(() => 
+  import('./ThemeControls').then(module => ({ default: module.ThemeControls }))
+);
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -22,23 +29,31 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <div
-      className="relative min-h-screen px-4 py-12 transition-colors duration-500 sm:px-6"
+      className="relative min-h-screen px-4 py-12 sm:py-16 transition-colors duration-500 sm:px-6"
       style={{
         backgroundColor: 'var(--color-bg-secondary)',
         color: 'var(--color-text-primary)',
       }}
     >
-      <BreathingBackground />
-      <ThemeControls />
+      {/* Lazy load background animation */}
+      <Suspense fallback={null}>
+        <BreathingBackground />
+      </Suspense>
+      
+      {/* Lazy load theme controls */}
+      <Suspense fallback={null}>
+        <ThemeControls />
+      </Suspense>
+      
       <motion.div
         variants={panelVariants}
         initial="hidden"
         animate="visible"
-        className="relative mx-auto w-full max-w-3xl px-2 sm:px-0"
+        className="relative mx-auto w-full max-w-4xl px-2 sm:px-0"
         style={{ zIndex: 1 }}
       >
         <div
-          className="rounded-[2.25rem] border backdrop-blur-2xl transition-colors duration-500 shadow-2xl"
+          className="rounded-3xl border backdrop-blur-2xl transition-colors duration-500 shadow-2xl p-8 sm:p-12"
           style={{
             background: 'var(--color-panel)',
             borderColor: 'var(--color-panel-border)',

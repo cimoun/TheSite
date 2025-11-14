@@ -50,6 +50,8 @@ interface UIStore extends UIState {
   toggleTheme: () => void;
   initializeTheme: () => void;
   setReduceAnimations: (value: boolean) => void;
+  setDisableBackground: (value: boolean) => void;
+  setBackgroundStyle: (style: 'dynamic' | 'gradient' | 'minimal') => void;
 }
 
 export const useUIStore = create<UIStore>()(
@@ -61,6 +63,8 @@ export const useUIStore = create<UIStore>()(
       theme: initialTheme,
       sortMode: 'default',
       reduceAnimations: false,
+      disableBackground: false,
+      backgroundStyle: 'dynamic',
 
       setSearchQuery: (query: string) => {
         set({ searchQuery: query });
@@ -88,6 +92,14 @@ export const useUIStore = create<UIStore>()(
         set({ reduceAnimations: value });
       },
 
+      setDisableBackground: (value: boolean) => {
+        set({ disableBackground: value });
+      },
+
+      setBackgroundStyle: (style: 'dynamic' | 'gradient' | 'minimal') => {
+        set({ backgroundStyle: style });
+      },
+
       initializeTheme: () => {
         const currentTheme = get().theme;
         applyThemeClass(currentTheme);
@@ -98,6 +110,8 @@ export const useUIStore = create<UIStore>()(
       partialize: (state) => ({
         theme: state.theme,
         reduceAnimations: state.reduceAnimations,
+        disableBackground: state.disableBackground,
+        backgroundStyle: state.backgroundStyle,
       }),
       onRehydrateStorage: () => (state, error) => {
         if (error || !state) {

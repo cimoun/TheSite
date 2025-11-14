@@ -5,6 +5,8 @@ export interface UIState {
   theme: 'light' | 'dark';
   sortMode: 'default' | 'dueDate' | 'priority';
   reduceAnimations: boolean;
+  disableBackground: boolean;
+  backgroundStyle: 'dynamic' | 'gradient' | 'minimal';
 }
 
 export interface ModalState {
