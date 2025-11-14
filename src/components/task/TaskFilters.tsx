@@ -27,17 +27,24 @@ export const TaskFilters: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Combined filters and sorting in horizontal layout */}
-      <div className="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 border border-white/30 dark:border-slate-700/30">
+      <div
+        className="rounded-2xl p-4 sm:p-6 border backdrop-blur-2xl transition-all duration-300"
+        style={{
+          background: 'var(--color-surface)',
+          borderColor: 'var(--color-border)',
+          boxShadow: 'var(--shadow-soft)',
+        }}
+      >
         {/* Filters section */}
         <div className="space-y-3 mb-6">
           <div className="flex items-center gap-2">
-            <span className="text-base font-semibold" style={{ color: '#2D3A35' }}>
+            <span className="text-base font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
               Фильтры
             </span>
-            <span className="text-sm" style={{ color: '#6B7280' }} aria-hidden="true">
+            <span className="text-sm" style={{ color: 'var(--color-text-muted)' }} aria-hidden="true">
               •
             </span>
-            <span className="text-sm" style={{ color: '#6B7280' }}>
+            <span className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
               Выберите категорию задач
             </span>
           </div>
@@ -50,23 +57,33 @@ export const TaskFilters: React.FC = () => {
                   onMouseLeave={() => setHoveredFilter(null)}
                   onFocus={() => setHoveredFilter(filter.value)}
                   onBlur={() => setHoveredFilter(null)}
-                  className={`px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 ${
-                    currentFilter === filter.value
-                      ? 'text-white shadow-md'
-                      : 'bg-white/70 hover:bg-white/90 dark:bg-slate-700/70 dark:hover:bg-slate-700/90'
-                  }`}
-                  style={
-                    currentFilter === filter.value
-                      ? { 
-                          backgroundColor: '#5A7367',
-                          minHeight: '48px',
-                        }
-                      : { 
-                          color: '#5A7367',
-                          minHeight: '48px',
-                        }
-                  }
-                  whileHover={{ scale: 1.03 }}
+                  className="px-6 py-3 rounded-xl text-base font-semibold transition-all duration-200 border"
+                  style={{
+                    background:
+                      currentFilter === filter.value
+                        ? 'var(--color-accent)'
+                        : 'rgba(12, 20, 36, 0.55)',
+                    color:
+                      currentFilter === filter.value
+                        ? 'var(--color-text-primary)'
+                        : 'var(--color-text-muted)',
+                    borderColor:
+                      currentFilter === filter.value
+                        ? 'transparent'
+                        : 'var(--color-border)',
+                    minHeight: '48px',
+                    boxShadow:
+                      currentFilter === filter.value
+                        ? '0 18px 40px -26px rgba(var(--color-accent-rgb), 0.45)'
+                        : 'none',
+                  }}
+                  whileHover={{
+                    scale: 1.03,
+                    boxShadow:
+                      currentFilter === filter.value
+                        ? '0 22px 48px -26px rgba(var(--color-accent-rgb), 0.65)'
+                        : '0 0 0 0 rgba(0,0,0,0)',
+                  }}
                   whileTap={{ scale: 0.97 }}
                   aria-pressed={currentFilter === filter.value}
                   aria-label={filter.tooltip}
@@ -78,11 +95,18 @@ export const TaskFilters: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap z-10 pointer-events-none"
-                    style={{ fontSize: '14px' }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 text-white text-sm rounded-lg whitespace-nowrap z-10 pointer-events-none"
+                    style={{
+                      fontSize: '14px',
+                      background: 'rgba(8, 14, 26, 0.95)',
+                      boxShadow: '0 12px 30px -20px rgba(3, 8, 20, 0.65)',
+                    }}
                   >
                     {filter.tooltip}
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
+                    <div
+                      className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45"
+                      style={{ background: 'rgba(8, 14, 26, 0.95)' }}
+                    />
                   </motion.div>
                 )}
               </div>
@@ -91,18 +115,21 @@ export const TaskFilters: React.FC = () => {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-primary-base/30 dark:border-slate-700/50 my-4" />
+        <div
+          className="border-t my-4"
+          style={{ borderColor: 'var(--color-border-soft)' }}
+        />
 
         {/* Sorting section */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <span className="text-base font-semibold" style={{ color: '#2D3A35' }}>
+            <span className="text-base font-semibold" style={{ color: 'var(--color-text-secondary)' }}>
               Сортировка
             </span>
-            <span className="text-sm" style={{ color: '#6B7280' }} aria-hidden="true">
+            <span className="text-sm" style={{ color: 'var(--color-text-muted)' }} aria-hidden="true">
               •
             </span>
-            <span className="text-sm" style={{ color: '#6B7280' }}>
+            <span className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
               Упорядочить список
             </span>
           </div>
@@ -115,23 +142,33 @@ export const TaskFilters: React.FC = () => {
                   onMouseLeave={() => setHoveredSort(null)}
                   onFocus={() => setHoveredSort(option.value)}
                   onBlur={() => setHoveredSort(null)}
-                  className={`px-5 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
-                    sortMode === option.value
-                      ? 'text-white shadow-md'
-                      : 'bg-white/70 hover:bg-white/90 dark:bg-slate-700/70 dark:hover:bg-slate-700/90'
-                  }`}
-                  style={
-                    sortMode === option.value
-                      ? { 
-                          backgroundColor: '#8B956D',
-                          minHeight: '48px',
-                        }
-                      : { 
-                          color: '#8B956D',
-                          minHeight: '48px',
-                        }
-                  }
-                  whileHover={{ scale: 1.03 }}
+                  className="px-5 py-3 rounded-xl text-base font-medium transition-all duration-200 border"
+                  style={{
+                    background:
+                      sortMode === option.value
+                        ? 'var(--color-accent-muted)'
+                        : 'rgba(12, 20, 36, 0.45)',
+                    color:
+                      sortMode === option.value
+                        ? 'var(--color-text-primary)'
+                        : 'var(--color-text-muted)',
+                    borderColor:
+                      sortMode === option.value
+                        ? 'transparent'
+                        : 'var(--color-border)',
+                    minHeight: '48px',
+                    boxShadow:
+                      sortMode === option.value
+                        ? '0 18px 38px -28px rgba(var(--color-accent-rgb), 0.4)'
+                        : 'none',
+                  }}
+                  whileHover={{
+                    scale: 1.03,
+                    boxShadow:
+                      sortMode === option.value
+                        ? '0 22px 46px -28px rgba(var(--color-accent-rgb), 0.6)'
+                        : '0 0 0 0 rgba(0,0,0,0)',
+                  }}
                   whileTap={{ scale: 0.97 }}
                   aria-pressed={sortMode === option.value}
                   aria-label={option.tooltip}
@@ -143,11 +180,18 @@ export const TaskFilters: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap z-10 pointer-events-none"
-                    style={{ fontSize: '14px' }}
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 text-white text-sm rounded-lg whitespace-nowrap z-10 pointer-events-none"
+                    style={{
+                      fontSize: '14px',
+                      background: 'rgba(8, 14, 26, 0.95)',
+                      boxShadow: '0 12px 30px -20px rgba(3, 8, 20, 0.65)',
+                    }}
                   >
                     {option.tooltip}
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
+                    <div
+                      className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45"
+                      style={{ background: 'rgba(8, 14, 26, 0.95)' }}
+                    />
                   </motion.div>
                 )}
               </div>

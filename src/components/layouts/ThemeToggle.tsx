@@ -8,7 +8,7 @@ const ThemeToggleComponent: FC = () => {
 
   const isDark = theme === 'dark';
   const buttonClasses =
-    'flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-[#5A7367] shadow-sm transition-colors hover:bg-white/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5A7367] dark:bg-[#2b2b2b] dark:text-[#f1f5f9]';
+    'flex h-10 w-10 items-center justify-center rounded-full border transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-none';
 
   return (
     <button
@@ -16,6 +16,12 @@ const ThemeToggleComponent: FC = () => {
       onClick={toggleTheme}
       aria-pressed={isDark}
       className={buttonClasses}
+      style={{
+        background: 'rgba(12, 20, 36, 0.85)',
+        borderColor: 'var(--color-border)',
+        color: 'var(--color-text-secondary)',
+        boxShadow: '0 12px 32px -20px rgba(3, 8, 20, 0.6)',
+      }}
       aria-label={isDark ? 'Переключить на светлое оформление' : 'Переключить на тёмное оформление'}
     >
       {isDark ? (

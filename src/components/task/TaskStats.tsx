@@ -36,40 +36,59 @@ export const TaskStats: React.FC = () => {
       variants={statsVariants}
       initial="hidden"
       animate="visible"
-      className="relative overflow-hidden flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border px-5 py-5 backdrop-blur-sm bg-white/60 border-white/30 shadow-sm dark:bg-dark-surface/80 dark:border-dark-border/40"
+      className="relative overflow-hidden flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl border px-5 py-5 backdrop-blur-2xl transition-all duration-300"
+      style={{
+        background: 'var(--color-surface)',
+        borderColor: 'var(--color-border)',
+        boxShadow: 'var(--shadow-soft)',
+      }}
     >
       <div className="pointer-events-none absolute inset-0">
         <motion.div
-          className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-calm-deepGreen/40 via-calm-teal/30 to-calm-olive/25"
+          className="absolute inset-y-0 left-0 w-full"
           style={{
             transformOrigin: 'left center',
             opacity: completionProgress.opacity,
+            background:
+              'linear-gradient(90deg, rgba(var(--color-accent-rgb), 0.32) 0%, rgba(var(--color-accent-rgb), 0.18) 45%, rgba(var(--color-accent-rgb), 0.05) 100%)',
           }}
           initial={{ scaleX: 0 }}
           animate={{ scaleX: completionProgress.fraction }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         />
         <motion.div
-          className="absolute inset-0 bg-calm-deepGreen/20"
-          style={{ opacity: completionProgress.opacity * 0.9 }}
+          className="absolute inset-0"
+          style={{
+            opacity: completionProgress.opacity * 0.9,
+            background: 'rgba(var(--color-accent-rgb), 0.12)',
+          }}
           animate={{ opacity: [completionProgress.opacity * 0.6, completionProgress.opacity, completionProgress.opacity * 0.6] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
 
-      <div className="relative z-10 flex flex-col gap-2 text-sm text-calm-graphite dark:text-dark-text">
+      <div
+        className="relative z-10 flex flex-col gap-2 text-sm"
+        style={{ color: 'var(--color-text-secondary)' }}
+      >
         <div className="font-medium">
           Отображается{' '}
-          <span className="font-semibold text-calm-deepGreen dark:text-calm-teal">
+          <span
+            className="font-semibold"
+            style={{ color: 'var(--color-accent)' }}
+          >
             {pluralizeTasks(filteredTasks.length)}
           </span>
           {stats.total > filteredTasks.length && (
-            <span className="text-calm-olive dark:text-dark-textMuted">
+            <span style={{ color: 'var(--color-text-muted)' }}>
               {' '}из {pluralizeTasks(stats.total)}
             </span>
           )}
         </div>
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm text-calm-olive dark:text-dark-textMuted">
+        <div
+          className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs sm:text-sm"
+          style={{ color: 'var(--color-text-muted)' }}
+        >
           <span>Всего задач: {stats.total}</span>
           <span>В работе: {stats.active}</span>
           <span>Закрыто: {stats.completed}</span>
@@ -82,8 +101,12 @@ export const TaskStats: React.FC = () => {
       {stats.completed > 0 && (
         <motion.button
           onClick={clearCompleted}
-          className="relative z-10 px-5 py-2 rounded-full text-sm font-medium text-white transition-all duration-200 bg-calm-terracotta shadow-md shadow-calm-terracotta/30"
-          whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(212, 114, 111, 0.35)' }}
+          className="relative z-10 px-5 py-2 rounded-full text-sm font-medium text-white transition-all duration-200"
+          style={{
+            background: 'var(--color-danger)',
+            boxShadow: '0 18px 40px -26px rgba(var(--color-danger-rgb), 0.45)',
+          }}
+          whileHover={{ scale: 1.05, boxShadow: '0 24px 50px -28px rgba(var(--color-danger-rgb), 0.6)' }}
           whileTap={{ scale: 0.95 }}
         >
           Очистить завершённые

@@ -22,24 +22,54 @@ export const Footer: React.FC = () => {
       animate="visible"
       className="text-center mt-10 space-y-4"
     >
-      <div className="text-xs rounded-2xl p-4 inline-block bg-white/45 backdrop-blur-sm border border-white/30">
+      <div
+        className="text-xs rounded-2xl p-4 inline-block backdrop-blur-2xl border"
+        style={{
+          background: 'var(--color-surface)',
+          borderColor: 'var(--color-border)',
+          boxShadow: 'var(--shadow-soft)',
+        }}
+      >
         <p
           className="font-medium mb-2 uppercase tracking-[0.25em]"
-          style={{ color: '#5A7367' }}
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           Горячие клавиши
         </p>
-        <div className="flex gap-4 flex-wrap justify-center" style={{ color: '#8B956D' }}>
+        <div
+          className="flex gap-4 flex-wrap justify-center"
+          style={{ color: 'var(--color-text-muted)' }}
+        >
           <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Enter</kbd> Добавить
+            <kbd
+              className="px-2 py-1 rounded border"
+              style={{
+                background: 'rgba(18, 24, 38, 0.75)',
+                borderColor: 'var(--color-border)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              Enter
+            </kbd>{' '}
+            Добавить
           </span>
           <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Esc</kbd> Очистить
+            <kbd
+              className="px-2 py-1 rounded border"
+              style={{
+                background: 'rgba(18, 24, 38, 0.75)',
+                borderColor: 'var(--color-border)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
+              Esc
+            </kbd>{' '}
+            Очистить
           </span>
         </div>
       </div>
-      
-      <div className="text-sm" style={{ color: '#8B956D' }}>
+
+      <div className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
         <p>
           © {currentYear}
         </p>

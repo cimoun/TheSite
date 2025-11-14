@@ -65,20 +65,38 @@ export const ThemeControls: React.FC = () => {
             animate="visible"
             exit="exit"
           >
-            <div className="flex max-w-sm flex-col gap-4 rounded-2xl border border-white/30 bg-white/80 px-5 py-5 text-sm shadow-xl backdrop-blur-xl transition dark:border-slate-700/60 dark:bg-slate-900/80 dark:text-slate-100">
+            <div
+              className="flex max-w-sm flex-col gap-4 rounded-2xl border px-5 py-5 text-sm transition backdrop-blur-2xl"
+              style={{
+                background: 'rgba(10, 17, 32, 0.88)',
+                borderColor: 'var(--color-border)',
+                boxShadow: 'var(--shadow-soft)',
+                color: 'var(--color-text-secondary)',
+              }}
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-secondary-olive dark:text-slate-300">
+                  <p
+                    className="text-xs font-semibold uppercase tracking-widest"
+                    style={{ color: 'var(--color-text-muted)' }}
+                  >
                     Настройка атмосферы
                   </p>
-                  <p className="mt-2 text-base font-medium text-primary-text dark:text-slate-100">
+                  <p
+                    className="mt-2 text-base font-medium"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
                     Персонализируйте интерфейс под себя
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={closePanel}
-                  className="mt-1 rounded-full p-2 text-secondary-olive transition hover:bg-white/60 hover:text-secondary-deepGreen dark:hover:bg-slate-800/70 min-w-[44px] min-h-[44px]"
+                  className="mt-1 rounded-full p-2 transition-colors duration-200 min-w-[44px] min-h-[44px] hover:bg-[rgba(12,20,36,0.65)]"
+                  style={{
+                    color: 'var(--color-text-muted)',
+                    background: 'rgba(12, 20, 36, 0.4)',
+                  }}
                   aria-label="Свернуть панель настроек"
                 >
                   <span aria-hidden className="block text-lg leading-none">×</span>
@@ -88,7 +106,12 @@ export const ThemeControls: React.FC = () => {
               <button
                 type="button"
                 onClick={handleThemeToggle}
-                className="flex items-center justify-between gap-3 rounded-xl bg-white/70 px-4 py-3 font-medium text-secondary-deepGreen transition hover:bg-white/90 dark:bg-slate-800/60 dark:text-slate-100 dark:hover:bg-slate-800/80 min-h-[44px]"
+                className="flex items-center justify-between gap-3 rounded-xl px-4 py-3 font-medium transition-all duration-200 border min-h-[44px]"
+                style={{
+                  background: 'rgba(12, 20, 36, 0.55)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-secondary)',
+                }}
               >
                 <span className="flex items-center gap-2">
                   <span aria-hidden className="text-lg">
@@ -98,14 +121,27 @@ export const ThemeControls: React.FC = () => {
                     {theme === 'light' ? 'Светлая тема' : 'Тёмная тема'}
                   </span>
                 </span>
-                <span className="rounded-full bg-secondary-deepGreen/15 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-secondary-deepGreen dark:bg-slate-700/70 dark:text-slate-200">
+                <span
+                  className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-widest"
+                  style={{
+                    background: 'rgba(var(--color-accent-rgb), 0.18)',
+                    color: 'var(--color-accent)',
+                  }}
+                >
                   Сменить
                 </span>
               </button>
 
-              <div className="space-y-3 rounded-2xl bg-white/50 px-4 py-4 text-secondary-deepGreen shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
+              <div
+                className="space-y-3 rounded-2xl px-4 py-4 border"
+                style={{
+                  background: 'rgba(12, 20, 36, 0.5)',
+                  borderColor: 'var(--color-border)',
+                  boxShadow: 'inset 0 12px 40px -32px rgba(3, 8, 20, 0.6)',
+                }}
+              >
                 <label className="flex items-center justify-between gap-3 min-h-[44px]">
-                  <span className="flex items-center gap-2 text-base font-medium">
+                  <span className="flex items-center gap-2 text-base font-medium" style={{ color: 'var(--color-text-primary)' }}>
                     <span aria-hidden className="text-lg">🧘</span>
                     Режим концентрации
                   </span>
@@ -113,18 +149,29 @@ export const ThemeControls: React.FC = () => {
                     type="checkbox"
                     checked={reduceAnimations}
                     onChange={(event) => setReduceAnimations(event.target.checked)}
-                    className="h-6 w-6 cursor-pointer accent-secondary-deepGreen dark:accent-slate-300"
+                    className="h-6 w-6 cursor-pointer"
+                    style={{ accentColor: 'var(--color-accent)' }}
                     aria-label="Снизить динамику фона"
                   />
                 </label>
-                <p className="text-sm leading-relaxed text-secondary-graphiteLight dark:text-slate-300">
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'var(--color-text-muted)' }}
+                >
                   Уменьшает амплитуду и количество фигур для спокойного фона.
                 </p>
               </div>
 
-              <div className="space-y-3 rounded-2xl bg-white/50 px-4 py-4 text-secondary-deepGreen shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
+              <div
+                className="space-y-3 rounded-2xl px-4 py-4 border"
+                style={{
+                  background: 'rgba(12, 20, 36, 0.5)',
+                  borderColor: 'var(--color-border)',
+                  boxShadow: 'inset 0 12px 40px -32px rgba(3, 8, 20, 0.6)',
+                }}
+              >
                 <label className="flex items-center justify-between gap-3 min-h-[44px]">
-                  <span className="flex items-center gap-2 text-base font-medium">
+                  <span className="flex items-center gap-2 text-base font-medium" style={{ color: 'var(--color-text-primary)' }}>
                     <span aria-hidden className="text-lg">🎨</span>
                     Отключить фон
                   </span>
@@ -132,18 +179,32 @@ export const ThemeControls: React.FC = () => {
                     type="checkbox"
                     checked={disableBackground}
                     onChange={(event) => setDisableBackground(event.target.checked)}
-                    className="h-6 w-6 cursor-pointer accent-secondary-deepGreen dark:accent-slate-300"
+                    className="h-6 w-6 cursor-pointer"
+                    style={{ accentColor: 'var(--color-accent)' }}
                     aria-label="Полностью отключить анимированный фон"
                   />
                 </label>
-                <p className="text-sm leading-relaxed text-secondary-graphiteLight dark:text-slate-300">
+                <p
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'var(--color-text-muted)' }}
+                >
                   Полностью убирает анимированный фон для максимальной производительности.
                 </p>
               </div>
 
               {!disableBackground && (
-                <div className="space-y-3 rounded-2xl bg-white/50 px-4 py-4 text-secondary-deepGreen shadow-inner transition dark:bg-slate-800/50 dark:text-slate-100">
-                  <p className="flex items-center gap-2 text-base font-medium">
+                <div
+                  className="space-y-3 rounded-2xl px-4 py-4 border"
+                  style={{
+                    background: 'rgba(12, 20, 36, 0.5)',
+                    borderColor: 'var(--color-border)',
+                    boxShadow: 'inset 0 12px 40px -32px rgba(3, 8, 20, 0.6)',
+                  }}
+                >
+                  <p
+                    className="flex items-center gap-2 text-base font-medium"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
                     <span aria-hidden className="text-lg">🖼️</span>
                     Стиль фона
                   </p>
@@ -157,11 +218,25 @@ export const ThemeControls: React.FC = () => {
                         key={option.value}
                         type="button"
                         onClick={() => setBackgroundStyle(option.value)}
-                        className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition min-h-[44px] ${
-                          backgroundStyle === option.value
-                            ? 'bg-secondary-deepGreen text-white'
-                            : 'bg-white/60 hover:bg-white/80 dark:bg-slate-700/60 dark:hover:bg-slate-700/80'
-                        }`}
+                        className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition min-h-[44px] border"
+                        style={{
+                          background:
+                            backgroundStyle === option.value
+                              ? 'var(--color-accent)'
+                              : 'rgba(12, 20, 36, 0.45)',
+                          color:
+                            backgroundStyle === option.value
+                              ? 'var(--color-text-primary)'
+                              : 'var(--color-text-muted)',
+                          borderColor:
+                            backgroundStyle === option.value
+                              ? 'transparent'
+                              : 'var(--color-border)',
+                          boxShadow:
+                            backgroundStyle === option.value
+                              ? '0 18px 38px -26px rgba(var(--color-accent-rgb), 0.45)'
+                              : 'none',
+                        }}
                         aria-pressed={backgroundStyle === option.value}
                       >
                         <span aria-hidden>{option.icon}</span>
@@ -178,7 +253,13 @@ export const ThemeControls: React.FC = () => {
             key="collapsed"
             type="button"
             onClick={() => setIsExpanded(true)}
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-white/80 text-secondary-deepGreen shadow-lg backdrop-blur-xl transition hover:bg-white/95 dark:bg-slate-900/80 dark:text-slate-100"
+            className="flex h-14 w-14 items-center justify-center rounded-full border transition-all duration-200 backdrop-blur-2xl"
+            style={{
+              background: 'rgba(12, 20, 36, 0.7)',
+              borderColor: 'var(--color-border)',
+              color: 'var(--color-text-secondary)',
+              boxShadow: 'var(--shadow-soft)',
+            }}
             variants={collapsedButtonVariants}
             initial="hidden"
             animate="visible"
