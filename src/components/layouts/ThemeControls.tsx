@@ -149,14 +149,14 @@ export const ThemeControls: React.FC = () => {
                   </p>
                   <div className="flex flex-col gap-2">
                     {[
-                      { value: 'dynamic', label: 'Динамический', icon: '✨' },
-                      { value: 'gradient', label: 'Градиент', icon: '🌈' },
-                      { value: 'minimal', label: 'Минимальный', icon: '⬜' },
+                      { value: 'dynamic' as const, label: 'Динамический', icon: '✨' },
+                      { value: 'gradient' as const, label: 'Градиент', icon: '🌈' },
+                      { value: 'minimal' as const, label: 'Минимальный', icon: '⬜' },
                     ].map((option) => (
                       <button
                         key={option.value}
                         type="button"
-                        onClick={() => setBackgroundStyle(option.value as any)}
+                        onClick={() => setBackgroundStyle(option.value)}
                         className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition min-h-[44px] ${
                           backgroundStyle === option.value
                             ? 'bg-secondary-deepGreen text-white'
