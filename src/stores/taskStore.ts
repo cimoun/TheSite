@@ -19,7 +19,9 @@ export const useTaskStore = create<TaskState>()(
 
       addTask: (text: string, priority: Priority = 'medium', dueDate?: string) => {
         const newTask: Task = {
-          id: crypto.randomUUID(),
+          id: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
           text: text.trim(),
           completed: false,
           priority,
