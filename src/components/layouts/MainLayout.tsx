@@ -2,8 +2,8 @@ import { motion } from 'framer-motion';
 import { lazy, Suspense } from 'react';
 
 // Lazy load background and theme controls for better performance
-const BreathingBackground = lazy(() => 
-  import('./BreathingBackground').then(module => ({ default: module.BreathingBackground }))
+const CodexBackground = lazy(() =>
+  import('./CodexBackground').then(module => ({ default: module.CodexBackground }))
 );
 const ThemeControls = lazy(() => 
   import('./ThemeControls').then(module => ({ default: module.ThemeControls }))
@@ -37,7 +37,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     >
       {/* Lazy load background animation */}
       <Suspense fallback={null}>
-        <BreathingBackground />
+        <CodexBackground />
       </Suspense>
       
       {/* Lazy load theme controls */}
