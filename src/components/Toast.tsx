@@ -6,10 +6,10 @@ import { ToastContext } from '../hooks/useToast';
 // Individual Toast Component
 const ToastItem: React.FC<ToastProps> = ({ toast, onClose }) => {
   const typeStyles = {
-    success: 'bg-green-500 text-white',
-    error: 'bg-red-500 text-white',
-    warning: 'bg-yellow-500 text-white',
-    info: 'bg-blue-500 text-white',
+    success: 'bg-secondary-deepGreen text-white',
+    error: 'bg-accent-terracotta text-white',
+    warning: 'bg-secondary-olive text-white',
+    info: 'bg-secondary-teal text-white',
   };
 
   const typeIcons = {
