@@ -7,8 +7,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  title = 'Архитектура Спокойного Дня',
-  subtitle = 'Экспертный план задач с мягким ритмом'
+  title = 'Задачи',
+  subtitle = 'Планирование с фокусом'
 }) => {
   const headerVariants = {
     hidden: { opacity: 0, y: -10 },
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
           <p
             className="text-sm uppercase tracking-[0.35em] text-[#8B956D]"
           >
-            методика группы экспертов
+            эффективно
           </p>
         </div>
         <ThemeToggle />

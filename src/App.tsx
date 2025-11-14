@@ -14,8 +14,8 @@ function App() {
   return (
     <MainLayout>
       <Header
-        title="Архитектура Спокойного Дня"
-        subtitle="Экспертный план задач с мягким ритмом"
+        title="Задачи"
+        subtitle="Планирование с фокусом"
       />
       
       <div className="space-y-6">

@@ -27,28 +27,21 @@ export const Footer: React.FC = () => {
           className="font-medium mb-2 uppercase tracking-[0.25em]"
           style={{ color: '#5A7367' }}
         >
-          Клавиатурные подсказки
+          Горячие клавиши
         </p>
         <div className="flex gap-4 flex-wrap justify-center" style={{ color: '#8B956D' }}>
           <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Enter</kbd> Зафиксировать запись
+            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Enter</kbd> Добавить
           </span>
           <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Esc</kbd> Очистить ввод
-          </span>
-          <span>
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Ctrl</kbd> + 
-            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded ml-1" style={{ color: '#5A7367' }}>Enter</kbd> Быстрая фиксация
+            <kbd className="px-2 py-1 bg-white/60 border border-white/40 rounded" style={{ color: '#5A7367' }}>Esc</kbd> Очистить
           </span>
         </div>
       </div>
       
       <div className="text-sm" style={{ color: '#8B956D' }}>
         <p>
-          Приложение построено на React 18, TypeScript, Zustand, Framer Motion и Tailwind CSS.
-        </p>
-        <p className="mt-1">
-          © {currentYear} Осознанный планировщик. Методика экспертной группы.
+          © {currentYear}
         </p>
       </div>
     </motion.footer>
