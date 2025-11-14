@@ -27,27 +27,37 @@ export const Header: React.FC<HeaderProps> = ({
       variants={headerVariants}
       initial="hidden"
       animate="visible"
-      className="mb-12 text-center"
+      className="mb-16 text-center"
     >
-      <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-        <div className="space-y-2">
+      <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:justify-between sm:gap-6">
+        <div className="flex-1 space-y-3">
           <h1
-            className="text-4xl font-semibold tracking-tight"
-            style={{ color: '#4c5f58', letterSpacing: '0.015em' }}
+            className="text-3xl font-semibold tracking-tight"
+            style={{ 
+              color: '#2D3A35',
+              fontSize: '32px',
+              lineHeight: '1.2',
+            }}
           >
             {title}
           </h1>
           <p
-            className="text-sm uppercase tracking-[0.35em] text-[#8B956D]"
+            className="text-xs uppercase tracking-widest font-medium"
+            style={{ color: '#8B956D' }}
           >
             эффективно
           </p>
         </div>
+        {/* Theme toggle moved to header for better visibility */}
         <ThemeToggle />
       </div>
       <p
-        className="mt-4 text-lg font-normal leading-relaxed"
-        style={{ color: '#6d7c75', letterSpacing: '0.015em' }}
+        className="mt-6 text-lg font-normal leading-relaxed"
+        style={{ 
+          color: '#4B5563',
+          fontSize: '18px',
+          lineHeight: '1.7',
+        }}
       >
         {subtitle}
       </p>

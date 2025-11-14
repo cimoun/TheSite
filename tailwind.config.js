@@ -8,29 +8,43 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Mindfulness/meditation color palette
-        calm: {
-          // Warm beige/cream backgrounds
-          beige: '#F5F1E8',
-          sand: '#E8DCC8',
-          softWhite: '#FAF8F5',
-          
-          // Warm pink/terracotta accents
-          terracotta: '#D4726F',
-          terracottaLight: '#E09C9A',
-          
-          // Green and teal accents (nature and balance)
+        // Design System Color Palette (60/30/10 rule)
+        // Primary (60% - Backgrounds and neutrals)
+        primary: {
+          lightest: '#FAF8F5',
+          light: '#F5F1E8',
+          base: '#E8DCC8',
+          text: '#2D3A35',      // Soft black (not #000)
+          textSoft: '#4B5563',
+        },
+        // Secondary (30% - Supporting colors)
+        secondary: {
           deepGreen: '#5A7367',
           olive: '#8B956D',
           teal: '#6B9A9E',
-          
-          // Soft dark graphite for text and cards
+          graphiteLight: '#6B7280',
+        },
+        // Accent (10% - CTA and highlights)
+        accent: {
+          terracotta: '#D4726F',
+          terracottaLight: '#E09C9A',
+          terracottaDark: '#B85E5B',
+        },
+        // Legacy calm colors (for backward compatibility)
+        calm: {
+          beige: '#F5F1E8',
+          sand: '#E8DCC8',
+          softWhite: '#FAF8F5',
+          terracotta: '#D4726F',
+          terracottaLight: '#E09C9A',
+          deepGreen: '#5A7367',
+          olive: '#8B956D',
+          teal: '#6B9A9E',
           graphite: '#4B5563',
           graphiteLight: '#6B7280',
           graphiteDark: '#374151',
         },
         dark: {
-          // Deep navy inspired surfaces for dark mode
           background: '#0F172A',
           backgroundSoft: '#111827',
           surface: '#1E293B',
@@ -42,26 +56,32 @@ export default {
       },
       boxShadow: {
         'dark-card': '0 35px 120px -75px rgba(15, 23, 42, 0.85)',
+        'elevation-low': '0 2px 8px rgba(90, 115, 103, 0.08)',
+        'elevation-medium': '0 8px 24px rgba(90, 115, 103, 0.12)',
+        'elevation-high': '0 16px 48px rgba(90, 115, 103, 0.16)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
       fontSize: {
-        // Light, airy typography
-        'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.05em' }],
-        'sm': ['0.875rem', { lineHeight: '1.6', letterSpacing: '0.025em' }],
-        'base': ['1rem', { lineHeight: '1.7', letterSpacing: '0.01em' }],
-        'lg': ['1.125rem', { lineHeight: '1.75', letterSpacing: '0.01em' }],
-        'xl': ['1.25rem', { lineHeight: '1.75', letterSpacing: '0.015em' }],
-        '2xl': ['1.5rem', { lineHeight: '1.8', letterSpacing: '0.02em' }],
-        '3xl': ['1.875rem', { lineHeight: '1.8', letterSpacing: '0.02em' }],
-        '4xl': ['2.25rem', { lineHeight: '1.8', letterSpacing: '0.02em' }],
+        // Design System typography scale
+        'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.05em' }],   // 12px
+        'sm': ['0.875rem', { lineHeight: '1.5', letterSpacing: '0.025em' }], // 14px
+        'base': ['1rem', { lineHeight: '1.7', letterSpacing: '0' }],         // 16px - body
+        'lg': ['1.125rem', { lineHeight: '1.7', letterSpacing: '0' }],       // 18px - subtitle
+        'xl': ['1.375rem', { lineHeight: '1.7', letterSpacing: '0' }],       // 22px - subheader
+        '2xl': ['1.5rem', { lineHeight: '1.5', letterSpacing: '0' }],        // 24px - h2
+        '3xl': ['2rem', { lineHeight: '1.2', letterSpacing: '0' }],          // 32px - h1
       },
       fontWeight: {
         light: '300',
         normal: '400',
         medium: '500',
         semibold: '600',
+        bold: '700',
+      },
+      spacing: {
+        'touch': '44px', // Minimum touch target
       },
       animation: {
         'fade-in': 'fadeIn 0.3s ease-in-out',
