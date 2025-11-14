@@ -63,13 +63,13 @@ export const TaskInput: React.FC = () => {
           type="text"
           value={text}
           onChange={handleChange}
-          placeholder="Сформулируйте задачу: действие и ожидаемый результат"
+          placeholder="Что нужно сделать?"
           maxLength={500}
           className="flex-1 px-5 py-3 rounded-full border-2 border-transparent bg-white/60 backdrop-blur-sm focus:bg-white/80 focus:border-calm-deepGreen/30 focus:ring-4 focus:ring-calm-deepGreen/10 transition-all duration-300 outline-none text-gray-700 placeholder-gray-400"
           style={{
             boxShadow: '0 2px 8px rgba(90, 115, 103, 0.08)',
           }}
-          aria-label="Текст новой задачи"
+          aria-label="Новая задача"
           aria-describedby="task-input-helper"
         />
         <motion.button
@@ -82,9 +82,9 @@ export const TaskInput: React.FC = () => {
           }}
           whileHover={text.trim() ? { scale: 1.05, boxShadow: '0 6px 16px rgba(90, 115, 103, 0.35)' } : {}}
           whileTap={text.trim() ? { scale: 0.98 } : {}}
-          aria-label="Зафиксировать новую задачу"
+          aria-label="Добавить задачу"
         >
-          Зафиксировать
+          Добавить
         </motion.button>
       </div>
 
@@ -92,7 +92,7 @@ export const TaskInput: React.FC = () => {
         id="task-input-helper"
         className="px-5 text-xs leading-relaxed text-[#8B956D]"
       >
-        Используйте короткие формулировки: «Подготовить презентацию для брифинга».
+        Кратко опишите задачу
       </p>
       
       {error && (
@@ -108,7 +108,7 @@ export const TaskInput: React.FC = () => {
       
       <div className="flex gap-4 items-center px-2">
         <label className="text-sm font-medium" id="priority-label" style={{ color: '#5A7367' }}>
-          Приоритет выполнения:
+          Приоритет:
         </label>
         <div role="group" aria-labelledby="priority-label" className="flex gap-2">
           {priorities.map((p) => (
@@ -139,7 +139,7 @@ export const TaskInput: React.FC = () => {
 
       <div className="flex gap-2 items-center px-2">
         <label htmlFor="due-date" className="text-sm font-medium" style={{ color: '#5A7367' }}>
-          Срок сдачи:
+          Срок:
         </label>
         <input
           id="due-date"

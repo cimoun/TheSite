@@ -74,7 +74,7 @@ export const TaskStats: React.FC = () => {
           <span>В работе: {stats.active}</span>
           <span>Закрыто: {stats.completed}</span>
           {stats.total > 0 && (
-            <span>Прогресс выполнения: {stats.completionRate}%</span>
+            <span>Прогресс: {stats.completionRate}%</span>
           )}
         </div>
       </div>
@@ -86,7 +86,7 @@ export const TaskStats: React.FC = () => {
           whileHover={{ scale: 1.05, boxShadow: '0 10px 25px rgba(212, 114, 111, 0.35)' }}
           whileTap={{ scale: 0.95 }}
         >
-          Очистить выполненные
+          Очистить завершённые
         </motion.button>
       )}
     </motion.div>
